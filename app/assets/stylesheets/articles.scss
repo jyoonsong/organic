@@ -1,3 +1,172 @@
 // Place all the styles related to the articles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.article-container {
+    width: 70%;
+    width: 70vw;
+    .article {
+        margin-left: 50px;
+        background-color: #fff;
+        padding: 1rem 2.5rem 4rem;
+        figure {
+            padding: 1rem 2rem;
+            img {
+                width: 100%;
+            }
+            figcaption {
+                font-size: .85em;
+                color: #555;
+            }
+        }
+    }
+}
+
+.sidebar {
+    font-family: sans-serif;
+    width: 30%;
+    width: 30vw;
+    padding: 2.5rem 2rem;
+    position: fixed;
+    right: 0;
+    .progress {
+        overflow: hidden;
+        height: 20px;
+        border-radius: 10px;
+        background-image: -webkit-linear-gradient(top, #ccc 0%, #ddd 100%);
+        background-image: linear-gradient(to bottom, #ccc 0%, #ddd 100%);
+        margin-bottom: 2rem;
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+            background-color: #79b;
+            background-size: 40px 40px;
+            border-radius: 10px 0 0 10px;
+            transition: .5s width ease;
+        }
+    }
+
+    .task {
+        .collapsible {
+            margin: .5rem 0 1rem 0;
+            li.active ~ li {
+                opacity: 0;
+            }
+            li {
+                display: block;
+                margin-top: 2rem;
+                position: relative;
+                transition: .5s opacity ease;
+                &:not(:first-child)::before {
+                    content: "";
+                    display: block;
+                    height: 2rem;
+                    width: 3px;
+                    top: -2rem;
+                    position: absolute;
+                    background-color: #aaa;
+                    right: 0;
+                    left: 0;
+                    margin: auto;
+                }
+            }
+            .collapsible-header {
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                cursor: pointer;
+                -webkit-tap-highlight-color: transparent;
+                line-height: 1.5;
+                padding: .8rem 1.6rem;
+                color: #fff;
+                background-color: #9dcc72;
+                border-radius: 8px 8px 0 0;                
+                font-size: 1.15em;
+                position: relative;
+                .material-icons {
+                    margin-right: .5rem;
+                    color: #77a051;
+                    line-height: 1.2;
+                    position: absolute;
+                    right: 1rem;
+                    transition: 1s opacity ease;
+                    &.isDone {
+                        opacity: 0;
+                    }
+                }
+            }
+            .collapsible-body {
+                display: none;
+                background-color: #fff;
+                border: 1px solid #ddd;
+                border-top: transparent;
+                padding: 1.5rem 2rem;
+                font-size: 1.15em;
+                line-height: 1.8;
+                border-radius: 0 0 8px 8px;
+                .options {
+                    font-size: 1rem;
+                    margin-bottom: .5rem;
+                    label {
+                        display: block;
+                        input {
+                            margin-right: .5rem;
+                        }
+                        &.red {
+                            color: red;
+                        }
+                    }
+                }
+                .action {
+                    text-align: right;
+                    
+                }
+                &.next {
+                    position: absolute;
+                    width: 100%;
+                    top: 52.59px;
+                    right: -100%;
+                    opacity: 0;
+                    transition: .5s all ease;
+                    &.shown {
+                        right: 0;
+                        opacity: 1;
+                    }
+                    .action {
+                        width: 110%;
+                        margin-left: -5%;
+                        font-size: 1rem;
+                    }
+                }
+                .comment {
+                    font-size: .84rem;
+                    line-height: 1.6;
+                    padding-left: 30px;
+                    position: relative;
+                    width: 105%;
+                    margin-top: 1rem;
+                    .material-icons {
+                        position: absolute;
+                        right: 0;
+                        color: #aaa;
+                    }
+                    .user {
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        background-color: #d8d8d8;
+                        position: absolute;
+                        left: -15px;
+                        text-align: center;
+                        line-height: 35px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
