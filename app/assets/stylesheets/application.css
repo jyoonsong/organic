@@ -10,71 +10,26 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ *= require main
  *= require_self
  */
 
- *, *::before, *::after {
-     box-sizing: border-box;
- }
-
- body {
-    font-family: 'Merriweather', Times, serif;
-    margin: 0;
-    background-color: #eceff1;
-    line-height: 2;
-    padding-top: 60px;
- }
-
- ::-moz-selection { background: skyblue; }
- ::selection { background: skyblue; }
-
- ul {
-     padding: 0;
- }
- 
- li {
-     list-style: none;
- }
-
  hr {
     border: 1px solid #e3e8ea
- }
-
- .bar {
-    width: 100%; 
-    height: 60px;
-    position: fixed;
-    top: 0;
-    background-color: #1e88e5;
- }
-
- h1, h2, h3, h4, h5, h6, p  {
-     margin-top: 0;
- }
-
- input {
-    padding: .5rem;
-    font-size: .85rem;
- }
-
- .wrapper {
-     display: flex;
- }
-
- .container {
-    display: flex;
-    background-color: #fff;
-    margin: 0 3rem;
-    width: 100%;
-    flex-direction: column;
-    min-height: 100vh;
  }
 
  .center {
     display: flex;
     justify-content: center;
     align-items: center;
+ }
+
+ .full-height {
+    height: 100vh;
+ }
+ 
+ .flex-column {
+    flex-direction: column;
  }
 
  button, .btn {
@@ -87,3 +42,18 @@
     padding: .5rem 1.5rem;
     cursor: pointer;
  }
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 1rem;
+}
+.mb-1 {
+    margin-bottom: 1rem;
+}

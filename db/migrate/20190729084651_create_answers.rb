@@ -6,6 +6,10 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.integer :preference
       t.integer :capability
 
+      t.integer :article_id, foreign_key: true
+      t.integer :task_id, foreign_key: true
+      t.integer :user_id, foreign_key: true
+
       t.timestamps
     end
   end

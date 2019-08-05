@@ -5,6 +5,8 @@ class SessionsController < ApplicationController
         if (!@user.nil?)
             session[:user_id] = @user.id
             redirect_to "/articles"
+        elsif (params[:workerId].nil?)
+            redirect_to "/wrong"
         else
             @user = User.new
         end

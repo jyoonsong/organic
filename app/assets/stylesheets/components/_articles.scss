@@ -1,0 +1,206 @@
+// Place all the styles related to the articles controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// list
+
+.list, .article {
+    margin-left: 2rem;
+    background-color: #fff;
+    padding: 1rem 2rem 4rem;
+    font-size: .95em;
+} 
+.list-item {
+    display: block;
+    padding: 1rem 2rem;
+    margin: .5rem;
+    color: #000;
+    border: 1px solid lighten($grey-color, 30%);
+    border-radius: 10px;
+    transition: all .5s ease-in-out;
+    .title {
+        font-family: $article-font-family;
+        font-weight: 500;
+    }
+    &:hover {
+        background-color: lighten($background-color, 4%);
+    }
+    &:visited, &:hover {
+        color: #000;
+    }
+}
+
+.box {
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 1rem 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 1.6rem;
+    &.user {
+        padding: 1rem 2rem;
+    }
+}
+
+
+// show
+
+.article {
+    font-family: $article-font-family;
+    h1, h4, p {
+        margin-bottom: 1rem;
+    }
+    figure {
+        padding: 1rem 2rem;
+        img {
+            width: 100%;
+        }
+        figcaption {
+            font-size: .85em;
+            color: #555;
+        }
+    }
+}
+
+
+.progress {
+    overflow: hidden;
+    height: 20px;
+    border-radius: 10px;
+    background-image: -webkit-linear-gradient(top, #ccc 0%, #ddd 100%);
+    background-image: linear-gradient(to bottom, #ccc 0%, #ddd 100%);
+    margin-bottom: 2rem;
+    .progress-bar {
+        width: 0%;
+        height: 100%;
+        float: left;
+        box-sizing: border-box;
+        background-color: #79b;
+        background-size: 40px 40px;
+        border-radius: 10px 0 0 10px;
+        transition: .5s width ease;
+    }
+}
+
+.task {
+    .collapsible {
+        margin: .5rem 0 1rem 0;
+
+        .list-item {
+            margin: .5rem 0;
+            margin-top: 0;
+            font-size: 85%;
+            padding: .5rem 1rem;
+        }
+
+        li {
+            display: block;
+            position: relative;
+            transition: .5s opacity ease;
+            border: 1px solid $grey-color;
+
+            &.active {
+                .material-icons {
+                    transform: rotate(180deg);
+                }
+                .collapsible-header {
+                    background-color: darken(#9dcc72, 20%);
+                }
+            }
+            &:not(:last-child) {
+                border-bottom: none;
+            }
+        }
+        .collapsible-header {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1.5;
+            padding: .8rem 1rem;
+            padding-right: 2.5rem;
+            color: #fff;
+            background-color: darken(#9dcc72, 10%);
+            font-size: 1.1em;
+            position: relative;
+            transition: background-color .5s ease;
+            .material-icons {
+                color: darken(#9dcc72, 35%);
+                line-height: 1.2;
+                position: absolute;
+                right: .8rem;
+                transform: rotate(0deg);
+                transition: all .5s ease;
+            }
+        }
+        .collapsible-body {
+            display: none;
+            background-color: #fff;
+            border-top: transparent;
+            line-height: 1.8;
+            padding: 1rem 1.2rem;
+            .options {
+                font-size: 1rem;
+                margin-bottom: .5rem;
+                label {
+                    display: block;
+                    input {
+                        margin-right: .5rem;
+                    }
+                    &.red {
+                        color: red;
+                    }
+                }
+            }
+            .action {
+                text-align: right;
+                
+            }
+            &.next {
+                position: absolute;
+                width: 100%;
+                top: 52.59px;
+                right: -100%;
+                opacity: 0;
+                transition: .5s all ease;
+                &.shown {
+                    right: 0;
+                    opacity: 1;
+                }
+                .action {
+                    width: 110%;
+                    margin-left: -5%;
+                    font-size: 1rem;
+                }
+            }
+            .comment {
+                font-size: .84rem;
+                line-height: 1.6;
+                padding-left: 30px;
+                position: relative;
+                width: 105%;
+                margin-top: 1rem;
+                .material-icons {
+                    position: absolute;
+                    right: 0;
+                    color: #aaa;
+                }
+                .user {
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    background-color: #d8d8d8;
+                    position: absolute;
+                    left: -15px;
+                    text-align: center;
+                    line-height: 35px;
+                }
+            }
+        }
+    }
+}
+
+
+

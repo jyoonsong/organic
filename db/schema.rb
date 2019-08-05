@@ -17,6 +17,9 @@ ActiveRecord::Schema.define(version: 2019_07_29_112939) do
     t.integer "time"
     t.integer "preference"
     t.integer "capability"
+    t.integer "article_id"
+    t.integer "task_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -36,12 +39,14 @@ ActiveRecord::Schema.define(version: 2019_07_29_112939) do
     t.string "side"
     t.string "type"
     t.string "content"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "question"
+    t.string "kind"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,4 +1,4 @@
-<div class="container center">
+<div class="full-height flex-column center col-12">
     <h1>Welcome!</h1>
 
     <%= form_tag sessions_path do %>
@@ -11,7 +11,7 @@
         <%= hidden_field_tag :key, params[:workerId] %>
     </p>
     
-    <p class="center"><%= submit_tag "Start Task", :class => "btn" %></p>
+    <p class="center"><%= submit_tag "Start Task", :class => "btn mt-1 mb-1" %></p>
 
     <% end %>
 </div>

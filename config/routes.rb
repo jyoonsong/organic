@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   root 'sessions#new'
   resources :sessions
   resources :articles
+
+  get "/wrong", to: "application#wrong"
   
 end
