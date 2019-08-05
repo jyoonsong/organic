@@ -5,7 +5,7 @@ class CreateLogs < ActiveRecord::Migration[5.2]
       t.string :type
       t.string :content
 
-      t.integer :user_id, foreign_key: true
+      t.belongs_to :user, foreign_key: true
 
       t.timestamps
     end

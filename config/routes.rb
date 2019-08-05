@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   resources :sessions
   resources :articles
 
+  post "/articles/:id/create_answer", to: "articles#create_answer"
+  post "/update_answer/:answer_id", to: "articles#update_answer"
+
   get "/wrong", to: "application#wrong"
   
 end

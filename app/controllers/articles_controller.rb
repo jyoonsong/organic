@@ -15,13 +15,37 @@ class ArticlesController < ApplicationController
     end
 
     def create_answer 
-        article_id = params[:id]
-        task_id = 
+        # calculate duration time
+        time = (Time.now.to_f * 1000).to_i - params[:time].to_i
 
-        Answer.create(
+        article_id = params[:id]
+        task_id = params[:task_id]
+
+        @answer = Answer.create(
             :user_id => current_user.id,
-            :article_id => 
+            :article_id => article_id,
+            :task_id => task_id,
+            :value => params[:answer_value],
+            :time => time
         )
+
+        respond_to do |format|
+            format.js { render :layout => false }
+        end
+    end
+
+    def update_answer 
+        answer_id = params[:answer_id]
+        answer = Answer.find(answer_id)
+
+        answer.update(
+            :value => params[:answer_value],
+            :time => params[:time]
+        )
+
+        respond_to do |format|
+            format.js { render :layout => false }
+        end
     end
 
     private

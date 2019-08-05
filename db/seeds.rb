@@ -32,7 +32,7 @@ User.create([
 Task.create([
     {
         kind: "option",
-        question: "Is the headline clickbaity?"
+        question: "Is the headline clickbaity?",
         options: "Very much clickbaity, Somewhat clickbaity, A little bit clickbaity, Not at all clickbaity"
     },
     {
@@ -53,12 +53,12 @@ Task.create([
     },
     {
         kind: "option",
-        question: "How convincing do you find the evidence?"
+        question: "How convincing do you find the evidence?",
         options: "Very convincing, Somewhat convincing, Somewhat not convincing, Not at all convincing"
     },
     {
         kind: "option",
-        question: "Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?"
+        question: "Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?",
         options: "Yes, Sort of, No"
     },
     {

@@ -1,0 +1,2 @@
+$("#task-<%= @answer.task_id %>").html("<%= escape_javascript(render(:partial => 'edit_form', locals: {answer: @answer}))%>");
+alert("Successfully saved!");

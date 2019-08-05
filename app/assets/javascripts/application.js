@@ -25,18 +25,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // init collapsible
         let instance;
+        let options;
+
         if (elem.classList.contains("expandable")) {
             // index
-            let options = {accordion: false}
-            instance = M.Collapsible.init(elem, options);
+            options = {
+                accordion: false
+            }
         }
         else {
             // show
-            instance = M.Collapsible.init(elem);
-            instance.open(0);
+            options = {
+                onOpenEnd: function(ele) {
+                    let time = new Date().getTime();
+                    ele.querySelector("input[name='time']").value = time;
+                }
+            }
         }
-        
-
+        instance = M.Collapsible.init(elem, options);
     }
 
 });

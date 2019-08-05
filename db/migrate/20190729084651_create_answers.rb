@@ -6,11 +6,15 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.integer :preference
       t.integer :capability
 
-      t.integer :article_id, foreign_key: true
-      t.integer :task_id, foreign_key: true
-      t.integer :user_id, foreign_key: true
+      t.belongs_to :article, foreign_key: true
+      t.belongs_to :task, foreign_key: true
+      t.belongs_to :user, foreign_key: true
 
       t.timestamps
     end
+
+    change_column :answers, :preference, :integer, :null => true
+    change_column :answers, :capability, :integer, :null => true
+
   end
 end

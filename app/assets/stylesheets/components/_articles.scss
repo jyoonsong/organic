@@ -158,23 +158,6 @@
                 text-align: right;
                 
             }
-            &.next {
-                position: absolute;
-                width: 100%;
-                top: 52.59px;
-                right: -100%;
-                opacity: 0;
-                transition: .5s all ease;
-                &.shown {
-                    right: 0;
-                    opacity: 1;
-                }
-                .action {
-                    width: 110%;
-                    margin-left: -5%;
-                    font-size: 1rem;
-                }
-            }
             .comment {
                 font-size: .84rem;
                 line-height: 1.6;

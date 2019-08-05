@@ -1,0 +1,29 @@
+<%= form_tag("/articles/#{@article.id}/create_answer", method: "post", remote: true) do |f| %>
+    <input type="hidden" name="task_id" value="<%= t.id %>" />
+
+    <% if t.kind == "option" %>
+        <div class="options">
+            <% t.options.split(/\s*,\s*/).each do |o| %>
+                <label><input type='radio' name='answer_value' value='<%= o %>' /><%= o %></label>
+            <% end %>
+        </div>
+        <div class="action">
+            <input type="hidden" name="time" value="0" />
+            <%= submit_tag("Submit", :class => "btn") %>
+        </div>
+
+    <% elsif t.kind == "highlight" %>
+        <div>Please highlight it.</div>
+        <div class="action">
+            <%= hidden_field_tag(:time, "0") %>
+            <button class="startHighlight">Start</button>
+            <%= submit_tag("Submit", :class => "btn hidden") %>
+        </div>
+
+    <% elsif t.kind == "verify" %>
+        <div class="action">
+            <%= hidden_field_tag(:time, "0") %>
+            <%= submit_tag("Submit", :class => "btn") %>
+        </div>
+    <% end %>
+<% end %>

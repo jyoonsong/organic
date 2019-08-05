@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(version: 2019_07_29_112939) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["article_id"], name: "index_answers_on_article_id"
+    t.index ["task_id"], name: "index_answers_on_task_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -42,11 +45,13 @@ ActiveRecord::Schema.define(version: 2019_07_29_112939) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "question"
     t.string "kind"
+    t.string "options"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
