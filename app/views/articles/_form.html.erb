@@ -16,8 +16,8 @@
         <div>Please highlight it.</div>
         <div class="action">
             <%= hidden_field_tag(:time, "0") %>
-            <button class="startHighlight">Start</button>
-            <%= submit_tag("Submit", :class => "btn hidden") %>
+            <a class="btn startHighlight mt-1">Start</a>
+            <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>
         </div>
 
     <% elsif t.kind == "verify" %>

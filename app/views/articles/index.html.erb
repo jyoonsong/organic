@@ -30,7 +30,7 @@
     <div class="task">
         <ul class="collapsible expandable">
             <li class="active">
-                <div class="collapsible-header"><b>Articles you visited</b><i class="material-icons isDone" style="opacity: 1">keyboard_arrow_down</i></div>
+                <div class="collapsible-header"><b>Articles you recently visited</b><i class="material-icons isDone" style="opacity: 1">keyboard_arrow_down</i></div>
                 <div class="collapsible-body">
                     <% @articles.take(2).each do |a| %>
                         <%= link_to "/articles/#{a.id}", method: :get, class: "list-item" do %>

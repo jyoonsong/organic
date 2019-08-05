@@ -1,12 +1,15 @@
 
 <section class="container">
     <div class="article">
-        <h1 class="title">
+    <h1 class="title">
             <%= @article.title %>
         </h1>
-        <h4>16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %></h4>
-
-        <%= @article.content.html_safe %>
+        <h4>
+            16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %>
+        </h4>
+        <p id="articleContent">
+            <%= @article.content.html_safe %>
+        </p>
     </div>
 </section>
 
@@ -21,7 +24,7 @@
     <div class="task">
         <ul class="collapsible">
             <% @tasks.each do |t| %>
-            <li>
+            <li class="<%= t.kind %>">
                 <div class="collapsible-header">
                     <b><%= t.question %></b>
                     <i class="material-icons">keyboard_arrow_down</i>

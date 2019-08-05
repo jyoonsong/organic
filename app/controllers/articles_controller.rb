@@ -35,16 +35,21 @@ class ArticlesController < ApplicationController
     end
 
     def update_answer 
+        # calculate duration time
+        time = (Time.now.to_f * 1000).to_i - params[:time].to_i
+
         answer_id = params[:answer_id]
         answer = Answer.find(answer_id)
+        
+        if (params[:answer_value] != "err")
+            answer.update(
+                :value => params[:answer_value],
+                :time => time
+            )
 
-        answer.update(
-            :value => params[:answer_value],
-            :time => params[:time]
-        )
-
-        respond_to do |format|
-            format.js { render :layout => false }
+            respond_to do |format|
+                format.js { render :layout => false, locals: {answer: answer} }
+            end
         end
     end
 

@@ -20,8 +20,9 @@
         <div>Your answer is highlighted yellow.</div>
         <div class="action">
             <input type="hidden" name="time" value="0" />
-            <button class="startHighlight">Click to highlight again</button>
-            <%= submit_tag("Submit", :class => "btn hidden") %>
+            <input type="hidden" name="answer_value" />
+            <a class="btn startHighlight mt-1">Click to highlight again</a>
+            <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>
         </div>
 
     <% elsif t.kind == "verify" %>
