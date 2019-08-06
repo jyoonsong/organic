@@ -47,7 +47,19 @@
             <li class="active">
                 <div class="collapsible-header"><b>Articles finished</b><i class="material-icons isDone" style="opacity: 1">keyboard_arrow_down</i></div>
                 <div class="collapsible-body">
-                    <div class="text-center">None.</div>
+                    <% isFinished = false %>
+                    <% @articles.each do |a| %>
+                        <% if a.answers.where(user_id: current_user.id).length == Task.all.length %>
+                            <% isFinished = true %>
+                            <%= link_to "/articles/#{a.id}", method: :get, class: "list-item" do %>
+                                <h4 class="title"><%= a.title %></h4>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                    
+                    <% if !isFinished %>
+                        <div class="text-center">None.</div>
+                    <% end %>
                 </div>
             </li>
         </ul>

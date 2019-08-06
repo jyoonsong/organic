@@ -1,15 +1,13 @@
 
 <section class="container">
     <div class="article">
-    <h1 class="title">
+        <h1 class="title">
             <%= @article.title %>
         </h1>
         <h4>
             16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %>
         </h4>
-        <!-- <p id="articleContent"> -->
-            <%= @article.content.html_safe %>
-        <!-- </p> -->
+        <%= @article.content.html_safe %>
     </div>
 </section>
 

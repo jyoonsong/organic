@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   post "/articles/:id/create_answer", to: "articles#create_answer"
   post "/update_answer/:answer_id", to: "articles#update_answer"
+  
+  get "/articles/:id/survey", to: "articles#survey"
+  post "/survey_answer/:answer_id", to: "articles#survey_answer"
 
   get "/wrong", to: "application#wrong"
   

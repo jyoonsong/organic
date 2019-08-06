@@ -1,0 +1,19 @@
+<% t = Task.find(answer.task_id) %>
+<%= form_tag("/survey_answer/#{answer.id}", method: "post", remote: true) do |f| %>
+    
+        <div><b>How interesting do you find this task compared to other tasks?</b></div>
+        <div class="options">
+            <label><input type='radio' name='preference' value='4'/>Very much interesting</label>
+            <label><input type='radio' name='preference' value='3'/>Somewhat interesting</label>
+            <label><input type='radio' name='preference' value='2'/>A little bit interesting</label>
+            <label><input type='radio' name='preference' value='1'/>Not at all interesting</label>
+        </div>
+        <div><b>Why?</b> &nbsp;
+            <input type="text" name="reason" placeholder="Tell us why" />
+        </div>
+        <div class="action">
+            <input type="hidden" name="time" value="0" />
+            <%= submit_tag("Submit", :class => "btn") %>
+        </div>
+
+<% end %>

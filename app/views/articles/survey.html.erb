@@ -25,7 +25,7 @@
         <ul class="collapsible">
             <% @tasks.each do |t| %>
             <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
-            <li class="<%= t.kind %> <% if !t.answers.where(answer_hash).empty? %> done <% end %>">
+            <li class="<% if !t.answers.where(answer_hash).empty? %> done <% else %> <%= t.kind %> <% end %>">
                 <div class="collapsible-header">
                     <b><%= t.question %></b>
                     <i class="material-icons">keyboard_arrow_down</i>

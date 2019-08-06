@@ -14,6 +14,13 @@ class ArticlesController < ApplicationController
         render 'show'
     end
 
+    def survey
+        @article = Article.find(params[:id])
+        @tasks = Task.all
+        @direction = "Now make sure to answer all questions."
+        render 'survey'
+    end
+
     def create_answer 
         # calculate duration time
         time = (Time.now.to_f * 1000).to_i - params[:time].to_i
@@ -49,6 +56,15 @@ class ArticlesController < ApplicationController
         respond_to do |format|
             format.js { render :layout => false, locals: {answer: answer} }
         end
+    end
+
+    def survey_answer
+        answer_id = params[:answer_id]
+        answer = Answer.find(answer_id)
+        
+        answer.update(
+            :preference => params[:preference]
+        )
     end
 
     private

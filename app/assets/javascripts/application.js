@@ -164,19 +164,27 @@ function initHighlight(ele) {
         }
         else {
             let range = highlight.range;
+            let startWord, endWord;
+            let startingBefore = false;
 
             // change range automatically if any tag detected
             if (range.startContainer.parentElement.tagName != "P") {
                 let prev = range.startContainer.parentElement.previousSibling;
                 highlight.range.setStart(prev, prev.length - 1)
+
+                let words = prev.textContent.trim().split(" ");
+                startWord = words[words.length - 1];
+                startingBefore = true;
             }
             else if (range.endContainer.parentElement.tagName != "P") {
+                endWord = range.endContainer.textContent.trim()
+
                 highlight.range.setEnd(range.endContainer.parentElement.nextSibling, 1)
             }
 
             // alert if across paragraphs
             let start = range.startContainer.parentElement.dataset.index,
-                end = range.endContainer.parentElement.dataset.index;
+            end = range.endContainer.parentElement.dataset.index;
 
             if (start != end) {
                 alert("Do not highlight across multiple paragraphs.")
@@ -184,11 +192,13 @@ function initHighlight(ele) {
             }
 
             // calculate offsets
-            let startWord = range.startContainer.textContent.slice(range.startOffset).trim(),
+            if (!startWord) 
+                startWord = range.startContainer.textContent.slice(range.startOffset).trim();
+            if (!endWord)
                 endWord = range.endContainer.textContent.slice(0, range.endOffset).trim();
 
             ps = Array.from( document.querySelectorAll(".article > p") );
-            let startOffset = ps[start].innerHTML.indexOf(startWord);
+            let startOffset = (startingBefore) ? ps[start].innerHTML.indexOf(startWord) + startWord.length : ps[start].innerHTML.indexOf(startWord);
             let endOffset = ps[start].innerHTML.indexOf(endWord) + endWord.length;
 
             if (startOffset > endOffset) 
