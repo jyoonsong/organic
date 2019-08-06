@@ -34,9 +34,9 @@
                 
                 <% answer = Answer.find_by(user_id: current_user.id, task_id: t.id) %>
                 <% if answer.nil? %>
-                    <%= render partial: "form", locals: {t: t, survey: false} %>
+                    <%= render partial: "form", locals: {t: t, survey: true} %>
                 <% else %>
-                    <%= render partial: "edit_form", locals: {answer: answer} %>
+                    <%= render partial: "survey_form", locals: {answer: answer} %>
                 <% end %>
                 
                 </div>

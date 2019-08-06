@@ -30,7 +30,7 @@ class ArticlesController < ApplicationController
         )
 
         respond_to do |format|
-            format.js { render :layout => false }
+            format.js { render :layout => false, locals: {survey: params[:survey]} }
         end
     end
 
@@ -41,15 +41,13 @@ class ArticlesController < ApplicationController
         answer_id = params[:answer_id]
         answer = Answer.find(answer_id)
         
-        if (params[:answer_value] != "err")
-            answer.update(
-                :value => params[:answer_value],
-                :time => time
-            )
+        answer.update(
+            :value => params[:answer_value],
+            :time => time
+        )
 
-            respond_to do |format|
-                format.js { render :layout => false, locals: {answer: answer} }
-            end
+        respond_to do |format|
+            format.js { render :layout => false, locals: {answer: answer} }
         end
     end
 

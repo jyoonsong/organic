@@ -19,12 +19,13 @@
 //= require_tree .
 
 let instance;
+let ps;
 
 document.addEventListener('DOMContentLoaded', function() {
     var elem = document.querySelector('.collapsible');
     
     if (elem) {
-
+        
         // var contribution = document.querySelector(".progress-bar");
 
         // init collapsible
@@ -38,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         else {
             // show
+            ps = Array.from( document.querySelectorAll(".article > p") )
+            ps.forEach(function(p, i) {
+                p.dataset.index = i;
+            })
+
             options = {
                 onOpenEnd: function(ele) {
 
@@ -52,6 +58,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     else if (ele.classList.contains("verify")) {
 
                     }
+                },
+                onCloseEnd: function(ele) {
+                    if (ele.classList.contains("highlight")) {
+                        let article = document.querySelector(".article");
+                        article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
+                    }
                 }
             }
         }
@@ -63,20 +75,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initHighlight(ele) {
-    const article = document.querySelector("#articleContent");
-    const article_tokens = tokenizer.sentences(article.innerText)
+    const article = document.querySelector(".article");
     let submit = ele.querySelector(".submitHighlight");
     let drag = false;
     let highlight = {};
+    
 
-    function l_mousemove() {
-        drag = true;
-    }
-    function l_mouseup() {
-        if (drag) {
-            saveHighlight();
-            drag = false;
-        }
+    // mark highlight if exists
+    let value = ele.querySelector("input[name='answer_value']").value;
+    if (value.length > 0) {
+        markHighlight(value);
     }
     
     // when start clicked
@@ -99,6 +107,7 @@ function initHighlight(ele) {
         let result = showHighlight();
         if (result == "err") {
             e.preventDefault();
+            errorHandler();
         }
         else {
             // remove listeners
@@ -112,9 +121,22 @@ function initHighlight(ele) {
     });
 
 
+    function l_mousemove() {
+        drag = true;
+    }
+    function l_mouseup() {
+        if (drag) {
+            let result = saveHighlight();
+            if (result == "err") {
+                errorHandler();
+            }
+            drag = false;
+        }
+    }
 
     function saveHighlight() {
 
+        // get selection
         if (window.getSelection) {
             let sel = window.getSelection();
             highlight.content = sel.toString();
@@ -128,74 +150,99 @@ function initHighlight(ele) {
             return;
         }
 
-        // parse the information to input 
-        let content = highlight.content.trim(),
-            content_tokens = tokenizer.sentences(content),
-            start = 0,
-            end = 0,
-            offsetStart = 0,
-            offsetEnd = 0,
-            isFound = false;
-
-        // calc offset etc
-        for (let i = 0; !isFound && i < article_tokens.length; i++) {
-            for (let j = 0; j < content_tokens.length; j++) {
-                let sen = article_tokens[i + j]
-                
-                if (sen && sen.includes(content_tokens[j].trim())) {
-
-                    if (j == content_tokens.length - 1) {
-                        start = i;
-                        end = i + j;
-
-                        offsetStart = article_tokens[i].indexOf(content_tokens[0]);
-                        offsetEnd = (j == 0) ?  offsetStart + content_tokens[j].length - 1 : content_tokens[j].length - 1;
-
-                        isFound = true;
-
-                        break;
-                    }
-                }
-                else {
-                    break;
-                }
-            }
-        }
-
-        ele.querySelector("input[name='answer_value']").value = (start + ", " + end + ", " + offsetStart + ", " + offsetEnd);
-    
-    }
-
-    function showHighlight() {
-        let span = document.createElement("mark");
-        
+        // validation
         if (!highlight.content) {
-            console.log(highlight);
             return "err";
         }
-        else if (highlight.content.length < 3) {
-            alert("Select at least 3 characters.")
+        else if (highlight.content.length < 15) {
+            alert("Too short.")
             return "err";
         }
         else if (tokenizer.sentences(highlight.content, {}).length > 3) {
             alert("You cannot select more than 3 sentences")
             return "err";
         }
-        else if (highlight.range.cloneContents().querySelector("mark")) {
-            console.log("overlap");
-            console.log(highlight);
-            console.log(highlight.range.cloneContents().querySelector("mark"));
-            alert("You cannot overlap the highlights. Nor can you select incomplete words.")
-            return "err";
-        }
-        else if (highlight.range.startContainer.parentElement.id != "articleContent" || highlight.range.endContainer.parentElement.id != "articleContent") {
-            alert("Out of boundary. Or do not select incomplete words.")
-            return "err";
-        }
         else {
-            highlight.range.surroundContents(span);
-            return span;
+            let range = highlight.range;
+
+            // change range automatically if any tag detected
+            if (range.startContainer.parentElement.tagName != "P") {
+                let prev = range.startContainer.parentElement.previousSibling;
+                highlight.range.setStart(prev, prev.length - 1)
+            }
+            else if (range.endContainer.parentElement.tagName != "P") {
+                highlight.range.setEnd(range.endContainer.parentElement.nextSibling, 1)
+            }
+
+            // alert if across paragraphs
+            let start = range.startContainer.parentElement.dataset.index,
+                end = range.endContainer.parentElement.dataset.index;
+
+            if (start != end) {
+                alert("Do not highlight across multiple paragraphs.")
+                return "err";
+            }
+
+            // calculate offsets
+            let startWord = range.startContainer.textContent.slice(range.startOffset).trim(),
+                endWord = range.endContainer.textContent.slice(0, range.endOffset).trim();
+
+            ps = Array.from( document.querySelectorAll(".article > p") );
+            let startOffset = ps[start].innerHTML.indexOf(startWord);
+            let endOffset = ps[start].innerHTML.indexOf(endWord) + endWord.length;
+
+            if (startOffset > endOffset) 
+                return "err";
+
+            // save
+            ele.querySelector("input[name='answer_value']").value = start + "," + startOffset + "," + endOffset;
         }
+    }
+
+    function showHighlight() {
+        let span = document.createElement("mark");
+        if (!highlight.range) {
+            alert("Nothing selected");
+            return "err";
+        }
+        highlight.range.surroundContents(span);
+        return span;
+    }
+
+    function isProper(range) {
+        // (range.commonAncestorContainer.parentElement.tagName == "p" // text
+        // || range.commonAncestorContainer.parentElement.classList.contains("article") // same p
+        // || range.commonAncestorContainer.classList.contains("article")) // different p
+        let start = range.startContainer.parentElement.dataset.index,
+            end = range.endContainer.parentElement.dataset.index;
+        if (range.startContainer.parentElement.tagName != "P") {
+            start = range.startContainer.parentElement.parentElement.dataset.index;
+        }
+        else if (range.endContainer.parentElement.tagName != "P") {
+            end = range.endContainer.parentElement.parentElement.dataset.index;
+        }
+        return (start == end);
+    }
+
+    function markHighlight(value) {
+        let splitted = value.split(",");
+
+        let index = parseInt(splitted[0]),
+            startOffset = parseInt(splitted[1]),
+            endOffset = parseInt(splitted[2]);
+
+        ps = Array.from( document.querySelectorAll(".article > p") );
+        let inner = ps[index].innerHTML;
+        ps[index].innerHTML = inner.slice(0, startOffset) + "<mark>" + inner.slice(startOffset, endOffset) + "</mark>" + inner.slice(endOffset);
+    }
+
+    function errorHandler() {
+        if (window.getSelection().empty) {  // Chrome
+            window.getSelection().empty();
+        } else if (window.getSelection().removeAllRanges) {  // Firefox
+            window.getSelection().removeAllRanges();
+        }
+        return;
     }
 }
 

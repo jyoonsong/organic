@@ -15,7 +15,7 @@
     padding: 1rem 2rem;
     margin: .5rem;
     color: #000;
-    border: 1px solid lighten($grey-color, 30%);
+    border: 1px solid lighten($brand-color-light, 30%);;
     border-radius: 10px;
     transition: all .5s ease-in-out;
     .title {
@@ -49,15 +49,10 @@
     h1, h4, p {
         margin-bottom: 1rem;
     }
-    figure {
-        padding: 1rem 2rem;
-        img {
-            width: 100%;
-        }
-        figcaption {
-            font-size: .85em;
-            color: #555;
-        }
+    img {
+        padding: 1rem 0;
+        max-width: 100%;
+        width: 600px;
     }
 }
 
@@ -96,14 +91,19 @@
             display: block;
             position: relative;
             transition: .5s opacity ease;
-            border: 1px solid $grey-color;
+            border: 1px solid lighten($brand-color-light, 10%);
 
             &.active {
                 .material-icons {
                     transform: rotate(180deg);
                 }
                 .collapsible-header {
-                    background-color: darken(#9dcc72, 20%);
+                    background-color: $brand-color;
+                }
+            }
+            &.done {
+                .collapsible-header {
+                    background-color: $brand-color;
                 }
             }
             &:not(:last-child) {
@@ -122,12 +122,12 @@
             padding: .8rem 1rem;
             padding-right: 2.5rem;
             color: #fff;
-            background-color: darken(#9dcc72, 10%);
-            font-size: 1.1em;
+            background-color: lighten($brand-color, 7%);
+            font-size: 1.05em;
             position: relative;
             transition: background-color .5s ease;
             .material-icons {
-                color: darken(#9dcc72, 35%);
+                color: darken($brand-color, 20%);
                 line-height: 1.2;
                 position: absolute;
                 right: .8rem;

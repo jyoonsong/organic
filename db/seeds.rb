@@ -86,7 +86,7 @@ Article.create([
     {
         topic: 'climate change',
         subtopic: 'flooding',
-        title: '"Floods in India, Bangladesh and Nepal kill 1,200 and leave millions homeless"',
+        title: 'Floods in India, Bangladesh and Nepal kill 1,200 and leave millions homeless',
         metadata: 'independent.co.uk',
         content: ' 
         ',
@@ -131,7 +131,7 @@ Article.create([
         {
         topic: 'health',
         subtopic: 'disease',
-        title: '"CONFIRMED: E-CIGARETTES CAUSE A HORRIBLE INCURABLE DISEASE CALLED äó_""POPCORN LUNGäó_"". WORSE THAN LUNG CANCER!"',
+        title: 'CONFIRMED: E-CIGARETTES CAUSE A HORRIBLE INCURABLE DISEASE CALLED "POPCORN LUNG". WORSE THAN LUNG CANCER!',
         metadata: 'nowcheckthis.com',
         content: ' 
         ',
@@ -140,7 +140,7 @@ Article.create([
         {
         topic: 'climate change',
         subtopic: 'polar ice',
-        title: '"There are diseases hidden in ice, and they are waking up"',
+        title: 'There are diseases hidden in ice, and they are waking up',
         metadata: 'bbc.com',
         content: ' 
         ',
@@ -221,7 +221,7 @@ Article.create([
         {
         topic: 'health',
         subtopic: 'nutrition',
-        title: '"Drinking more coffee can lead to a longer life, new studies say"',
+        title: 'Drinking more coffee can lead to a longer life, new studies say',
         metadata: 'cnn.com',
         content: ' 
         ',
@@ -237,7 +237,7 @@ Article.create([
         expert_score: 3
         },
         {
-        topic: '"climate change, health"',
+        topic: 'climate change, health',
         subtopic: 'agriculture',
         title: 'Substituting Beans for Beef Would Help the U.S. Meet Climate Goals',
         metadata: 'theatlantic.com',
@@ -302,7 +302,7 @@ Article.create([
         {
         topic: 'health',
         subtopic: 'nutrition',
-        title: '"PLS SHARE: DO NOT EAT THIS FISH, IT IS VERY DANGEROUS FOR YOUR HEALTH!"',
+        title: 'PLS SHARE: DO NOT EAT THIS FISH, IT IS VERY DANGEROUS FOR YOUR HEALTH!',
         metadata: 'nationspressph.com',
         content: ' 
         ',
@@ -392,28 +392,28 @@ Article.create([
         {
         topic: 'health',
         subtopic: '',
-        title: '"So Coconut Oil Is Actually Really, Really Bad For You"',
+        title: 'So Coconut Oil Is Actually Really, Really Bad For You',
         metadata: 'iflscience.com',
         content: '
-        You’d be hard pressed to find someone who doesn’t like coconuts. They are furry spheres of deliciousness, after all. Coconut water though is pointless – it doesn’t have any clear health benefits and it’s just a saltier version of normal water.<br><br>
-        Then there’s coconut oil. It’s the latest cooking fad, and people all over the Web are claiming that it’s much healthier than any other oil out there. Well, sorry to burst your bubble, coco-nutcases, but according to the American Heart Association (AHA), it is just as unhealthy as butter and beef dripping.<br><br>
-        According to a key advisory notice published in the journal <a href="http://circ.ahajournals.org/content/early/2017/06/15/CIR.0000000000000510">Circulation</a> – one which looks at all kinds of fats and their links to cardiovascular disease – coconut oil is packed with saturated fats. In fact, 82 percent of coconut oil is comprised of saturated fats, far more than in regular butter (63), olive oil (14), peanut oil (17), and sunflower oil (10).<br><br>
-        Saturated fat, unlike others, can raise the amount of bad cholesterol in your bloodstream, which increases your risk of contracting heart disease in the future. It can be found in butter and lard, cakes, biscuits, fatty meats, cheese, and cream, among <a href="http://www.nhs.uk/Livewell/Goodfood/Pages/Eat-less-saturated-fat.aspx">other things</a> – including coconut oil.<br><br>
-        “A recent survey reported that 72 percent of the American public rated coconut oil as a ‘healthy food’ compared with 37 percent of nutritionists,” the AHA’s review notes. “This disconnect between lay and expert opinion can be attributed to the marketing of coconut oil in the popular press.”<br><br>
-        A meta-analysis of a suite of experiments have conclusively shown that butter and coconut oil, in terms of raising the amount of bad cholesterol in your body, are just as bad as each other.<br><br>
-        “Because coconut oil increases [bad] cholesterol, a cause of cardiovascular disease, and has no known offsetting favorable effects, we advise against the use of coconut oil,” the AHA conclude. In essence, there is nothing to gain and everything to lose by using coconut oil in cooking.<br><br>
+        <p>You’d be hard pressed to find someone who doesn’t like coconuts. They are furry spheres of deliciousness, after all. Coconut water though is pointless – it doesn’t have any clear health benefits and it’s just a saltier version of normal water.</p>
+        <p>Then there’s coconut oil. It’s the latest cooking fad, and people all over the Web are claiming that it’s much healthier than any other oil out there. Well, sorry to burst your bubble, coco-nutcases, but according to the American Heart Association (AHA), it is just as unhealthy as butter and beef dripping.</p>
+        <p>According to a key advisory notice published in the journal <a href="http://circ.ahajournals.org/content/early/2017/06/15/CIR.0000000000000510">Circulation</a> – one which looks at all kinds of fats and their links to cardiovascular disease – coconut oil is packed with saturated fats. In fact, 82 percent of coconut oil is comprised of saturated fats, far more than in regular butter (63), olive oil (14), peanut oil (17), and sunflower oil (10).</p>
+        <p>Saturated fat, unlike others, can raise the amount of bad cholesterol in your bloodstream, which increases your risk of contracting heart disease in the future. It can be found in butter and lard, cakes, biscuits, fatty meats, cheese, and cream, among <a href="http://www.nhs.uk/Livewell/Goodfood/Pages/Eat-less-saturated-fat.aspx">other things</a> – including coconut oil.</p>
+        <p>“A recent survey reported that 72 percent of the American public rated coconut oil as a ‘healthy food’ compared with 37 percent of nutritionists,” the AHA’s review notes. “This disconnect between lay and expert opinion can be attributed to the marketing of coconut oil in the popular press.”</p>
+        <p>A meta-analysis of a suite of experiments have conclusively shown that butter and coconut oil, in terms of raising the amount of bad cholesterol in your body, are just as bad as each other.</p>
+        <p>“Because coconut oil increases [bad] cholesterol, a cause of cardiovascular disease, and has no known offsetting favorable effects, we advise against the use of coconut oil,” the AHA conclude. In essence, there is nothing to gain and everything to lose by using coconut oil in cooking.</p>
         <img src="http://cdn.iflscience.com/images/738f65e6-44a8-581c-8b49-9f5ed793ce52/content-1497629597-shutterstock-608546279.jpg" alt="">
-        If you already have high bad cholesterol levels, then coconut oil is potentially quite dangerous to consume or use in acts of culinary creations. Swapping it out for olive oil, according to the AHA, will reduce your cholesterol levels as much as cutting-edge, cholesterol-lowering drugs.<br><br>
-        So next time you see anyone claiming that coconut oil is nothing but good for you – or that it’s “pro-health and anti-everything bad!” – you can confidently tell them that they’re <a href="https://www.davidwolfe.com/2-tablespoons-coconut-oil-health/">spouting bullshit</a>.<br><br>
-        It’s important to remember though that a little bit of fat is definitely good for you, as fatty acids are essential for proper absorption of vitamins. Unsaturated fats are generally thought to be quite good for you in this regard; you can find them in avocados, fish oil, nuts, and seeds.<br><br>
-        [H/T: <a href="http://www.bbc.co.uk/news/health-40300145">BBC News</a>]<br><br>
+        <p>If you already have high bad cholesterol levels, then coconut oil is potentially quite dangerous to consume or use in acts of culinary creations. Swapping it out for olive oil, according to the AHA, will reduce your cholesterol levels as much as cutting-edge, cholesterol-lowering drugs.</p>
+        <p>So next time you see anyone claiming that coconut oil is nothing but good for you – or that it’s “pro-health and anti-everything bad!” – you can confidently tell them that they’re <a href="https://www.davidwolfe.com/2-tablespoons-coconut-oil-health/">spouting bullshit</a>.</p>
+        <p>It’s important to remember though that a little bit of fat is definitely good for you, as fatty acids are essential for proper absorption of vitamins. Unsaturated fats are generally thought to be quite good for you in this regard; you can find them in avocados, fish oil, nuts, and seeds.</p>
+        <p>[H/T: <a href="http://www.bbc.co.uk/news/health-40300145">BBC News</a>]</p>
         ',
         expert_score: 1
         },
         {
         topic: 'health',
         subtopic: 'disease',
-        title: '"Surgeon General Vivek Murthy: Addiction Is A Chronic Brain Disease, Not A Moral Failing"',
+        title: 'Surgeon General Vivek Murthy: Addiction Is A Chronic Brain Disease, Not A Moral Failing',
         metadata: 'huffingtonpost.com',
         content: ' 
         ',
@@ -458,7 +458,7 @@ Article.create([
         {
         topic: 'climate change',
         subtopic: 'flooding',
-        title: '"Heavy Monsoon Causing Extreme Flooding In South Asia Has Killed 1,200 People So Far"',
+        title: 'Heavy Monsoon Causing Extreme Flooding In South Asia Has Killed 1,200 People So Far',
         metadata: 'iflscience.com',
         content: ' 
         ',

@@ -32,7 +32,7 @@
             <li class="active">
                 <div class="collapsible-header"><b>Articles you recently visited</b><i class="material-icons isDone" style="opacity: 1">keyboard_arrow_down</i></div>
                 <div class="collapsible-body">
-                    <% @articles.take(2).each do |a| %>
+                    <% @articles.take(3).each do |a| %>
                         <%= link_to "/articles/#{a.id}", method: :get, class: "list-item" do %>
                             <h4 class="title"><%= a.title %></h4>
                             <p>
@@ -42,7 +42,6 @@
                             </p>
                         <% end %>
                     <% end %>
-                    <div class="text-center"><a>View more</a></div>
                 </div>
             </li>
             <li class="active">

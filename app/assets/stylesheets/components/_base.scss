@@ -10,11 +10,11 @@
   }
   
   ::selection {
-    background: $brand-color-light;
+    background: lighten($brand-color-light, 25%);
     text-shadow: none;
   }
   ::-moz-selection {
-    background: $brand-color-light;
+    background: lighten($brand-color-light, 25%);
     text-shadow: none;
   }
   
@@ -154,16 +154,16 @@
    * Links
    */
   a {
-    color: $brand-color;
+    color: $link-color;
     text-decoration: none;
     cursor: pointer;
   
     &:visited {
-      color: darken($brand-color, 15%);
+      color: darken($link-color, 15%);
     }
   
     &:hover {
-      color: darken($brand-color, 15%);
+      color: darken($link-color, 15%);
       text-decoration: none;
     }
   
@@ -244,12 +244,12 @@
   height: 60px;
   position: fixed;
   top: 0;
-  background-color: #1e88e5;
+  background-color: $brand-color-light;
   display: flex;
   align-items: center;
   padding: 0 4rem;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.05rem;
 }
   
   
@@ -274,7 +274,7 @@
   }
 
   .blue {
-      color: $brand-color;
+      color: $link-color;
   }
   
   .svg-icon {
