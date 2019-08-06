@@ -14,9 +14,15 @@
 
   <body>
     <nav class="bar">
+    
     <% if !@direction.nil? %>
       <b><%= @direction %></b>
     <% end %>
+
+    <% if !@show_next.nil? %>
+      <a id="nextBtn" class="btn col-2 text-center disabled" href="/articles/<%= @show_next %>/survey">10 : 00</a>
+    <% end %>
+
     </nav>
     <div class="wrapper">
       <%= yield %>
@@ -24,4 +30,5 @@
   </body>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </html>

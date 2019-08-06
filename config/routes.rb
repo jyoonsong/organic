@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get "/articles/:id/survey", to: "articles#survey"
   post "/survey_answer/:answer_id", to: "articles#survey_answer"
 
+  get "/articles/:id/finish", to: "articles#finish"
   get "/wrong", to: "application#wrong"
   
 end

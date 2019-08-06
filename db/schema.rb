@@ -27,7 +27,9 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.string "value"
     t.integer "time"
     t.integer "preference"
+    t.string "preference_reason"
     t.integer "capability"
+    t.boolean "finished", default: false
     t.integer "article_id"
     t.integer "task_id"
     t.integer "user_id"
@@ -45,7 +47,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.text "metadata"
     t.text "content"
     t.integer "expert_score"
-    t.boolean "finished", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

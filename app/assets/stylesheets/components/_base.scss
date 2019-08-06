@@ -166,6 +166,11 @@
       color: darken($link-color, 15%);
       text-decoration: none;
     }
+    &.disabled {
+      color: $grey-color-dark;
+      pointer-events: none;
+      cursor: default;
+    }
   
   }
   
@@ -250,6 +255,7 @@
   padding: 0 4rem;
   color: #fff;
   font-size: 1.05rem;
+  justify-content: space-between;
 }
   
   

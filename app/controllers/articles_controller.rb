@@ -3,21 +3,25 @@ class ArticlesController < ApplicationController
 
     def index
         @articles = Article.all
-        @direction = "Choose an article"
+        @direction = "Step 1. Choose an article"
         render 'index'
     end
 
     def show
         @article = Article.find(params[:id])
         @tasks = Task.all
-        @direction = "Feel free to use our system for 10 minutes. Just make sure to read the article."
+        @direction = "Step 2. Feel free to use our system for 10 minutes. Just make sure to read the article."
+
+        @show_next = params[:id]
+
         render 'show'
     end
 
     def survey
         @article = Article.find(params[:id])
         @tasks = Task.all
-        @direction = "Now make sure to answer all questions."
+        @direction = "Step 3. Now make sure to answer all questions."
+
         render 'survey'
     end
 
@@ -63,8 +67,29 @@ class ArticlesController < ApplicationController
         answer = Answer.find(answer_id)
         
         answer.update(
-            :preference => params[:preference]
+            :preference => params[:preference],
+            :preference_reason => params[:reason],
+            :finished => true
         )
+
+        current_answers = current_user.answers.where({article_id: answer.article_id, finished: true})
+        if current_answers.length == Task.all.length
+            redirect_to ("/articles/" + answer.article_id.to_s + "/finish")
+        else
+            respond_to do |format|
+                format.js { render :layout => false }
+            end
+        end
+        
+    end
+
+    def finish
+        current_answers = current_user.answers.where({article_id: params[:id], finished: true})
+        if (current_answers.length < Task.all.length)
+            redirect_to "/articles"
+        end
+
+        render 'finish'
     end
 
     private

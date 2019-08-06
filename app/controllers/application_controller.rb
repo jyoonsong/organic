@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
         render 'wrong'
     end
 
+
     private
     def current_user
         @_current_user ||= session[:user_id] && User.find(session[:user_id])

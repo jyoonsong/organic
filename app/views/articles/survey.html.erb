@@ -22,28 +22,40 @@
     </div> -->
 
     <div class="task">
-        <ul class="collapsible">
+        <ul class="collapsible survey">
+
             <% @tasks.each do |t| %>
-            <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
-            <li class="<% if !t.answers.where(answer_hash).empty? %> done <% else %> <%= t.kind %> <% end %>">
-                <div class="collapsible-header">
-                    <b><%= t.question %></b>
-                    <i class="material-icons">keyboard_arrow_down</i>
-                </div>
-                <div id="task-<%= t.id %>" class="collapsible-body">
+                <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
                 
-                <% answer = Answer.find_by(user_id: current_user.id, task_id: t.id) %>
+                <% answer = t.answers.where(answer_hash).first %>
                 <% if answer.nil? %>
-                    <%= render partial: "form", locals: {t: t, survey: true} %>
-                <% else %>
-                    <%= render partial: "survey_form", locals: {answer: answer} %>
+
+                    <li class="<%= t.kind %>">
+                        <div class="collapsible-header">
+                            <b><%= t.question %></b>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <div id="task-<%= t.id %>" class="collapsible-body">
+                            <%= render partial: "form", locals: {t: t, survey: true} %>
+                        </div>
+                    </li>
+
+                <% elsif answer.preference.nil? %>
+
+                    <li class="done">
+                        <div class="collapsible-header">
+                            <b><%= t.question %></b>
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </div>
+                        <div id="task-<%= t.id %>" class="collapsible-body">
+                            <%= render partial: "survey_form", locals: {answer: answer} %>
+                        </div>
+                    </li>
+
                 <% end %>
-                
-                </div>
-            </li>
             <% end %>
+
         </ul>
  
     </div>
 </section>
-

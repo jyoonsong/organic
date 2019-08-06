@@ -1,2 +1,3 @@
-$("#task-<%= answer.task_id %>").addClass("hidden");
-alert("Successfully submitted!");
+$("li.active").remove();
+instance.open(0);
+swal("Thank you", "Successfully submitted!", "success");

@@ -16,17 +16,16 @@
 //= require jquery
 //= require faker.min
 //= require sbd
+//= require swal
 //= require_tree .
 
 let instance;
 let ps;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('turbolinks:load', function() {
     var elem = document.querySelector('.collapsible');
     
     if (elem) {
-        
-        // var contribution = document.querySelector(".progress-bar");
 
         // init collapsible
         let options;
@@ -38,7 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         else {
-            // show
+            // show, survey
+            
             ps = Array.from( document.querySelectorAll(".article > p") )
             ps.forEach(function(p, i) {
                 p.dataset.index = i;
@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         instance = M.Collapsible.init(elem, options);
 
+        // survey
+        if (elem.classList.contains("survey")) {
+            instance.open(0);
+
+            if (a)
+                document.getElementById("finishBtn").classList.remove("hidden");
+            
+        }
+        
     }
 
 });
@@ -129,6 +138,7 @@ function initHighlight(ele) {
             let result = saveHighlight();
             if (result == "err") {
                 errorHandler();
+                highlight = {};
             }
             drag = false;
         }
@@ -146,7 +156,7 @@ function initHighlight(ele) {
             }
         }
         else { // IE < 9
-            alert("Please use browser other than Internet Explorer 6-8 (version 9+ is fine)")
+            swal("Invalid", "Please use browser other than Internet Explorer 6-8 (version 9+ is fine)", "error")
             return;
         }
 
@@ -155,11 +165,11 @@ function initHighlight(ele) {
             return "err";
         }
         else if (highlight.content.length < 15) {
-            alert("Too short.")
+            swal("Invalid", "Too short.", "error")
             return "err";
         }
         else if (tokenizer.sentences(highlight.content, {}).length > 3) {
-            alert("You cannot select more than 3 sentences")
+            swal("Invalid", "You cannot select more than 3 sentences", "error")
             return "err";
         }
         else {
@@ -187,7 +197,7 @@ function initHighlight(ele) {
             end = range.endContainer.parentElement.dataset.index;
 
             if (start != end) {
-                alert("Do not highlight across multiple paragraphs.")
+                swal("Invalid", "Do not highlight across multiple paragraphs.", "error")
                 return "err";
             }
 
@@ -212,7 +222,7 @@ function initHighlight(ele) {
     function showHighlight() {
         let span = document.createElement("mark");
         if (!highlight.range) {
-            alert("Nothing selected");
+            swal("Invalid", "Nothing selected", "error");
             return "err";
         }
         highlight.range.surroundContents(span);
