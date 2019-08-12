@@ -7,7 +7,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    change_column :answers, :capability, :integer, :null => true
+    change_column :users, :capability, :integer, :null => true
     
   end
 end
