@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
 
   create_table "logs", force: :cascade do |t|
     t.string "side"
-    t.string "type"
+    t.string "kind"
     t.string "content"
     t.integer "user_id"
     t.datetime "created_at", null: false

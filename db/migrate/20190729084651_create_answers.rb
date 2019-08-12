@@ -5,7 +5,6 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.integer :time
       t.integer :preference
       t.string :preference_reason
-      t.integer :capability
       t.boolean :finished, default: false
 
       t.belongs_to :article, foreign_key: true
@@ -17,7 +16,6 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
 
     change_column :answers, :preference, :integer, :null => true
     change_column :answers, :preference_reason, :string, :null => true
-    change_column :answers, :capability, :integer, :null => true
 
   end
 end

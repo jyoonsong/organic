@@ -8,11 +8,19 @@ class ArticlesController < ApplicationController
     end
 
     def show
-        @article = Article.find(params[:id])
+        # @article = Article.find(params[:id])
+        @article = Article.find(1)
         @tasks = Task.all
         @direction = "Step 2. Feel free to use our system for 10 minutes. Just make sure to read the article."
 
         @show_next = params[:id]
+
+        Log.create(
+            :side => "system",
+            :kind => "trigger_article",
+            :content => params[:id],
+            :user_id => current_user.id
+        )
 
         render 'show'
     end
@@ -21,6 +29,13 @@ class ArticlesController < ApplicationController
         @article = Article.find(params[:id])
         @tasks = Task.all
         @direction = "Step 3. Now make sure to answer all questions."
+
+        Log.create(
+            :side => "system",
+            :kind => "trigger_survey",
+            :content => params[:id],
+            :user_id => current_user.id
+        )
 
         render 'survey'
     end
@@ -93,6 +108,29 @@ class ArticlesController < ApplicationController
     end
 
     private
+
+    def trigger_task
+        
+        max = 0
+        maxId = -1
+
+        # calculate next task
+        Task.all.each do |t|
+            # check sequencing constraints
+            if (t.constraints_satisfied?)
+
+                # calculate marginal information gain
+                current = t.marginal_information_gain
+                if (current > max)
+                    max = current
+                    maxId = t.id
+                end
+                
+            end
+        end
+
+        # show gold task
+    end
 
     def authenticate_user
         if (current_user.nil?)
