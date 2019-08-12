@@ -4,8 +4,11 @@
         <i class="material-icons">keyboard_arrow_down</i>
     </div>
     <div id="task-<%= current_task.id %>" class="collapsible-body">
-    
-    <%= render partial: "form", locals: {survey: false} %>
-    
+        <% if (isHighlight.nil?) %>
+            <%= render partial: "form", locals: {survey: false} %>
+        <% else %>
+            <%= render partial: "highlight", locals: {answer: answer} %>
+        <% end %>
+
     </div>
 </li>

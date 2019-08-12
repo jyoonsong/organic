@@ -6,7 +6,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.string :options
       t.string :highlights
       t.string :constraints
-      t.decimal :consensus, default: 1.0
+      t.float :consensus, default: 1.0
       t.string :gold_task
 
       t.timestamps
@@ -16,6 +16,5 @@ class CreateTasks < ActiveRecord::Migration[5.2]
     change_column :tasks, :highlights, :string, :null => true
     change_column :tasks, :constraints, :string, :null => true
     change_column :tasks, :gold_task, :string, :null => true
-    change_column :tasks, :consensus, :decimal, :null => true
   end
 end

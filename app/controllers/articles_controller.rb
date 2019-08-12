@@ -79,25 +79,29 @@ class ArticlesController < ApplicationController
         )
 
         # update the consensus of the task
-        m = []
-        @task.answers.each do |a|
-            m.push(a.value_array)
+        if (@task.answers.length > 1)
+            m = []
+            @task.answers.each do |a|
+                m.push(a.value_array)
+            end
+
+            matrix = Matrix[*m]
+            consensus = matrix.krippendorff_alpha
+            puts "*****consensus"
+            puts consensus
+
+            @task.update(
+                :consensus => consensus
+            )
         end
-
-        matrix = Matrix[m]
-        consensus = matrix.krippendorff_alpha
-
-        @task.update(
-            :consensus => consensus
-        )
-
+       
         # set current task
         if (!highlight)
             trigger_task
         end
 
         respond_to do |format|
-            format.js { render :layout => false, locals: {highlight: highlight, answer_id: @answer.id} }
+            format.js { render :layout => false, locals: {highlight: highlight} }
         end
     end
 
@@ -168,6 +172,7 @@ class ArticlesController < ApplicationController
         max = 0
         maxId = -1
 
+        puts "====== start"
         # calculate next task
         Task.all.reverse_each do |t|
             # check if already done by this user

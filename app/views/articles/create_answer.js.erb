@@ -1,6 +1,7 @@
-if ("<%= highlight %>" == "true")
-    $(".collapsible").html("<%= escape_javascript(render(:partial => 'highlight', locals: {answer: @answer}))%>");
+if ("<%= highlight %>" == "true") {
+    $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer, isHighlight: true}))%>");
     instance.open(0);
+}
 else {
     $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
     swal("Thank you", "Successfully saved!", "success");

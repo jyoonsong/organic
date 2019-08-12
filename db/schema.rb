@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.string "options"
     t.string "highlights"
     t.string "constraints"
-    t.decimal "consensus", default: "1.0"
+    t.float "consensus", default: 1.0
     t.string "gold_task"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
