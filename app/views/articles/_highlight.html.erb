@@ -1,10 +1,8 @@
-<%= form_tag("/articles/1/create_answer", method: "post", remote: true) do |f| %>
+<%= form_tag("/create_highlight/<%= answer_id %>", method: "post", remote: true) do |f| %>
     <input type="hidden" name="task_id" value="<%= current_task.id %>" />
-    <input type="hidden" name="survey" value="<%= survey %>"/>
 
         <div>Please highlight the relevant part of article.</div>
-        <div class="action">
-            <input type="hidden" name="time" value="0" />
+        <div id="pleasehighlight" class="action">
             <input type="hidden" name="answer_value"/>
             <a class="btn startHighlight mt-1">Start</a>
             <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>

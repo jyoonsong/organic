@@ -1,6 +1,5 @@
 <%= form_tag("/articles/1/create_answer", method: "post", remote: true) do |f| %>
     <input type="hidden" name="task_id" value="<%= current_task.id %>" />
-    <input type="hidden" name="survey" value="<%= survey %>"/>
 
     <% if current_task.kind == "single" %>
         <div class="options">

@@ -2,6 +2,7 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
   def change
     create_table :answers do |t|
       t.string :value
+      t.string :highlight
       t.integer :time
       t.integer :preference
       t.string :preference_reason
@@ -14,6 +15,7 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    change_column :answers, :highlight, :string, :null => true
     change_column :answers, :preference, :integer, :null => true
     change_column :answers, :preference_reason, :string, :null => true
 

@@ -50,4 +50,12 @@ class Task < ApplicationRecord
         return []
     end
 
+    def highlights_arr
+        if (!self[:highlights].nil?)
+            return self[:highlights].split(/\s*,\s*/).map!{ |c| c.to_i }
+        end
+
+        return []
+    end
+
 end

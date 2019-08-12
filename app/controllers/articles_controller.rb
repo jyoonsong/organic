@@ -45,16 +45,25 @@ class ArticlesController < ApplicationController
         # calculate duration time
         time = (Time.now.to_f * 1000).to_i - params[:time].to_i
 
-        # article_id = params[:id]
+        # create answer
         article_id = 1
         task_id = params[:task_id]
+        @task = Task.find(task_id)
+        
+        highlight = false
 
         if (params[:multiple].nil?)
             value = params[:answer_value]
+            if (@task.highlights_arr.include?(value))
+                highlight = true
+            end
         else
             value = ""
             params[:answer_values].each_with_index do |a, i|
                 value += a
+                if (!highlight && @task.highlights_arr.include?(value))
+                    highlight = true
+                end
                 if (i != params[:answer_values].length - 1)
                     value += ","
                 end
@@ -71,7 +80,6 @@ class ArticlesController < ApplicationController
 
         # update the consensus of the task
         m = []
-        @task = Task.find(task_id)
         @task.answers.each do |a|
             m.push(a.value_array)
         end
@@ -84,10 +92,25 @@ class ArticlesController < ApplicationController
         )
 
         # set current task
+        if (!highlight)
+            trigger_task
+        end
+
+        respond_to do |format|
+            format.js { render :layout => false, locals: {highlight: highlight, answer_id: @answer.id} }
+        end
+    end
+
+    def create_highlight
+        @answer = Answer.find(params[:answer_id])
+        @answer.update(
+            :highlight => params[:answer_value]
+        )
+        
         trigger_task
 
         respond_to do |format|
-            format.js { render :layout => false, locals: {survey: params[:survey]} }
+            format.js { render :layout => false }
         end
     end
 

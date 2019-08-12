@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
 
   create_table "answers", force: :cascade do |t|
     t.string "value"
+    t.string "highlight"
     t.integer "time"
     t.integer "preference"
     t.string "preference_reason"
