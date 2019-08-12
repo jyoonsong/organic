@@ -70,15 +70,8 @@ document.addEventListener('turbolinks:load', function() {
         }
 
         instance = M.Collapsible.init(elem, options);
+        instance.open(0);
 
-        // survey
-        if (elem.classList.contains("survey")) {
-            instance.open(0);
-
-            // if (a)
-                // document.getElementById("finishBtn").classList.remove("hidden");
-            
-        }
         
     }
 

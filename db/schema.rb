@@ -28,7 +28,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.integer "time"
     t.integer "preference"
     t.string "preference_reason"
-    t.integer "capability"
     t.boolean "finished", default: false
     t.integer "article_id"
     t.integer "task_id"
@@ -62,9 +61,13 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "question"
     t.string "kind"
+    t.string "question"
     t.string "options"
+    t.string "highlights"
+    t.string "constraints"
+    t.decimal "consensus", default: "1.0"
+    t.string "gold_task"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -72,6 +75,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "key"
+    t.integer "capability"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

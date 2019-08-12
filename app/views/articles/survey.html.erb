@@ -24,23 +24,11 @@
     <div class="task">
         <ul class="collapsible survey">
 
-            <% @tasks.each do |t| %>
+            <% Task.all.each do |t| %>
                 <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
                 
                 <% answer = t.answers.where(answer_hash).first %>
-                <% if answer.nil? %>
-
-                    <li class="<%= t.kind %>">
-                        <div class="collapsible-header">
-                            <b><%= t.question %></b>
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </div>
-                        <div id="task-<%= t.id %>" class="collapsible-body">
-                            <%= render partial: "form", locals: {t: t, survey: true} %>
-                        </div>
-                    </li>
-
-                <% elsif answer.preference.nil? %>
+                <% if answer.preference.nil? %>
 
                     <li class="done">
                         <div class="collapsible-header">

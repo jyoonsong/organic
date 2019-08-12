@@ -1,9 +1,14 @@
+/* 
 console.log("<%= survey %>");
 if ("<%= survey %>" == "true")
     $("#task-<%= @answer.task_id %>").html("<%= escape_javascript(render(:partial => 'survey_form', locals: {answer: @answer}))%>");
 else
     $("#task-<%= @answer.task_id %>").html("<%= escape_javascript(render(:partial => 'edit_form', locals: {answer: @answer}))%>");
-    
+
 $("#task-<%= @answer.task_id %>").parent().addClass("done");
-swal("Thank you", "Successfully saved!", "success");
 instance.close(parseInt(<%= @answer.task_id %>) - 1);
+*/
+
+$(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
+swal("Thank you", "Successfully saved!", "success");
+instance.open(0);

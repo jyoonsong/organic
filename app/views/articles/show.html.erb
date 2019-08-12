@@ -21,25 +21,7 @@
 
     <div class="task">
         <ul class="collapsible">
-            <% @tasks.each do |t| %>
-            <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
-            <li class="<%= t.kind %> <% if !t.answers.where(answer_hash).empty? %> done <% end %>">
-                <div class="collapsible-header">
-                    <b><%= t.question %></b>
-                    <i class="material-icons">keyboard_arrow_down</i>
-                </div>
-                <div id="task-<%= t.id %>" class="collapsible-body">
-                
-                <% answer = Answer.find_by(user_id: current_user.id, task_id: t.id) %>
-                <% if answer.nil? %>
-                    <%= render partial: "form", locals: {t: t, survey: false} %>
-                <% else %>
-                    <%= render partial: "edit_form", locals: {answer: answer} %>
-                <% end %>
-                
-                </div>
-            </li>
-            <% end %>
+            <%= render partial: "task" %>
         </ul>
  
     </div>

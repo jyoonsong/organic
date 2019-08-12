@@ -3,7 +3,6 @@ class ArticlesController < ApplicationController
 
     def index
         @articles = Article.all
-        @direction = "Step 1. Choose an article"
         render 'index'
     end
 
@@ -11,9 +10,9 @@ class ArticlesController < ApplicationController
         # @article = Article.find(params[:id])
         @article = Article.find(1)
         @tasks = Task.all
-        @direction = "Step 2. Feel free to use our system for 10 minutes. Just make sure to read the article."
+        @direction = "Read the article and answer the tasks. You will be given $0.1 per task."
 
-        @show_next = params[:id]
+        @show_next = true
 
         Log.create(
             :side => "system",
@@ -22,13 +21,15 @@ class ArticlesController < ApplicationController
             :user_id => current_user.id
         )
 
+        trigger_task
+
         render 'show'
     end
 
     def survey
-        @article = Article.find(params[:id])
-        @tasks = Task.all
-        @direction = "Step 3. Now make sure to answer all questions."
+        # @article = Article.find(params[:id])
+        @article = Article.find(1)
+        @direction = "After you answer all questions on the right, you can finish."
 
         Log.create(
             :side => "system",
@@ -44,16 +45,46 @@ class ArticlesController < ApplicationController
         # calculate duration time
         time = (Time.now.to_f * 1000).to_i - params[:time].to_i
 
-        article_id = params[:id]
+        # article_id = params[:id]
+        article_id = 1
         task_id = params[:task_id]
+
+        if (params[:multiple].nil?)
+            value = params[:answer_value]
+        else
+            value = ""
+            params[:answer_values].each_with_index do |a, i|
+                value += a
+                if (i != params[:answer_values].length - 1)
+                    value += ","
+                end
+            end
+        end
 
         @answer = Answer.create(
             :user_id => current_user.id,
             :article_id => article_id,
             :task_id => task_id,
-            :value => params[:answer_value],
+            :value => value,
             :time => time
         )
+
+        # update the consensus of the task
+        m = []
+        @task = Task.find(task_id)
+        @task.answers.each do |a|
+            m.push(a.value_array)
+        end
+
+        matrix = Matrix[m]
+        consensus = matrix.krippendorff_alpha
+
+        @task.update(
+            :consensus => consensus
+        )
+
+        # set current task
+        trigger_task
 
         respond_to do |format|
             format.js { render :layout => false, locals: {survey: params[:survey]} }
@@ -115,21 +146,37 @@ class ArticlesController < ApplicationController
         maxId = -1
 
         # calculate next task
-        Task.all.each do |t|
+        Task.all.reverse_each do |t|
+            # check if already done by this user
+            answers = Answer.find_by(user_id: current_user.id, task_id: t.id)
+
             # check sequencing constraints
-            if (t.constraints_satisfied?)
+            if (t.constraints_satisfied?(current_user) && answers.nil?)
 
                 # calculate marginal information gain
                 current = t.marginal_information_gain
+                
                 if (current > max)
                     max = current
                     maxId = t.id
+                elsif (current == max)
+                    # first consider chained questions
+                    if (current_task.nil? || current_task.constraints_priority(t.id, maxId))
+                        max = current
+                        maxId = t.id
+                    end
                 end
-                
+
             end
         end
 
-        # show gold task
+        # if not found, finish
+        if (max == 0 || maxId < 0)
+            redirect_to "/finish"
+        end
+
+        # if found, set this as current task and show gold task
+        session[:task_id] = maxId
     end
 
     def authenticate_user

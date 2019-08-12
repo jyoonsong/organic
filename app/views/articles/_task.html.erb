@@ -1,0 +1,11 @@
+<li class="<%= current_task.kind %>">
+    <div class="collapsible-header">
+        <b><%= current_task.question %></b>
+        <i class="material-icons">keyboard_arrow_down</i>
+    </div>
+    <div id="task-<%= current_task.id %>" class="collapsible-body">
+    
+    <%= render partial: "form", locals: {survey: false} %>
+    
+    </div>
+</li>

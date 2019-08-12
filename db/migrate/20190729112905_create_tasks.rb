@@ -6,7 +6,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.string :options
       t.string :highlights
       t.string :constraints
-      t.decimal :consensus
+      t.decimal :consensus, default: 1.0
       t.string :gold_task
 
       t.timestamps
