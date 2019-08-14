@@ -11,4 +11,8 @@ class Answer < ApplicationRecord
 
         return []
     end
+
+    def fixed_array(size, other)  
+        Array.new(size) { |i| other[i] }
+     end
 end

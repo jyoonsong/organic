@@ -9,7 +9,6 @@ class ArticlesController < ApplicationController
     def show
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @tasks = Task.all
         @direction = "Read the article and answer the tasks. You will be given $0.1 per task."
 
         @show_next = true
@@ -21,7 +20,8 @@ class ArticlesController < ApplicationController
             :user_id => current_user.id
         )
 
-        trigger_task
+        task_id = trigger_task
+        @task = Task.find(task_id)
 
         render 'show'
     end
@@ -48,29 +48,32 @@ class ArticlesController < ApplicationController
         # create answer
         article_id = 1
         task_id = params[:task_id]
-        @task = Task.find(task_id)
+        @current_task = Task.find(task_id)
         
-        highlight = false
+        highlight = true
 
+        # handle multiple choice answer
         if (params[:multiple].nil?)
             value = params[:answer_value]
-            if (@task.highlights_arr.include?(value))
-                highlight = true
+
+            if (@current_task.highlights_arr.include?(value.to_i))
+                highlight = false
             end
         else
             value = ""
             params[:answer_values].each_with_index do |a, i|
                 value += a
-                if (!highlight && @task.highlights_arr.include?(value))
-                    highlight = true
-                end
+
                 if (i != params[:answer_values].length - 1)
                     value += ","
+                end
+                if (highlight && @current_task.highlights_arr.include?(a.to_i))
+                    highlight = false
                 end
             end
         end
 
-        @answer = Answer.create(
+        @answer = Answer.new(
             :user_id => current_user.id,
             :article_id => article_id,
             :task_id => task_id,
@@ -78,30 +81,27 @@ class ArticlesController < ApplicationController
             :time => time
         )
 
-        # update the consensus of the task
-        if (@task.answers.length > 1)
-            m = []
-            @task.answers.each do |a|
-                m.push(a.value_array)
-            end
+        if (@answer.save)
 
-            matrix = Matrix[*m]
-            consensus = matrix.krippendorff_alpha
-            puts "*****consensus"
-            puts consensus
-
-            @task.update(
+            # update the consensus of the task
+            consensus = @current_task.calculate_consensus
+            
+            @current_task.update(
                 :consensus => consensus
             )
-        end
-       
-        # set current task
-        if (!highlight)
-            trigger_task
-        end
+        
+            # set current task
+            if (!highlight)
+                task_id = trigger_task
+                @task = Task.find(task_id)
+            end
 
-        respond_to do |format|
-            format.js { render :layout => false, locals: {highlight: highlight} }
+            @highlight = highlight
+
+            respond_to do |format|
+                format.js { render :layout => false }
+            end
+
         end
     end
 
@@ -111,7 +111,8 @@ class ArticlesController < ApplicationController
             :highlight => params[:answer_value]
         )
         
-        trigger_task
+        task_id = trigger_task
+        @task = Task.find(task_id)
 
         respond_to do |format|
             format.js { render :layout => false }
@@ -146,7 +147,7 @@ class ArticlesController < ApplicationController
         )
 
         current_answers = current_user.answers.where({article_id: answer.article_id, finished: true})
-        if current_answers.length == Task.all.length
+        if current_answers.length >= Task.all.length
             redirect_to ("/articles/" + answer.article_id.to_s + "/finish")
         else
             respond_to do |format|
@@ -168,28 +169,37 @@ class ArticlesController < ApplicationController
     private
 
     def trigger_task
+
+        if (@current_task.nil? && !session[:task_id].nil?)
+            @current_task = Task.find(session[:task_id])
+        end
         
         max = 0
         maxId = -1
 
         puts "====== start"
         # calculate next task
-        Task.all.reverse_each do |t|
+        Task.all.each do |t|
+            puts "********CHECKING " + t.id.to_s
             # check if already done by this user
             answers = Answer.find_by(user_id: current_user.id, task_id: t.id)
 
             # check sequencing constraints
             if (t.constraints_satisfied?(current_user) && answers.nil?)
-
+                puts "* constraints satisfied and answer is nil for " + t.id.to_s
                 # calculate marginal information gain
                 current = t.marginal_information_gain
-                
                 if (current > max)
                     max = current
                     maxId = t.id
+                    puts "* marginal information gain is larger than " + max.to_s
                 elsif (current == max)
+                    puts "* marginal information gain is same with " + max.to_s
                     # first consider chained questions
-                    if (current_task.nil? || current_task.constraints_priority(t.id, maxId))
+                    if (@current_task.nil?)
+                        maxId = 1
+                    elsif (@current_task.constraints_priority(t.id, maxId))
+                        puts "* priority or current task nil"
                         max = current
                         maxId = t.id
                     end
@@ -198,13 +208,25 @@ class ArticlesController < ApplicationController
             end
         end
 
-        # if not found, finish
+
+        # if not found, redirect to survey
         if (max == 0 || maxId < 0)
-            redirect_to "/finish"
+            redirect_to "/articles/1/survey"
         end
 
         # if found, set this as current task and show gold task
         session[:task_id] = maxId
+
+
+        # create log
+        Log.create(
+            :side => "system",
+            :kind => "trigger_task",
+            :content => "task no. " + maxId.to_s + " with " + max.to_s + " marginal_information_gain",
+            :user_id => current_user.id
+        )
+
+        return maxId
     end
 
     def authenticate_user

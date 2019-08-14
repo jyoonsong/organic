@@ -28,7 +28,7 @@
                 <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
                 
                 <% answer = t.answers.where(answer_hash).first %>
-                <% if answer.preference.nil? %>
+                <% if !answer.nil? && answer.preference.nil? %>
 
                     <li class="done">
                         <div class="collapsible-header">

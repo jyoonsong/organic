@@ -1,14 +1,9 @@
-<li class="<%= current_task.kind %>">
+<li class="<%= @task.kind %>">
     <div class="collapsible-header">
-        <b><%= current_task.question %></b>
+        <b><%= @task.question %></b>
         <i class="material-icons">keyboard_arrow_down</i>
     </div>
-    <div id="task-<%= current_task.id %>" class="collapsible-body">
-        <% if (isHighlight.nil?) %>
-            <%= render partial: "form", locals: {survey: false} %>
-        <% else %>
-            <%= render partial: "highlight", locals: {answer: answer} %>
-        <% end %>
-
+    <div id="task-<%= @task.id %>" class="collapsible-body">
+        <%= render partial: "form" %>
     </div>
 </li>

@@ -10,8 +10,8 @@ class SessionsController < ApplicationController
         else
             @user = User.new
         end
-
     end
+    
     def create
 
         @user = User.new(name: params[:name], key: params[:key])

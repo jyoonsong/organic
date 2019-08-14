@@ -2,6 +2,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
   def change
     create_table :tasks do |t|
       t.string :kind
+      t.string :character
       t.string :question
       t.string :options
       t.string :highlights

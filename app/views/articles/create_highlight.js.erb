@@ -1,3 +1,5 @@
 $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
 swal("Thank you", "Successfully saved!", "success");
 instance.open(0);
+article = document.querySelector(".article");
+article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');

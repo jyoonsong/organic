@@ -18,86 +18,99 @@ Task.create([
         kind: "single",
         question: "Does the title of the article accurately reflect the content of the article?",
         options: "Completely Unrepresentative,Somewhat Unrepresentative,Somewhat Representative,Completely Representative",
-        highlights: "1,2,3,4"
+        highlights: "1,2,3,4",
+        character: "ordinal"
     },
     {
         kind: "multiple",
         question: "How is the title unrepresentative of the content of the article? (If you answered 'Completely representative', skip this question).",
         options: "Title is on a different topic than the body,Title emphasizes different information than the body,Title carries little information about the body,Title takes a different stance than the body,Title overstates claims or conclusions in the body,Title understates claims or conclusions in the body,Other",
         highlights: "1,2,3,4,5,6,7",
-        constraints: "1"
+        constraints: "1",
+        character: "nominal"
     },
     {
         kind: "single",
         question: "Is the headline clickbaity?",
         options: "Very much clickbaity,Somewhat clickbaity,A little bit clickbaity,Not at all clickbaity",
-        highlights: "1,2,3,4"
+        highlights: "1,2,3,4",
+        character: "ordinal"
     },
     {
         kind: "multiple",
         question: "What clickbait techniques does this headline employ? (If you answered 'Not at all', skip this question)",
         options: "Listicle (“6 Tips on …”),Cliffhanger to a story (“You Won’t Believe What Happens Next”, “Man Divorces His Wife After Overhearing This Conversation”),Provoking emotions, such as shock or surprise (“...Shocking Result”, “...Leave You in Tears”),Hidden secret or trick (“Fitness Companies Hate Him...”, “Experts are Dying to Know Their Secret”),Challenges to the ego (“Only People with IQ Above 160 Can Solve This”),Defying convention (“Think Orange Juice is Good for you? Think Again!”, “Here are 5 Foods You Never Thought Would Kill You”),Inducing fear (“Is Your Boyfriend Cheating on You?”),Other",
-        constraints: "3"
+        constraints: "3",
+        character: "nominal"
     },
     {
         kind: "single",
         question: "Is this article primarily about a single scientific study?",
         options: "Yes,No",
-        highlights: "2"
+        highlights: "2",
+        character: "nominal"
     },
     {
         kind: "multiple",
         question: "Which of the following types of sources are cited in the article?",
         options: "None,Experts,Studies,Organizations,Other",
         highlights: "1",
-        constraints: "5"
+        constraints: "5",
+        character: "nominal"
     },
     {
         kind: "single",
         question: "Are any experts, organizations, or studies cited that are separate from the central study quoted in the article? If so, highlight relevant section(s).",
         options: "None,1,2,3,4 or more",
         highlights: "1",
-        constraints: "5, 6"
+        constraints: "5, 6",
+        character: "interval"
     },
     {
         kind: "single",
         question: "Is a general or singular causal claim made? Highlight the section(s) that supports your answer.",
         options: "General Causal Claim,Singular Causal Claim,No Causal Claim",
-        highlights: "3"
+        highlights: "3",
+        character: "nominal"
     },
     {
         kind: "multiple",
         question: "What evidence is given for the primary claim?",
         options: "Correlation,Cause precedes effect,The correlation appears across multiple independent contexts,A plausible mechanism is proposed,An experimental study was conducted (natural experiments OK),Experts are cited,Other kind of evidence,No evidence given",
-        highlights: "8"
+        highlights: "8",
+        character: "nominal"
     },
     {
         kind: "single",
         question: "How convincing do you find the evidence given for the primary claim?",
         options: "Very Convincing,Fairly Convincing,Moderately Convincing,Slightly Convincing,Not at All Convincing",
         highlights: "1,2,3,4,5",
-        constraints: "8, 9"
+        constraints: "8, 9",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "To what extent does their confidence in their claims seem justified? ",
         options: "Completely justified,Mostly justified,Somewhat justified,Slightly justified,Not at all justified",
         highlights: "1,2,3,4,5",
-        constraints: "8, 9, 10"
+        constraints: "8, 9, 10",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Do they acknowledge uncertainty or the possibility that things might be otherwise? If so, highlight the relevant section(s).",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Does the author present the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)? If so, highlight the relevant section(s).",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     },
     {
         kind: "single",
@@ -111,34 +124,39 @@ Task.create([
         question: "Does the author say that one small change will lead to a major change (use a slippery slope argument)? Highlight the relevant section(s).",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Does the author exaggerate the dangers of a situation and use scare tactics to persuade (the appeal to fear fallacy)?",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Does the article have an emotionally charged tone? (i.e, outrage, snark, celebration, horror, etc.). If so, highlight the relevant section(s).",
         options: "Yes,Sort of,No",
-        highlights: "3"
+        highlights: "3",
+        character: "ordinal"
     },
     {
         kind: "single",
         question: "Does the author exaggerate any claims? If so, highlight the relevant section(s).",
         options: "Yes,Sort of,No",
         highlights: "3",
-        constraints: "8"
+        constraints: "8",
+        character: "ordinal"
     }
 
 ])

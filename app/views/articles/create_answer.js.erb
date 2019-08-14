@@ -1,9 +1,17 @@
-if ("<%= highlight %>" == "true") {
-    $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer, isHighlight: true}))%>");
+// update the consensus rate of the task
+<% if (@current_task.answers.length > 1) %>
+    
+<% end %>
+
+
+// redirect to next page
+<% if (@highlight) %>
+    $(".collapsible-body").html("<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer}) )%>");
     instance.open(0);
-}
-else {
+    initHighlight(document.querySelector("li.active"));
+<% else %>
     $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
     swal("Thank you", "Successfully saved!", "success");
     instance.open(0);
-}
+<% end %>
+

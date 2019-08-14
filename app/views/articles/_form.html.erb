@@ -1,20 +1,21 @@
 <%= form_tag("/articles/1/create_answer", method: "post", remote: true) do |f| %>
-    <input type="hidden" name="task_id" value="<%= current_task.id %>" />
+    <input type="hidden" name="task_id" value="<%= @task.id %>" />
 
-    <% if current_task.kind == "single" %>
+    <% if @task.kind == "single" %>
         <div class="options">
-            <% current_task.options.split(/\s*,\s*/).each_with_index do |o, i| %>
-                <label><input type='checkbox' name='answer_value' value='<%= i %>' /><%= o %></label>
+            <% @task.options.split(/\s*,\s*/).each_with_index do |o, i| %>
+                <label><input type='radio' name='answer_value' value='<%= i + 1 %>' /><%= o %></label>
             <% end %>
         </div>
 
-    <% elsif current_task.kind == "multiple" %>
+    <% elsif @task.kind == "multiple" %>
+        <%= @task.question %>
         <div>Choose all that applies.</div>
         <div class="options">
-            <% options = current_task.options.split(/\s*,\s*/) %>
+            <% options = @task.options.split(/\s*,\s*/) %>
             <input type="hidden" name="multiple" value="<%= options.length %>" />
             <% options.each_with_index do |o, i| %>
-                <label><input type='checkbox' name='answer_values[]' value='<%= i %>' /><%= o %></label>
+                <label><input type='checkbox' name='answer_values[]' value='<%= i + 1 %>' /><%= o %></label>
             <% end %>
         </div>
 

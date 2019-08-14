@@ -1,7 +1,7 @@
-<%= form_tag("/create_highlight/<%= answer.id %>", method: "post", remote: true) do %>
-    <input type="hidden" name="task_id" value="<%= current_task.id %>" />
+<%= form_tag("/create_highlight/#{answer.id}", method: "post", remote: true) do %>
+    <input type="hidden" name="task_id" value="<%= current_task.id %>">
 
-    <div>Please highlight the relevant part of article.</div>
+    Please highlight the relevant part of article.
     <div id="pleasehighlight" class="action">
         <input type="hidden" name="answer_value"/>
         <a class="btn startHighlight mt-1">Start</a>

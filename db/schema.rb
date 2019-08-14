@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "kind"
+    t.string "character"
     t.string "question"
     t.string "options"
     t.string "highlights"
