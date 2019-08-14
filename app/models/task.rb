@@ -62,10 +62,19 @@ class Task < ApplicationRecord
         return []
     end
 
+    def options_arr
+        if (!self[:options].nil?)
+            return self[:options].split(/\s*,\s*/).map!{ |c| c }
+        end
+
+        return []
+    end
+
     def calculate_consensus
         everything = []
         if (self.answers.length > 1)
             
+            n = options_arr.length
             self.answers.each do |a|
                 everything += a.value_array
             end
@@ -76,12 +85,12 @@ class Task < ApplicationRecord
             # nominal
             if (self[:character] == "nominal")
                 # index of qualitative variation
-                return iqv(everything)
+                return 1.0 - iqv(everything, n)
                 
             # ordinal
             else
                 # normalized standard deviation
-                return coefficient_variance(everything)
+                return 1.0 - coefficient_variance(everything)
             end
 
         else
@@ -91,12 +100,10 @@ class Task < ApplicationRecord
 
     private
 
-    def iqv(arr)
-        # length
-        n = arr.length
-
+    def iqv(arr, n)
         # frequency array
         hash = frequency(arr)
+        puts hash
 
         # sum of frequency & sum of squared frequency
         sum = 0
@@ -106,7 +113,7 @@ class Task < ApplicationRecord
             sum_sqrt += v**2
         }
 
-        return ( n * (sum - sum_sqrt) ) / ( sum**2 * (n - 1) )
+        return ( n * (sum**2 - sum_sqrt) ) / ( sum**2 * (n - 1) ).to_f
     end
 
     def frequency(arr)
