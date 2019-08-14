@@ -1,4 +1,3 @@
-<% t = Task.find(answer.task_id) %>
 <%= form_tag("/survey_answer/#{answer.id}", method: "post", remote: true) do |f| %>
     
         <div><b>How interesting do you find this task compared to other tasks?</b></div>

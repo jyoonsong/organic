@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
     def show
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @direction = "Read the article and answer the tasks. You will be given $0.1 per task."
+        @direction = "Read the article and answer the questions ($0.1 per question). You can stop and move on to survey section anytime by clicking this button -->"
 
         @show_next = true
 
@@ -29,16 +29,16 @@ class ArticlesController < ApplicationController
     def survey
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @direction = "After you answer all questions on the right, you can finish."
+        @direction = "Survey is mandatory: It will automatically be finished after you answer all questions on the right."
 
-        not_finished = Task.all.includes(:answers).where(answers: {id: nil})
-
-        not_finished.each do |t|
-            Answer.create(
-                :article_id => 1,
-                :task_id => t.id,
-                :user_id => current_user.id
-            )
+        Task.all.each do |t|
+            if (t.answers.where(user_id: current_user.id).length == 0)
+                Answer.create(
+                    :article_id => 1,
+                    :task_id => t.id,
+                    :user_id => current_user.id
+                )
+            end
         end
 
         Log.create(

@@ -26,7 +26,7 @@
 
             <% Task.all.each do |t| %>
                 <% answer_hash = {user_id: current_user.id, article_id: 1} %>
-                <% answer = t.answers.where(answer_hash).first %>
+                <% @answer = t.answers.where(answer_hash).first %>
 
                     <li class="done">
                         <div class="collapsible-header">
@@ -34,7 +34,7 @@
                             <i class="material-icons">keyboard_arrow_down</i>
                         </div>
                         <div id="task-<%= t.id %>" class="collapsible-body">
-                            <%= render partial: "survey_form", locals: {answer: answer} %>
+                            <%= render partial: "survey_form", locals: {answer: @answer} %>
                         </div>
                     </li>
 

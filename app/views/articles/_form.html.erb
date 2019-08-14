@@ -9,7 +9,6 @@
         </div>
 
     <% elsif @task.kind == "multiple" %>
-        <%= @task.question %>
         <div>Choose all that applies.</div>
         <div class="options">
             <% options = @task.options_arr %>

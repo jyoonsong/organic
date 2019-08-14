@@ -3,7 +3,7 @@ class Task < ApplicationRecord
 
     def marginal_information_gain
         # in terms of quantity
-        gain1 = 5 - self.answers.length
+        gain1 = 5 - self.answers_count
 
         # in terms of consensus
         gain2 = (0.6 - self[:consensus]) / 0.6
@@ -14,6 +14,10 @@ class Task < ApplicationRecord
         end
         
         return gain1 + gain2 # TODO: how to calculate this?
+    end
+
+    def answers_count
+        return self.answers.where.not({value: nil}).length
     end
 
     def constraints_satisfied?(current_user)
@@ -72,7 +76,7 @@ class Task < ApplicationRecord
 
     def calculate_consensus
         everything = []
-        if (self.answers.length > 1)
+        if (self.answers_count > 1)
             
             n = options_arr.length
             self.answers.each do |a|
@@ -129,9 +133,15 @@ class Task < ApplicationRecord
         # mean
         mean = sum / arr.length.to_f
 
+        puts "sum: " + sum.to_s
+        puts "mean: " + mean.to_s
+
         # variance
         sum_sqrt = arr.inject(0){ |accum, i| accum + (i - mean)**2 }
         variance = sum_sqrt / (arr.length - 1).to_f
+
+        puts "sum_sqrt: " + sum_sqrt.to_s
+        puts "variance: " + variance.to_s
 
         return (Math.sqrt(variance) / mean)
     end
