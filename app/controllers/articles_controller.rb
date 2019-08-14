@@ -31,6 +31,16 @@ class ArticlesController < ApplicationController
         @article = Article.find(1)
         @direction = "After you answer all questions on the right, you can finish."
 
+        not_finished = Task.all.includes(:answers).where(answers: {id: nil})
+
+        not_finished.each do |t|
+            Answer.create(
+                :article_id => 1,
+                :task_id => t.id,
+                :user_id => current_user.id
+            )
+        end
+
         Log.create(
             :side => "system",
             :kind => "trigger_survey",

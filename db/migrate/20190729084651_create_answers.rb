@@ -15,7 +15,9 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.timestamps
     end
 
+    change_column :answers, :value, :string, :null => true
     change_column :answers, :highlight, :string, :null => true
+    change_column :answers, :time, :string, :null => true
     change_column :answers, :preference, :integer, :null => true
     change_column :answers, :preference_reason, :string, :null => true
 

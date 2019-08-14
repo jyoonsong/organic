@@ -25,10 +25,8 @@
         <ul class="collapsible survey">
 
             <% Task.all.each do |t| %>
-                <% answer_hash = {user_id: current_user.id, article_id: @article.id} %>
-                
+                <% answer_hash = {user_id: current_user.id, article_id: 1} %>
                 <% answer = t.answers.where(answer_hash).first %>
-                <% if !answer.nil? && answer.preference.nil? %>
 
                     <li class="done">
                         <div class="collapsible-header">
@@ -40,7 +38,6 @@
                         </div>
                     </li>
 
-                <% end %>
             <% end %>
 
         </ul>
