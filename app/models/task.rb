@@ -70,6 +70,9 @@ class Task < ApplicationRecord
                 everything += a.value_array
             end
 
+            puts "*+*+* === calculate consensus"
+            puts everything
+
             # nominal
             if (self[:character] == "nominal")
                 # index of qualitative variation
@@ -93,7 +96,7 @@ class Task < ApplicationRecord
         n = arr.length
 
         # frequency array
-        hash = frquency(arr)
+        hash = frequency(arr)
 
         # sum of frequency & sum of squared frequency
         sum = 0
@@ -108,7 +111,7 @@ class Task < ApplicationRecord
 
     def frequency(arr)
         hash = Hash.new(0)
-        array.each{|key| hash[key] += 1}
+        arr.each{|key| hash[key] += 1}
         return hash
     end
 
