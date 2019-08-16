@@ -78,6 +78,7 @@ Task.create([
         question: "What evidence is given for the primary claim?",
         options: "Correlation,Cause precedes effect,The correlation appears across multiple independent contexts,A plausible mechanism is proposed,An experimental study was conducted (natural experiments OK),Experts are cited,Other kind of evidence,No evidence given",
         highlights: "8",
+        constraints: "8",
         character: "nominal"
     },
     {

@@ -123,7 +123,7 @@ function initHighlight(ele) {
             if (!endWord)
                 endWord = range.endContainer.textContent.slice(0, range.endOffset).trim();
 
-            ps = Array.from( document.querySelectorAll(".article > p") );
+            ps = ps = makePS();
             let startOffset = (startingBefore) ? ps[start].innerHTML.indexOf(startWord) + startWord.length : ps[start].innerHTML.indexOf(startWord);
             let endOffset = ps[start].innerHTML.indexOf(endWord) + endWord.length;
 
@@ -167,7 +167,7 @@ function initHighlight(ele) {
             startOffset = parseInt(splitted[1]),
             endOffset = parseInt(splitted[2]);
 
-        ps = Array.from( document.querySelectorAll(".article > p") );
+        ps = makePS();
         let inner = ps[index].innerHTML;
         ps[index].innerHTML = inner.slice(0, startOffset) + "<mark>" + inner.slice(startOffset, endOffset) + "</mark>" + inner.slice(endOffset);
     }
@@ -179,6 +179,14 @@ function initHighlight(ele) {
             window.getSelection().removeAllRanges();
         }
         return;
+    }
+
+    function makePS() {
+        arr = [];
+        arr.push( document.querySelector(".article > h1") )
+        arr.push( document.querySelector(".article > h4") )
+        arr.push(...Array.from( document.querySelectorAll(".article > p") ));
+        return arr;
     }
 }
 

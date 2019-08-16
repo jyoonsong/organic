@@ -267,6 +267,24 @@
   font-size: 1.05rem;
   justify-content: space-between;
 }
+
+
+button, .btn {
+  outline: none; 
+  border: none;
+  background: #afc1ca;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1); 
+  border-radius: 5px;
+  color: #222;
+  font-size: 1rem;
+  padding: .5rem 1.5rem;
+  cursor: pointer;
+  display: inline-block;
+  &:hover, &:visited {
+    color: #222;
+  }
+}
+
   
   
   
