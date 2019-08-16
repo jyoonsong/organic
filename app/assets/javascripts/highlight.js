@@ -94,7 +94,7 @@ function initHighlight(ele) {
             let startingBefore = false;
 
             // change range automatically if any tag detected
-            if (range.startContainer.parentElement.tagName != "P") {
+            if (!isProper(range.startContainer.parentElement.tagName)) {
                 let prev = range.startContainer.parentElement.previousSibling;
                 highlight.range.setStart(prev, prev.length - 1)
 
@@ -102,17 +102,19 @@ function initHighlight(ele) {
                 startWord = words[words.length - 1];
                 startingBefore = true;
             }
-            else if (range.endContainer.parentElement.tagName != "P") {
+            else if (!isProper(range.endContainer.parentElement.tagName)) {
                 endWord = range.endContainer.textContent.trim()
 
                 highlight.range.setEnd(range.endContainer.parentElement.nextSibling, 1)
             }
 
             // alert if across paragraphs
+            console.log(range)
             let start = range.startContainer.parentElement.dataset.index,
             end = range.endContainer.parentElement.dataset.index;
 
             if (start != end) {
+                console.log(start + " " + end)
                 swal("Invalid", "Do not highlight across multiple paragraphs.", "error")
                 return "err";
             }
@@ -123,7 +125,7 @@ function initHighlight(ele) {
             if (!endWord)
                 endWord = range.endContainer.textContent.slice(0, range.endOffset).trim();
 
-            ps = ps = makePS();
+            ps = makePS();
             let startOffset = (startingBefore) ? ps[start].innerHTML.indexOf(startWord) + startWord.length : ps[start].innerHTML.indexOf(startWord);
             let endOffset = ps[start].innerHTML.indexOf(endWord) + endWord.length;
 
@@ -145,19 +147,8 @@ function initHighlight(ele) {
         return span;
     }
 
-    function isProper(range) {
-        // (range.commonAncestorContainer.parentElement.tagName == "p" // text
-        // || range.commonAncestorContainer.parentElement.classList.contains("article") // same p
-        // || range.commonAncestorContainer.classList.contains("article")) // different p
-        let start = range.startContainer.parentElement.dataset.index,
-            end = range.endContainer.parentElement.dataset.index;
-        if (range.startContainer.parentElement.tagName != "P") {
-            start = range.startContainer.parentElement.parentElement.dataset.index;
-        }
-        else if (range.endContainer.parentElement.tagName != "P") {
-            end = range.endContainer.parentElement.parentElement.dataset.index;
-        }
-        return (start == end);
+    function isProper(tagName) {
+        return (tagName == "P" || tagName == "H1" || tagName == "H4")
     }
 
     function markHighlight(value) {
@@ -179,14 +170,6 @@ function initHighlight(ele) {
             window.getSelection().removeAllRanges();
         }
         return;
-    }
-
-    function makePS() {
-        arr = [];
-        arr.push( document.querySelector(".article > h1") )
-        arr.push( document.querySelector(".article > h4") )
-        arr.push(...Array.from( document.querySelectorAll(".article > p") ));
-        return arr;
     }
 }
 

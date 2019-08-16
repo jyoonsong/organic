@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
     def show
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @direction = "Read the article and answer the questions ($0.1 per question). You can stop and move on to survey section anytime by clicking this button -->"
+        @direction = "Read the article and answer the questions ($0.1 per question). You can stop and move on to survey section <strong class='yellow'>anytime</strong> by clicking this button -->"
 
         @show_next = true
 
@@ -62,6 +62,24 @@ class ArticlesController < ApplicationController
                 :user_id => current_user.id
             )
             render 'survey'
+        end
+    end
+
+    def skip_answer
+        task_id = params[:task_id]
+
+        @answer = Answer.create(
+            :article_id => 1,
+            :task_id => task_id,
+            :user_id => current_user.id,
+            :highlight => ""
+        )
+
+        task_id = trigger_task
+        @task = Task.find(task_id)
+
+        respond_to do |format|
+            format.js { render :layout => false }
         end
     end
 
@@ -201,7 +219,9 @@ class ArticlesController < ApplicationController
             if (!session[:task_id].nil?)
                 @current_task = Task.find(session[:task_id])
             end
-        else
+        end
+
+        if (!@current_task.nil?)
             current_answer = Answer.find_by(user_id: current_user.id, task_id: @current_task.id)
             if (current_answer.nil? || current_answer.highlight.nil?)
                 return @current_task.id
@@ -218,15 +238,21 @@ class ArticlesController < ApplicationController
             # check if already done by this user
             answers = Answer.find_by(user_id: current_user.id, task_id: t.id)
 
+            @log = Log.new(
+                :side => "system",
+                :kind => "calculate_task",
+                :user_id => current_user.id
+            )
+
             # check sequencing constraints
             if (t.constraints_satisfied?(current_user) && answers.nil?)
-                puts "* constraints satisfied and answer is nil for " + t.id.to_s
                 # calculate marginal information gain
                 current = t.marginal_information_gain
                 if (current > max)
+                    puts "* marginal information gain is larger than " + max.to_s
                     max = current
                     maxId = t.id
-                    puts "* marginal information gain is larger than " + max.to_s
+                    
                 elsif (current == max)
                     puts "* marginal information gain is same with " + max.to_s
                     # first consider chained questions
@@ -238,7 +264,14 @@ class ArticlesController < ApplicationController
                         maxId = t.id
                     end
                 end
-
+                
+                @log.update(
+                    :content => "task no. " + t.id.to_s + ": " + current.to_s + " marginal_information_gain (" + t.answers_count.to_s + ")",
+                )
+            else
+                @log.update(
+                    :content => "task no. " + t.id.to_s + ": constraints not satisfied",
+                )
             end
         end
 
@@ -256,7 +289,7 @@ class ArticlesController < ApplicationController
         Log.create(
             :side => "system",
             :kind => "trigger_task",
-            :content => "task no. " + maxId.to_s + " with " + max.to_s + " marginal_information_gain",
+            :content => "trigger task no. " + maxId.to_s + " with " + max.to_s + " marginal_information_gain",
             :user_id => current_user.id
         )
 

@@ -42,13 +42,13 @@ document.addEventListener('turbolinks:load', function() {
         else {
             // show, survey
             
-            ps = Array.from( document.querySelectorAll(".article > p") )
+            ps = makePS();
             ps.forEach(function(p, i) {
                 p.dataset.index = i;
             })
 
             options = {
-                onOpenEnd: function(ele) {
+            onOpenEnd: function(ele) {
 
                     console.log("on Open end");
 
@@ -78,3 +78,11 @@ document.addEventListener('turbolinks:load', function() {
     }
 
 });
+
+function makePS() {
+    arr = [];
+    arr.push( document.querySelector(".article > h1") )
+    arr.push( document.querySelector(".article > h4") )
+    arr.push(...Array.from( document.querySelectorAll(".article > p") ));
+    return arr;
+}

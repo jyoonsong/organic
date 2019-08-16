@@ -14,5 +14,9 @@ class Answer < ApplicationRecord
 
     def fixed_array(size, other)  
         Array.new(size) { |i| other[i] }
-     end
+    end
+
+    def self.answers_by(user_id) 
+        return self.where(user_id: user_id).where.not({value: nil})
+    end
 end

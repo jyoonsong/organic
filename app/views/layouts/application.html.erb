@@ -16,7 +16,7 @@
     <nav class="bar noselect">
     
     <% if !@direction.nil? %>
-      <b><%= @direction %></b>
+      <b><%= @direction.html_safe %></b>
     <% end %>
 
     <% if !@show_next.nil? %>

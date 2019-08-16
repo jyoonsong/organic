@@ -22,6 +22,7 @@
 
     <div class="action">
         <input type="hidden" name="time" value="0" />
+        <%= link_to "/task/#{@task.id}/skip_answer", method: :get, class: "btn", remote: true do %> Skip <% end %> &nbsp;
         <%= submit_tag("Submit", :class => "btn") %>
     </div>
 <% end %>

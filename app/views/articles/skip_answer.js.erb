@@ -1,0 +1,3 @@
+$(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
+swal("Complete", "Successfully skipped!", "success");
+instance.open(0);
