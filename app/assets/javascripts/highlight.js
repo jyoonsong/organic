@@ -92,6 +92,9 @@ function initHighlight(ele) {
             let range = highlight.range;
             let startWord, endWord;
             let startingBefore = false;
+            let first = false;
+
+            console.log(range)
 
             // change range automatically if any tag detected
             if (!isProper(range.startContainer.parentElement.tagName)) {
@@ -109,12 +112,10 @@ function initHighlight(ele) {
             }
 
             // alert if across paragraphs
-            console.log(range)
             let start = range.startContainer.parentElement.dataset.index,
             end = range.endContainer.parentElement.dataset.index;
 
             if (start != end) {
-                console.log(start + " " + end)
                 swal("Invalid", "Do not highlight across multiple paragraphs.", "error")
                 return "err";
             }
@@ -122,15 +123,27 @@ function initHighlight(ele) {
             // calculate offsets
             if (!startWord) 
                 startWord = range.startContainer.textContent.slice(range.startOffset).trim();
-            if (!endWord)
+            if (!endWord) {
                 endWord = range.endContainer.textContent.slice(0, range.endOffset).trim();
+
+                if (endWord.length < 3) {
+                    endWord = range.endContainer.textContent.trim().split(" ")[0]
+                    first = true;
+                }
+            }
 
             ps = makePS();
             let startOffset = (startingBefore) ? ps[start].innerHTML.indexOf(startWord) + startWord.length : ps[start].innerHTML.indexOf(startWord);
             let endOffset = ps[start].innerHTML.indexOf(endWord) + endWord.length;
+            if (first) {
+                endOffset -= endWord.length;
+            }
 
-            if (startOffset > endOffset) 
+            console.log(startOffset + " " + endOffset)
+
+            if (startOffset > endOffset) {
                 return "err";
+            }
 
             // save
             ele.querySelector("input[name='answer_value']").value = start + "," + startOffset + "," + endOffset;
