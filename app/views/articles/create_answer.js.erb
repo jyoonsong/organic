@@ -1,14 +1,20 @@
-// update the consensus rate of the task
-<% if (@current_task.answers.length > 1) %>
-    
-<% end %>
-
-
 // redirect to next page
 <% if (@highlight) %>
-    $(".collapsible-body").html("<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer}) )%>");
-    instance.open(0);
+    $("#formContainer").html("<%= escape_javascript( render(:partial => 'edit_form', locals: {answer: @answer}) )%>");
+    $("#highlightContainer").html("<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer}) )%>");
+
+    $("#highlightContainer").removeClass("hidden");
+
+    time = new Date().getTime();
+    document.querySelector("input[name='time']").value = time;
+
     initHighlight(document.querySelector("li.active"));
+    instance.open(0);
+
+    $('.sidebar').animate({
+        scrollTop: $("#highlightContainer").offset().top
+    }, 2000);
+
 <% else %>
     $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
     swal("Thank you", "Successfully saved!", "success");

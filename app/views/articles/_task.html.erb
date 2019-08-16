@@ -1,9 +1,28 @@
-<li class="<%= @task.kind %>">
-    <div class="collapsible-header">
-        <b><%= @task.question %></b>
-        <i class="material-icons">keyboard_arrow_down</i>
+    <div>
+    You've answered 
+    <strong><%= Answer.where(user_id: current_user.id).length %></strong>
+    questions!
     </div>
-    <div id="task-<%= @task.id %>" class="collapsible-body">
-        <%= render partial: "form" %>
-    </div>
-</li>
+
+    <li class="<%= @task.kind %>">
+        <div class="collapsible-header">
+            <b><%= @task.question %></b>
+            <i class="material-icons">keyboard_arrow_down</i>
+        </div>
+        <div id="task-<%= @task.id %>" class="collapsible-body">
+            <% answer = Answer.find_by(user_id: current_user.id, task_id: @task.id) %>
+            <% if (answer.nil?) %>
+                <div id="formContainer">
+                    <%= render partial: "form" %>
+                </div>
+                <div id="highlightContainer" class="hidden"></div>
+            <% else %>
+                <div id="formContainer">
+                    <%= render partial: "edit_form", locals: {answer: answer} %>
+                </div>
+                <div id="highlightContainer">
+                    <%= render partial: "annotate", locals: {answer: answer} %>
+                </div>
+            <% end %>
+        </div>
+    </li>

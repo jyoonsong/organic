@@ -83,9 +83,6 @@ class Task < ApplicationRecord
                 everything += a.value_array
             end
 
-            puts "*+*+* === calculate consensus"
-            puts everything
-
             # nominal
             if (self[:character] == "nominal")
                 # index of qualitative variation

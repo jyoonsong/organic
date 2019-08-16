@@ -21,8 +21,9 @@
 //= require_tree .
 
 let instance,
-    article;
-let ps;
+    article,
+    ps,
+    time;
 
 document.addEventListener('turbolinks:load', function() {
     var elem = document.querySelector('.collapsible');
@@ -49,23 +50,23 @@ document.addEventListener('turbolinks:load', function() {
             options = {
                 onOpenEnd: function(ele) {
 
-                    console.log(ele);
+                    console.log("on Open end");
 
                     // save current time
-                    let time = new Date().getTime();
+                    time = new Date().getTime();
                     ele.querySelector("input[name='time']").value = time;
 
                     // check task type
-                    // if (document.getElementById("pleasehighlight")) {
-                    //     console.log("pleasehighlight");
-                    //     initHighlight(ele);
-                    // }
+                    if (document.getElementById("pleasehighlight")) {
+                        console.log("pleasehighlight");
+                        initHighlight(ele);
+                    }
                 },
                 onCloseEnd: function(ele) {
-                    // if (document.getElementById("pleasehighlight")) {
-                    //     let article = document.querySelector(".article");
-                    //     article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
-                    // }
+                    if (document.getElementById("pleasehighlight")) {
+                        let article = document.querySelector(".article");
+                        article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
+                    }
                 }
             }
         }

@@ -1,34 +1,39 @@
-<% t = Task.find(answer.task_id) %>
+<% @task = Task.find(answer.task_id) %>
 <%= form_tag("/update_answer/#{answer.id}", method: "post", remote: true) do |f| %>
-    
-    <% if t.kind == "option" %>
+
+    <% if @task.kind == "single" %>
         <div class="options">
-            <% t.options.split(/\s*,\s*/).each do |o| %>
-                <% if answer.value == o %>
-                    <label><input type='radio' name='answer_value' value='<%= o %>' checked/><%= o %></label>
+            <% @task.options_arr.each_with_index do |o, i| %>
+
+                <% if answer.value.to_i == (i + 1) %>
+                    <label><input type='radio' name='answer_value' value='<%= i + 1 %>' checked/><%= o %></label>
                 <% else %>
-                    <label><input type='radio' name='answer_value' value='<%= o %>'/><%= o %></label>
+                    <label><input type='radio' name='answer_value' value='<%= i + 1 %>'/><%= o %></label>
                 <% end %>
+
             <% end %>
         </div>
-        <div class="action">
-            <input type="hidden" name="time" value="0" />
-            <%= submit_tag("Click to change your answer", :class => "btn") %>
+
+    <% elsif @task.kind == "multiple" %>
+        <div>Choose all that applies.</div>
+        <div class="options">
+            <% options = @task.options_arr %>
+            <input type="hidden" name="multiple" value="<%= options.length %>" />
+            <% options.each_with_index do |o, i| %>
+
+                <% if answer.value_array.include?(i + 1) %>
+                    <label><input type='checkbox' name='answer_values[]' value='<%= i + 1 %>' checked /><%= o %></label>
+                <% else %>
+                    <label><input type='checkbox' name='answer_values[]' value='<%= i + 1 %>' /><%= o %></label>
+                <% end %>
+
+            <% end %>
         </div>
 
-    <% elsif t.kind == "highlight" %>
-        <div>Your answer is highlighted yellow.</div>
-        <div class="action">
-            <input type="hidden" name="time" value="0" />
-            <input type="hidden" name="answer_value" value="<%= answer.value %>"/>
-            <a class="btn startHighlight mt-1">Click to highlight again</a>
-            <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>
-        </div>
-
-    <% elsif t.kind == "verify" %>
-        <div class="action">
-            <input type="hidden" name="time" value="0" />
-            <%= submit_tag("Click to change your answer", :class => "btn") %>
-        </div>
     <% end %>
+
+    <div class="action">
+        <input type="hidden" name="time" value="0" />
+        <%= submit_tag("Click to change your answer", :class => "btn") %>
+    </div>
 <% end %>

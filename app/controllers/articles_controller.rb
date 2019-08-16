@@ -21,9 +21,13 @@ class ArticlesController < ApplicationController
         )
 
         task_id = trigger_task
-        @task = Task.find(task_id)
 
-        render 'show'
+        if (task_id < 0)
+            redirect_to "/articles/1/survey"
+        else
+            @task = Task.find(task_id)
+            render 'show'
+        end
     end
 
     def survey
@@ -31,24 +35,34 @@ class ArticlesController < ApplicationController
         @article = Article.find(1)
         @direction = "Survey is mandatory: It will automatically be finished after you answer all questions on the right."
 
+        all_finished = true
+
         Task.all.each do |t|
-            if (t.answers.where(user_id: current_user.id).length == 0)
+            current_answers = t.answers.where(user_id: current_user.id)
+
+            if (current_answers.length == 0)
                 Answer.create(
                     :article_id => 1,
                     :task_id => t.id,
                     :user_id => current_user.id
                 )
+            elsif (all_finished && !current_answers.first.finished)
+                all_finished = false
             end
+
         end
 
-        Log.create(
-            :side => "system",
-            :kind => "trigger_survey",
-            :content => params[:id],
-            :user_id => current_user.id
-        )
-
-        render 'survey'
+        if (all_finished)
+            redirect_to ("/articles/1/finish")
+        else
+            Log.create(
+                :side => "system",
+                :kind => "trigger_survey",
+                :content => params[:id],
+                :user_id => current_user.id
+            )
+            render 'survey'
+        end
     end
 
     def create_answer 
@@ -102,6 +116,9 @@ class ArticlesController < ApplicationController
         
             # set current task
             if (!highlight)
+                @answer.update(
+                    :highlight => ""
+                )
                 task_id = trigger_task
                 @task = Task.find(task_id)
             end
@@ -170,7 +187,7 @@ class ArticlesController < ApplicationController
     def finish
         current_answers = current_user.answers.where({article_id: params[:id], finished: true})
         if (current_answers.length < Task.all.length)
-            redirect_to "/articles"
+            redirect_to "/wrong"
         end
 
         render 'finish'
@@ -180,10 +197,17 @@ class ArticlesController < ApplicationController
 
     def trigger_task
 
-        if (@current_task.nil? && !session[:task_id].nil?)
-            @current_task = Task.find(session[:task_id])
+        if (@current_task.nil?)
+            if (!session[:task_id].nil?)
+                @current_task = Task.find(session[:task_id])
+            end
+        else
+            current_answer = Answer.find_by(user_id: current_user.id, task_id: @current_task.id)
+            if (current_answer.nil? || current_answer.highlight.nil?)
+                return @current_task.id
+            end
         end
-        
+
         max = 0
         maxId = -1
 
@@ -221,7 +245,7 @@ class ArticlesController < ApplicationController
 
         # if not found, redirect to survey
         if (max == 0 || maxId < 0)
-            redirect_to "/articles/1/survey"
+            return -1
         end
 
         # if found, set this as current task and show gold task
