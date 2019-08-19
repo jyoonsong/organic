@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     end
 
     def export
-        if (current_user.name != "admin")
+        if (current_user.key != "admin")
             render 'wrong'
         end
     end

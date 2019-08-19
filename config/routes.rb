@@ -17,4 +17,7 @@ Rails.application.routes.draw do
   get "/wrong", to: "application#wrong"
   
   get "/export", to: "application#export"
+  get "/logs", to: "logs#export"
+  get "/answers", to: "answers#export"
+  get "/tasks", to: "tasks#export"
 end
