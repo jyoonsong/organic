@@ -60,7 +60,7 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Are any experts, organizations, or studies cited that are separate from the central study quoted in the article? If so, highlight relevant section(s).",
+        question: "Are any experts, organizations, or studies cited that are separate from the central study quoted in the article?",
         options: "None,1,2,3,4 or more",
         highlights: "1",
         constraints: "5, 6",
@@ -68,7 +68,7 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Is a general or singular causal claim made? Highlight the section(s) that supports your answer.",
+        question: "Is a general or singular causal claim made?",
         options: "General Causal Claim,Singular Causal Claim,No Causal Claim",
         highlights: "3",
         character: "nominal"
@@ -99,7 +99,7 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Do they acknowledge uncertainty or the possibility that things might be otherwise? If so, highlight the relevant section(s).",
+        question: "Do they acknowledge uncertainty or the possibility that things might be otherwise?",
         options: "Yes,Sort of,No",
         highlights: "3",
         constraints: "8",
@@ -107,7 +107,7 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Does the author present the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)? If so, highlight the relevant section(s).",
+        question: "Does the author present the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)?",
         options: "Yes,Sort of,No",
         highlights: "3",
         constraints: "8",
@@ -115,14 +115,14 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Does the author present a complicated choice as if it were binary (construct a false dilemma)? If so, highlight the relevant section(s).",
+        question: "Does the author present a complicated choice as if it were binary (construct a false dilemma)?",
         options: "Yes,Sort of,No",
         highlights: "3",
         constraints: "8"
     },
     {
         kind: "single",
-        question: "Does the author say that one small change will lead to a major change (use a slippery slope argument)? Highlight the relevant section(s).",
+        question: "Does the author say that one small change will lead to a major change (use a slippery slope argument)?",
         options: "Yes,Sort of,No",
         highlights: "3",
         constraints: "8",
@@ -146,14 +146,14 @@ Task.create([
     },
     {
         kind: "single",
-        question: "Does the article have an emotionally charged tone? (i.e, outrage, snark, celebration, horror, etc.). If so, highlight the relevant section(s).",
+        question: "Does the article have an emotionally charged tone? (i.e, outrage, snark, celebration, horror, etc.).",
         options: "Yes,Sort of,No",
         highlights: "3",
         character: "ordinal"
     },
     {
         kind: "single",
-        question: "Does the author exaggerate any claims? If so, highlight the relevant section(s).",
+        question: "Does the author exaggerate any claims?",
         options: "Yes,Sort of,No",
         highlights: "3",
         constraints: "8",
