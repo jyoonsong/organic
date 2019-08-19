@@ -282,6 +282,8 @@ button, .btn {
   padding: .5rem 1.5rem;
   cursor: pointer;
   display: inline-block;
+  min-height: 35px;
+  line-height: 1.5;
   &:hover, &:visited {
     color: #222;
   }
@@ -315,6 +317,10 @@ button, .btn {
 
   .yellow {
     color: #FFEB3B;
+  }
+
+  .red {
+    color: red;
   }
   
   .svg-icon {

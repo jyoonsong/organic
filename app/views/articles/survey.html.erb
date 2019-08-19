@@ -1,19 +1,5 @@
-
-<section class="container">
-    <div class="article">
-    <h1 class="title">
-            <%= @article.title %>
-        </h1>
-        <h4>
-            16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %>
-        </h4>
-        <!-- <p id="articleContent"> -->
-            <%= @article.content.html_safe %>
-        <!-- </p> -->
-    </div>
-</section>
-
-<section class="sidebar">
+<div class="col-1"></div>
+<section class="full-height center col-10 noselect">
     <!-- <div class="contribution">
         Your contribution:
         <div class="progress">
@@ -24,9 +10,13 @@
     <div class="task">
         <ul class="collapsible survey">
 
-            <div>Below are 19 questions about the article.<br>
-            How <strong>interesting</strong> do you find each questions compared to other questions?
-            How much likely would you answer it assuming same payment.</div>
+            <div class="mb-1">
+            
+            Below, you’ll score <strong>how <span class="red">interesting</span> each question was/is</strong>,
+            compared to other questions. <br>
+            In other words, how much likely would you answer it?<br>
+
+            </div>
 
             <% Task.all.each do |t| %>
                 <% answer_hash = {user_id: current_user.id, article_id: 1} %>
@@ -34,7 +24,7 @@
 
                     <li class="done">
                         <div class="collapsible-header">
-                            <b><%= t.question %></b>
+                            <%= t.id %>. &nbsp;<b><%= t.question %></b>
                             <i class="material-icons">keyboard_arrow_down</i>
                         </div>
                         <div id="task-<%= t.id %>" class="collapsible-body">

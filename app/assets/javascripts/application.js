@@ -26,7 +26,12 @@ let instance,
     time;
 
 document.addEventListener('turbolinks:load', function() {
-    var elem = document.querySelector('.collapsible');
+    let elem = document.querySelector('.collapsible');
+
+    let links = Array.from(document.querySelectorAll(".article a"));
+    links.forEach(function(link) {
+        link.setAttribute("target", "_blank")
+    });
     
     if (elem) {
 
@@ -39,8 +44,11 @@ document.addEventListener('turbolinks:load', function() {
                 accordion: false
             }
         }
+        else if (elem.classList.contains("survey")) {
+            // survey
+        }
         else {
-            // show, survey
+            // show
             
             ps = makePS();
             ps.forEach(function(p, i) {

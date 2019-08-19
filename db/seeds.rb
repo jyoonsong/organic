@@ -38,7 +38,7 @@ Task.create([
     },
     {
         kind: "multiple",
-        question: "What clickbait techniques does this headline employ? (If you answered 'Not at all', skip this question)",
+        question: "What clickbait techniques does this headline employ? (If you answered 'Not at all clickbaity', skip this question)",
         options: "Listicle (“6 Tips on …”),Cliffhanger to a story (“You Won’t Believe What Happens Next” or “Man Divorces His Wife After Overhearing This Conversation”),Provoking emotions such as shock or surprise (“...Shocking Result” or “...Leave You in Tears”),Hidden secret or trick (“Fitness Companies Hate Him...” or “Experts are Dying to Know Their Secret”),Challenges to the ego (“Only People with IQ Above 160 Can Solve This”),Defying convention (“Think Orange Juice is Good for you? Think Again!” or “Here are 5 Foods You Never Thought Would Kill You”),Inducing fear (“Is Your Boyfriend Cheating on You?”),Other",
         constraints: "3",
         character: "nominal"
@@ -571,4 +571,9 @@ Administrator.create(
     first_name: "Admin", 
     last_name: "User"
 );
+
+User.create(
+    key: "admin",
+    name: "admin"
+)
 

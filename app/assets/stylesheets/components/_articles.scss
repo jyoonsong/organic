@@ -76,6 +76,10 @@
     }
 }
 
+.full-height .task {
+    position: absolute;
+    top: 0;
+}
 .task {
     .collapsible {
         margin: .5rem 0 1rem 0;
