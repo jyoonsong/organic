@@ -1,6 +1,5 @@
 <%= form_tag("/survey_answer/#{answer.id}", method: "post", remote: true) do |f| %>
     
-        <div><b>How interesting do you find this task compared to other tasks?</b></div>
         <div class="options">
             <label><input type='radio' name='preference' value='4'/>Very much interesting</label>
             <label><input type='radio' name='preference' value='3'/>Somewhat interesting</label>

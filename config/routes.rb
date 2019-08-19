@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   get "/articles/:id/finish", to: "articles#finish"
   get "/wrong", to: "application#wrong"
   
+  get "/export", to: "application#export"
 end

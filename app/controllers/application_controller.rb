@@ -7,6 +7,12 @@ class ApplicationController < ActionController::Base
         render 'wrong'
     end
 
+    def export
+        if (current_user.name != "admin")
+            render 'wrong'
+        end
+    end
+
 
     private
     def current_user

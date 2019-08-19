@@ -69,7 +69,9 @@
                                     supported by Chrome and Opera */
   }
 
-  
+ .noclick {
+   pointer-events: none;
+ }  
 
  input {
     padding: .5rem;

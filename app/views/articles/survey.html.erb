@@ -24,6 +24,10 @@
     <div class="task">
         <ul class="collapsible survey">
 
+            <div>Below are 19 questions about the article.<br>
+            How <strong>interesting</strong> do you find each questions compared to other questions?
+            How much likely would you answer it assuming same payment.</div>
+
             <% Task.all.each do |t| %>
                 <% answer_hash = {user_id: current_user.id, article_id: 1} %>
                 <% @answer = t.answers.where(answer_hash).first %>
