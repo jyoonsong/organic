@@ -1,19 +1,24 @@
 
-function initHighlight(ele) {
+function initHighlight(ele, index) {
+
+    console.log("init " + index)
+
     const article = document.querySelector(".article");
-    let submit = ele.querySelector(".submitHighlight");
+    let submit = ele.querySelectorAll(".submitHighlight")[index];
     let drag = false;
     let highlight = {};
+
+    document.querySelectorAll(".highlightContainer")[index].classList.add("active");
     
 
     // mark highlight if exists
-    let value = ele.querySelector("input[name='answer_value']").value;
+    let value = ele.querySelector(".highlightInput" + index).value;
     if (value.length > 0) {
         markHighlight(value);
     }
     
     // when start clicked
-    ele.querySelector(".startHighlight").onclick = function() {
+    ele.querySelectorAll(".startHighlight")[index].onclick = function() {
         article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
 
         // save highlight everytime dragged
@@ -81,7 +86,7 @@ function initHighlight(ele) {
             return "err";
         }
         else if (highlight.content.length < 15) {
-            swal("Invalid", "Too short.", "error")
+            swal("Too short", "Please highlight more than 15 letters.", "error")
             return "err";
         }
         else if (tokenizer.sentences(highlight.content, {}).length > 3) {
@@ -93,8 +98,6 @@ function initHighlight(ele) {
             let startWord, endWord;
             let startingBefore = false;
             let first = false;
-
-            console.log(range)
 
             // change range automatically if any tag detected
             if (!isProper(range.startContainer.parentElement.tagName)) {
@@ -139,14 +142,12 @@ function initHighlight(ele) {
                 endOffset -= endWord.length;
             }
 
-            console.log(startOffset + " " + endOffset)
-
             if (startOffset > endOffset) {
                 return "err";
             }
 
             // save
-            ele.querySelector("input[name='answer_value']").value = start + "," + startOffset + "," + endOffset + ",";
+            ele.querySelector(".highlightInput" + index).value = start + "," + startOffset + "," + endOffset + ",";
         }
     }
 

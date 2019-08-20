@@ -1,3 +1,5 @@
+console.log("highlight: <%= highlight %>")
+
 // redirect to next page
 <% if (highlight > 0) %>
     $("#formContainer").html("<%= escape_javascript( render(:partial => 'edit_form', locals: {answer: @answer}) )%>");
@@ -5,19 +7,19 @@
     document.getElementById("highlightContainer").innerHTML = "";
     
     <% for a in 1..highlight do %>
-        document.getElementById("highlightContainer").innerHTML += "<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer, index: a}) )%>"
+        document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer, index: a-1}) )%></div>"
     <% end %>
 
     $("#highlightContainer").removeClass("hidden");
 
-    initHighlight(document.querySelector("li.active"));
+    initHighlight(document.querySelector("li.active"), 0);
     instance.open(0);
 
     $('.sidebar').animate({
         scrollTop: $("#highlightContainer").offset().top
     }, 2000);
 
-    $(".startHighlight").click();
+    $(".startHighlight")[0].click();
 
 <% else %>
     $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");

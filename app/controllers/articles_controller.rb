@@ -63,11 +63,16 @@ class ArticlesController < ApplicationController
         )
 
         task_id = trigger_task
-        @task = Task.find(task_id)
-
-        respond_to do |format|
-            format.js { render :layout => false }
+        if (task_id < 0)
+            redirect_to "/articles/1/finish"
+        else
+            @task = Task.find(task_id)
+            respond_to do |format|
+                format.js { render :layout => false }
+            end
         end
+
+        
     end
 
     def create_answer 
@@ -85,7 +90,9 @@ class ArticlesController < ApplicationController
         if (params[:multiple].nil?)
             value = params[:answer_value]
 
-            if (!@current_task.highlights_arr.include?(value.to_i))
+            if (task_id.to_i == 7)
+                highlight = (value.to_i - 1)
+            elsif (!@current_task.highlights_arr.include?(value.to_i))
                 highlight = 1
             end
         else
@@ -133,28 +140,48 @@ class ArticlesController < ApplicationController
                     :highlight => ""
                 )
                 task_id = trigger_task
-                @task = Task.find(task_id)
+
+                if (task_id < 0)
+                    redirect_to "/articles/1/finish"
+                else
+                    @task = Task.find(task_id)
+                    respond_to do |format|
+                        format.js { render :layout => false, locals: {highlight: highlight} }
+                    end
+                end
+            else
+                respond_to do |format|
+                    format.js { render :layout => false, locals: {highlight: highlight} }
+                end
             end
 
-            respond_to do |format|
-                format.js { render :layout => false, locals: {highlight: highlight} }
-            end
 
         end
     end
 
     def create_highlight
         @answer = Answer.find(params[:answer_id])
+        updated = @answer.update_highlights(params[:answer_value])
         @answer.update(
-            :highlight => params[:answer_value]
+            :highlight => updated
         )
         
-        task_id = trigger_task
-        @task = Task.find(task_id)
-
-        respond_to do |format|
-            format.js { render :layout => false }
+        if (@answer.value_with_highlight * 3 <= @answer.highlights_arr.length)
+            task_id = trigger_task
+            if (task_id < 0)
+                redirect_to "/articles/1/finish"
+            else
+                @task = Task.find(task_id)
+                respond_to do |format|
+                    format.js { render :layout => false }
+                end
+            end
+        else
+            respond_to do |format|
+                format.js { render :layout => false }
+            end
         end
+        
     end
 
     def update_answer 
@@ -164,8 +191,36 @@ class ArticlesController < ApplicationController
         answer_id = params[:answer_id]
         answer = Answer.find(answer_id)
         
+        # check if highlight number has to change
+        highlight = 0
+        @current_task = Task.find(answer.task_id)
+
+        # handle multiple choice answer
+        if (params[:multiple].nil?)
+            value = params[:answer_value]
+
+            if (@current_task.id == 7)
+                highlight = (value.to_i - 1)
+            elsif (!@current_task.highlights_arr.include?(value.to_i))
+                highlight = 1
+            end
+        else
+            value = ""
+            params[:answer_values].each_with_index do |a, i|
+                value += a
+
+                if (i != params[:answer_values].length - 1)
+                    value += ","
+                end
+
+                if (!@current_task.highlights_arr.include?(a.to_i))
+                    highlight += 1
+                end
+            end
+        end
+
         answer.update(
-            :value => params[:answer_value],
+            :value => value,
             :time => time
         )
 
@@ -176,8 +231,15 @@ class ArticlesController < ApplicationController
             )
         end
 
-        respond_to do |format|
-            format.js { render :layout => false, locals: {answer: answer} }
+        if (highlight > 0)
+            respond_to do |format|
+                format.js { render :layout => false, locals: {answer: answer, highlight: highlight} }
+            end
+        else
+            answer.update(
+                :highlight => ""
+            )
+            redirect_to "/articles/1"
         end
     end
 
@@ -257,10 +319,8 @@ class ArticlesController < ApplicationController
         max = 0
         maxId = -1
 
-        puts "====== start"
         # calculate next task
         Task.all.each do |t|
-            puts "********CHECKING " + t.id.to_s
             # check if already done by this user
             answers = Answer.find_by(user_id: current_user.id, task_id: t.id)
 
@@ -271,23 +331,31 @@ class ArticlesController < ApplicationController
             )
 
             # check sequencing constraints & gold task
-            if (!current_user.capability_arr.include?(t.id) &&
-                t.constraints_satisfied?(current_user) && 
-                answers.nil?)
+            if(!answers.nil?)
+                @log.update(
+                    :content => "task no. " + t.id.to_s + ": already done or skipped",
+                )
+            elsif (current_user.capability_arr.include?(t.id))
+                @log.update(
+                    :content => "task no. " + t.id.to_s + ": gold task failed"
+                )
+            elsif (!t.constraints_satisfied?(current_user))
+                @log.update(
+                    :content => "task no. " + t.id.to_s + ": constraints not satisfied",
+                )
+            else
                 # calculate marginal information gain
                 current = t.marginal_information_gain
                 if (current > max)
-                    puts "* marginal information gain is larger than " + max.to_s
                     max = current
                     maxId = t.id
                     
                 elsif (current == max)
-                    puts "* marginal information gain is same with " + max.to_s
                     # first consider chained questions
+                    
                     if (@current_task.nil?)
                         maxId = 1
                     elsif (@current_task.constraints_priority(t.id, maxId))
-                        puts "* priority or current task nil"
                         max = current
                         maxId = t.id
                     end
@@ -295,10 +363,6 @@ class ArticlesController < ApplicationController
                 
                 @log.update(
                     :content => "task no. " + t.id.to_s + ": " + current.to_s + " marginal_information_gain (" + t.answers_count.to_s + ")",
-                )
-            else
-                @log.update(
-                    :content => "task no. " + t.id.to_s + ": constraints not satisfied",
                 )
             end
         end

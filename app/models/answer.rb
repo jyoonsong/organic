@@ -12,6 +12,19 @@ class Answer < ApplicationRecord
         return []
     end
 
+    def value_with_highlight
+        result = 0
+        highlights = Task.find(self[:task_id]).highlights_arr
+
+        self.value_array.each do |v|
+            if (!highlights.include?(v))
+                result += 1
+            end
+        end
+
+        return result
+    end
+
     def highlights_arr
         if (!self[:highlight].nil?)
             return self[:highlight].split(/\s*,\s*/).map!{ |v| v.to_i }
@@ -19,6 +32,15 @@ class Answer < ApplicationRecord
 
         return []
     end
+
+    def update_highlights(val)
+        if (!self[:highlight].nil?)
+            return self[:highlight] + val
+        end
+
+        return val
+    end
+
 
 
     def fixed_array(size, other)  

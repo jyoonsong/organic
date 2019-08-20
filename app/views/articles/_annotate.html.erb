@@ -1,10 +1,14 @@
 <%= form_tag("/create_highlight/#{answer.id}", method: "post", remote: true) do %>
     <input type="hidden" name="task_id" value="<%= current_task.id %>">
-    Why did you chose no. <%= answer.value_array[index - 1] %> as an answer?<br>
+    
+    <% if answer.task_id != 7 %>
+        Why did you choose no. <%= answer.value_array[index - 1] %> as an answer?<br>
+    <% end %>
     Please highlight the relevant part of article.
-    <div id="pleasehighlight" class="action">
-        <input type="hidden" name="answer_value"/>
-        <a class="btn startHighlight mt-1">Start</a>
+    
+    <div class="pleasehighlight" class="action">
+        <input class="highlightInput<%= index %>" type="hidden" name="answer_value"/>
+        <a class="btn startHighlight mt-1">Click to Start Highlighting!</a>
         <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>
     </div>
 

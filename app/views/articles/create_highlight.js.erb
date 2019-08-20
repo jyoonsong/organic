@@ -1,9 +1,23 @@
-swal("Thank you", "Successfully saved!", "success");
 article = document.querySelector(".article");
 article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
 
+console.log(<%= @answer.value_with_highlight %>);
+console.log(<%= @answer.highlights_arr.length %>);
 
-<% if (@answer.value_array.length * 3 >= @answer.highlights_arr.length) %>
+<% if (@answer.task_id == 7) %>
+    <% goal = @answer.value.to_i * 3 %>
+<% else %>
+    <% goal = @answer.value_with_highlight * 3 %>
+<% end %>
+
+<% if ( goal <= @answer.highlights_arr.length ) %>
+    // value that needs highlight <= currently highlighted (done)
+    swal("Thank you", "Successfully saved!", "success");
     $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
     instance.open(0);
+
+<% else %>
+    $(".highlightContainer.active").removeClass("active");
+    initHighlight(document.querySelector("li.active"), <%= @answer.highlights_arr.length / 3 %>);
+
 <% end %>

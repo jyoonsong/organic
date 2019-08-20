@@ -90,10 +90,18 @@
             font-size: 85%;
             padding: .5rem 1rem;
         }
-        #highlightContainer {
+        .highlightContainer {
             padding-top: 1rem;
             margin-top: 1.5rem;
             border-top: 1px solid lighten($brand-color-light, 10%);
+            &:not(.active) {
+                opacity: 0.5;
+                pointer-events: none;
+                cursor: not-allowed;
+            }
+            &.active .startHighlight {
+                background: yellowgreen;
+            }
         }
         li {
             display: block;

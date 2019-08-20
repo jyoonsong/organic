@@ -23,7 +23,8 @@ class Task < ApplicationRecord
 
     def constraints_satisfied?(current_user)
         constraints_arr.each do |c|
-            if (!current_user.answers.where({task_id: c.to_i}).exists?)
+            answers = current_user.answers.where({task_id: c.to_i})
+            if (!answers.exists? || answers.first.value.nil? || answers.first.value.length < 1)
                 puts "* constraint not satisfied for "
                 puts c.to_s + " needs to be done"
                 return false
@@ -37,9 +38,6 @@ class Task < ApplicationRecord
 
         priority_anew = Task.find(anew).constraints_arr.index(self.id)
         priority_curr = Task.find(curr).constraints_arr.index(self.id)
-
-        puts "** priority of this task = " + priority_anew.to_s
-        puts "** priority of current max = " + priority_curr.to_s
 
         if (!priority_anew.nil?)
             if (priority_curr.nil? || priority_anew < priority_curr)

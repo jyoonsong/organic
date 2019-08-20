@@ -65,13 +65,12 @@ document.addEventListener('turbolinks:load', function() {
                     ele.querySelector("input[name='time']").value = time;
 
                     // check task type
-                    if (document.getElementById("pleasehighlight")) {
-                        console.log("pleasehighlight");
-                        initHighlight(ele);
+                    if (document.querySelector(".pleasehighlight")) {
+                        initHighlight(ele, 0);
                     }
                 },
                 onCloseEnd: function(ele) {
-                    if (document.getElementById("pleasehighlight")) {
+                    if (document.querySelector(".pleasehighlight")) {
                         let article = document.querySelector(".article");
                         article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
                     }

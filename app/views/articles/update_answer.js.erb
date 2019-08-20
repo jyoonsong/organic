@@ -1,3 +1,22 @@
-$(".collapsible-<%= answer.task_id %>").html("<%= escape_javascript(render(:partial => 'edit_form', locals: {answer: answer}))%>");
-swal("Thank you", "Successfully updated!", "success");
-instance.close(parseInt(<%= answer.task_id %>) - 1);
+
+<% if (highlight > 0) %>
+    
+    $(".collapsible-<%= answer.task_id %>").html("<%= escape_javascript(render(:partial => 'edit_form', locals: {answer: answer}))%>");
+    
+    document.getElementById("highlightContainer").innerHTML = "";
+    
+    <% for a in 1..highlight do %>
+        document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'annotate', locals: {answer: answer, index: a-1}) )%></div>"
+    <% end %>
+
+    $("#highlightContainer").removeClass("hidden");
+
+    initHighlight(document.querySelector("li.active"), 0);
+    instance.open(0);
+
+    $('.sidebar').animate({
+        scrollTop: $("#highlightContainer").offset().top
+    }, 2000);
+
+    $(".startHighlight")[0].click();
+<% end %>

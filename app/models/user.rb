@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
     def update_capability(num)
         if (!self[:capability].nil?)
-            return self[:capability] += ("," + num.to_s)
+            return self[:capability] + ("," + num.to_s)
         end
 
         return num.to_s
