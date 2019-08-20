@@ -220,8 +220,8 @@ Surveytask.create([
     {
         kind: "single",
         classification: "gold task",
-        question: "Which of the following makes a general causal claim, rather than a singular causal claim?",
-        options: "",
+        question: "While a general causal claim argues that a certain causal relation holds in general, a singular causal claim argues it holds in a specific case. Which of the following makes a general causal claim, rather than a singular causal claim?",
+        options: "Heating butter causes it to melt. / The heat that I applied to the butter in my kitchen yesterday evening caused it to melt",
         answer: 1,
         task_id: Task.find(8).id
     },

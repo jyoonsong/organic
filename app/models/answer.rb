@@ -12,6 +12,15 @@ class Answer < ApplicationRecord
         return []
     end
 
+    def highlights_arr
+        if (!self[:highlight].nil?)
+            return self[:highlight].split(/\s*,\s*/).map!{ |v| v.to_i }
+        end
+
+        return []
+    end
+
+
     def fixed_array(size, other)  
         Array.new(size) { |i| other[i] }
     end

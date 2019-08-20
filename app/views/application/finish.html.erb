@@ -1,4 +1,12 @@
 <div class="full-height flex-column center col-12">
-    <h1>Finished!</h1>
-    <p>Go back to the mTurk page and submit this token: <b>asqjogenml2m1qfsdb</b></p>
+    <% if (Answer.answers_by(current_user.id).length < 1) %>
+        It seems you did not answer at least 1 question in Section 2.<br>
+        <a href="/articles/1">Go back to Section 2 </a>
+    <% elsif (!Surveyanswer.done?(current_user.id)) %>
+        It seems you did not answer all survey questions in Section 1.<br>
+        <a href="/articles/1/survey">Go back to Section 1 </a>
+    <% else %>
+        <h1>Finished!</h1>
+        <p>Go back to the mTurk page and submit this token: <b>asqjogenml2m1qfsdb</b></p>
+    <% end %>
 </div>

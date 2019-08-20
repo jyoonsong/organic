@@ -40,7 +40,7 @@ class ArticlesController < ApplicationController
         
         # check if all finished
         if (Surveyanswer.done?(current_user.id))
-            redirect_to ("/articles/1/finish")
+            redirect_to ("/articles/1/")
         else
             Log.create(
                 :side => "system",
@@ -79,14 +79,14 @@ class ArticlesController < ApplicationController
         task_id = params[:task_id]
         @current_task = Task.find(task_id)
         
-        highlight = true
+        highlight = 0
 
         # handle multiple choice answer
         if (params[:multiple].nil?)
             value = params[:answer_value]
 
-            if (@current_task.highlights_arr.include?(value.to_i))
-                highlight = false
+            if (!@current_task.highlights_arr.include?(value.to_i))
+                highlight = 1
             end
         else
             value = ""
@@ -97,8 +97,8 @@ class ArticlesController < ApplicationController
                     value += ","
                 end
 
-                if (highlight && @current_task.highlights_arr.include?(a.to_i))
-                    highlight = false
+                if (!@current_task.highlights_arr.include?(a.to_i))
+                    highlight += 1
                 end
             end
         end
@@ -128,7 +128,7 @@ class ArticlesController < ApplicationController
             )
         
             # set current task
-            if (!highlight)
+            if (highlight == 0)
                 @answer.update(
                     :highlight => ""
                 )
@@ -136,10 +136,8 @@ class ArticlesController < ApplicationController
                 @task = Task.find(task_id)
             end
 
-            @highlight = highlight
-
             respond_to do |format|
-                format.js { render :layout => false }
+                format.js { render :layout => false, locals: {highlight: highlight} }
             end
 
         end
@@ -236,12 +234,7 @@ class ArticlesController < ApplicationController
     end
 
     def finish
-        current_answers = current_user.answers.where({article_id: params[:id]})
-        if (current_answers.length < Task.all.length)
-            redirect_to "/wrong"
-        else
-            render 'finish'
-        end
+        render 'finish'
     end
 
     private

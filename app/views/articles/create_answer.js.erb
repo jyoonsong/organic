@@ -1,12 +1,14 @@
 // redirect to next page
-<% if (@highlight) %>
+<% if (highlight > 0) %>
     $("#formContainer").html("<%= escape_javascript( render(:partial => 'edit_form', locals: {answer: @answer}) )%>");
-    $("#highlightContainer").html("<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer}) )%>");
+
+    document.getElementById("highlightContainer").innerHTML = "";
+    
+    <% for a in 1..highlight do %>
+        document.getElementById("highlightContainer").innerHTML += "<%= escape_javascript( render(:partial => 'annotate', locals: {answer: @answer, index: a}) )%>"
+    <% end %>
 
     $("#highlightContainer").removeClass("hidden");
-
-    time = new Date().getTime();
-    document.querySelector("input[name='time']").value = time;
 
     initHighlight(document.querySelector("li.active"));
     instance.open(0);

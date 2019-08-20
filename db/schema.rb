@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_051956) do
     t.string "value"
     t.string "highlight"
     t.string "time"
-    t.boolean "finished", default: false
+    t.string "other"
     t.integer "article_id"
     t.integer "task_id"
     t.integer "user_id"

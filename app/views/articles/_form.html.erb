@@ -16,7 +16,7 @@
             <% options.each_with_index do |o, i| %>
                 <label><input type='checkbox' name='answer_values[]' value='<%= i + 1 %>' /><%= o %></label>
                 <% if o.include?("Other") %>
-                     <input class="col-9 mb-1" type="text" name="other" placeholder="If you selected 'Others' please write it here" />
+                     <input class="col-12 mb-1" type="text" name="other" placeholder="If you selected 'Others' please write it here" />
                 <% end %>
             <% end %>
         </div>

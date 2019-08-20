@@ -20,9 +20,13 @@
                 <div id="formContainer">
                     <%= render partial: "edit_form", locals: {answer: answer} %>
                 </div>
-                <div id="highlightContainer">
-                    <%= render partial: "annotate", locals: {answer: answer} %>
-                </div>
+                <% answer.value_array.each_with_index do |v, i| %>
+                    <% if @task.highlights_arr.include?(v) %>
+                        <div id="highlightContainer">
+                            <%= render partial: "annotate", locals: {answer: answer, index: i} %>
+                        </div>
+                    <% end %>
+                <% end %>
             <% end %>
         </div>
     </li>

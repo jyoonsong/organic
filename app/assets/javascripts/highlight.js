@@ -146,7 +146,7 @@ function initHighlight(ele) {
             }
 
             // save
-            ele.querySelector("input[name='answer_value']").value = start + "," + startOffset + "," + endOffset;
+            ele.querySelector("input[name='answer_value']").value = start + "," + startOffset + "," + endOffset + ",";
         }
     }
 
