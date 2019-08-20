@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
     def show
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @direction = "Part 1. Read the article and answer the questions ($0.1 per question). You can move on to next part <strong class='yellow'>anytime</strong> by clicking this button -->"
+        @direction = "Section 2. Read the article and answer the questions ($0.1 per question). You can stop and finish <strong class='yellow'>anytime</strong> by clicking this button -->"
 
         @show_next = true
 
@@ -23,7 +23,7 @@ class ArticlesController < ApplicationController
         task_id = trigger_task
 
         if (task_id < 0)
-            redirect_to "/articles/1/survey"
+            redirect_to "/articles/1/finish"
         else
             @task = Task.find(task_id)
             render 'show'
@@ -33,24 +33,11 @@ class ArticlesController < ApplicationController
     def survey
         # @article = Article.find(params[:id])
         @article = Article.find(1)
-        @direction = "Part 2. You must rate all questions to get a fixed payment of $1. It will automatically be finished after you rate all questions."
+        @direction = "Section 1. You must rate all questions to get a fixed payment of $1. It will automatically move on to the next section after you rate all questions."
 
         all_finished = true
 
-        Task.all.each do |t|
-            current_answers = t.answers.where(user_id: current_user.id)
-
-            if (current_answers.length == 0)
-                Answer.create(
-                    :article_id => 1,
-                    :task_id => t.id,
-                    :user_id => current_user.id
-                )
-            elsif (all_finished && !current_answers.first.finished)
-                all_finished = false
-            end
-
-        end
+        # TODO: check if all finished
 
         if (all_finished)
             redirect_to ("/articles/1/finish")

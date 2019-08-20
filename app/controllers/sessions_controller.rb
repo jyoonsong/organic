@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
         @user = User.find_by(key: params[:workerId])
         if (!@user.nil?)
             session[:user_id] = @user.id
-            redirect_to "/articles/1/"
+            redirect_to "/articles/1/survey"
         elsif (params[:workerId].nil?)
             redirect_to "/wrong"
         else
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
         @user = User.new(name: params[:name], key: params[:key])
         if @user.save
             session[:user_id] = @user.id
-            redirect_to "/articles/1/"
+            redirect_to "/articles/1/survey"
         else
             render "new"
         end
