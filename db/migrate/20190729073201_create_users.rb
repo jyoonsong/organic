@@ -3,11 +3,11 @@ class CreateUsers < ActiveRecord::Migration[5.2]
     create_table :users do |t|
       t.string :name
       t.string :key
-      t.integer :capability
+      t.string :capability
 
       t.timestamps
     end
-    change_column :users, :capability, :integer, :null => true
+    change_column :users, :capability, :string, :null => true
     
   end
 end

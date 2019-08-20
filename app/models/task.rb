@@ -1,5 +1,6 @@
 class Task < ApplicationRecord
     has_many :answers
+    has_many :surveytasks
 
     def marginal_information_gain
         # in terms of quantity

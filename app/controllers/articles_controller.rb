@@ -7,39 +7,39 @@ class ArticlesController < ApplicationController
     end
 
     def show
-        # @article = Article.find(params[:id])
-        @article = Article.find(1)
-        @direction = "Section 2. Read the article and answer the questions ($0.1 per question). You can stop and finish <strong class='yellow'>anytime</strong> by clicking this button -->"
-
-        @show_next = true
-
-        Log.create(
-            :side => "system",
-            :kind => "trigger_article",
-            :content => params[:id],
-            :user_id => current_user.id
-        )
-
-        task_id = trigger_task
-
-        if (task_id < 0)
-            redirect_to "/articles/1/finish"
+        if (!Surveyanswer.done?(current_user.id))
+            redirect_to "/articles/1/survey"
         else
-            @task = Task.find(task_id)
-            render 'show'
+            # @article = Article.find(params[:id])
+            @article = Article.find(1)
+            @direction = "Section 2. Read the article and answer the questions ($0.1 per question). You can stop and finish <strong class='yellow'>anytime</strong> by clicking this button -->"
+
+            @show_next = true
+
+            Log.create(
+                :side => "system",
+                :kind => "trigger_article",
+                :content => params[:id],
+                :user_id => current_user.id
+            )
+
+            task_id = trigger_task
+
+            if (task_id < 0)
+                redirect_to "/articles/1/finish"
+            else
+                @task = Task.find(task_id)
+                render 'show'
+            end
         end
     end
 
     def survey
         # @article = Article.find(params[:id])
-        @article = Article.find(1)
         @direction = "Section 1. You must rate all questions to get a fixed payment of $1. It will automatically move on to the next section after you rate all questions."
-
-        all_finished = true
-
-        # TODO: check if all finished
-
-        if (all_finished)
+        
+        # check if all finished
+        if (Surveyanswer.done?(current_user.id))
             redirect_to ("/articles/1/finish")
         else
             Log.create(
@@ -96,6 +96,7 @@ class ArticlesController < ApplicationController
                 if (i != params[:answer_values].length - 1)
                     value += ","
                 end
+
                 if (highlight && @current_task.highlights_arr.include?(a.to_i))
                     highlight = false
                 end
@@ -111,6 +112,13 @@ class ArticlesController < ApplicationController
         )
 
         if (@answer.save)
+
+            # save input for 'other' option
+            if (!params[:other].nil?)
+                @answer.update(
+                    :other => params[:other]
+                )
+            end
 
             # update the consensus of the task
             consensus = @current_task.calculate_consensus
@@ -163,34 +171,72 @@ class ArticlesController < ApplicationController
             :time => time
         )
 
+        # save input for 'other' option
+        if (!params[:other].nil?)
+            answer.update(
+                :other => params[:other]
+            )
+        end
+
         respond_to do |format|
             format.js { render :layout => false, locals: {answer: answer} }
         end
     end
 
     def survey_answer
-        answer_id = params[:answer_id]
-        answer = Answer.find(answer_id)
-        
-        answer.update(
-            :preference => params[:preference],
-            :preference_reason => params[:reason],
-            :finished => true
-        )
 
-        current_answers = current_user.answers.where({article_id: answer.article_id, finished: true})
-        if current_answers.length >= Task.all.length
-            redirect_to ("/articles/" + answer.article_id.to_s + "/finish")
+        if (params[:answer_value].nil? && params[:answer_values].nil?)
+            @direction = "Section 1. You must rate all questions to get a fixed payment of $1. It will automatically move on to the next section after you rate all questions."
+            render 'survey'
         else
-            respond_to do |format|
-                format.js { render :layout => false }
+
+            # handle multiple choice answer
+            if (params[:multiple].nil?)
+                value = params[:answer_value]
+            else
+                value = ""
+                params[:answer_values].each_with_index do |a, i|
+                    value += a
+
+                    if (i != params[:answer_values].length - 1)
+                        value += ","
+                    end
+                end
+
             end
+
+            # gold task
+            survey_task = Surveytask.find(params[:task_id])
+            if (survey_task.classification == "gold task")
+                if (survey_task.answer != value.to_i)
+                    new_capability = current_user.update_capability(survey_task.task_id)
+                    current_user.update(
+                        :capability => new_capability
+                    )
+                end
+            end
+
+            Surveyanswer.create(
+                :value => value,
+                :value_reason => params[:reason],
+                :surveytask_id => params[:task_id],
+                :user_id => current_user.id
+            )
+
+            if (Surveyanswer.done?(current_user.id))
+                redirect_to ("/articles/1") # TODO: if multiple article, get id
+            else
+                respond_to do |format|
+                    format.js { render :layout => false }
+                end
+            end
+
         end
         
     end
 
     def finish
-        current_answers = current_user.answers.where({article_id: params[:id], finished: true})
+        current_answers = current_user.answers.where({article_id: params[:id]})
         if (current_answers.length < Task.all.length)
             redirect_to "/wrong"
         else
@@ -231,8 +277,10 @@ class ArticlesController < ApplicationController
                 :user_id => current_user.id
             )
 
-            # check sequencing constraints
-            if (t.constraints_satisfied?(current_user) && answers.nil?)
+            # check sequencing constraints & gold task
+            if (!current_user.capability_arr.include?(t.id) &&
+                t.constraints_satisfied?(current_user) && 
+                answers.nil?)
                 # calculate marginal information gain
                 current = t.marginal_information_gain
                 if (current > max)

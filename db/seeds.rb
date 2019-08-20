@@ -6,80 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-SurveyTask.create([
-    {
-        kind: "multiple",
-        classification: "interest",
-        question: "How do you read a news article related to health or science? Choose all that apply.",
-        options: "I tend to read it thoroughly, 
-        I tend to skim through it,
-        I tend to go back and forth a lot while reading,
-        I tend to read only a part of the whole article,
-        I tend to look at comments left by others,
-        I tend to write a comment,
-        I tend to not read the comments
-        "
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Laura answered this article [does have] a naturalistic fallacy because [it assumes that ‘there have always been wars’ justifies wars]. Do you agree that her answer is logical? If not, how should her answer be modified? / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ./ Laura answered the headline is [somewhat clickbaity] because [it provokes emotions]. Do you agree that her answer is logical? If not, how should her answer be modified?"
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ. / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "To what extent does the author’s confidence in his claims seem justified? / What evidence is given for the primary claim? Highlight the relevant parts."
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence presents the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence presents a complicated choice as if it were binary (construct a false dilemma)?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence says that one small change will lead to a major change (use a slippery slope argument)?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence exaggerates the dangers of a situation and use scare tactics to persuade (the appeal to fear fallacy)?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence suggests that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which of the following makes a general causal claim, rather than a singular causal claim?",
-        options: ""
-    }
-])
 
 Task.create([
     # {
@@ -234,6 +160,95 @@ Task.create([
         character: "ordinal"
     }
 
+])
+
+
+Surveytask.create([
+    {
+        kind: "multiple",
+        classification: "interest",
+        question: "How do you read a news article related to health or science? Choose all that apply.",
+        options: "I tend to read it thoroughly/ 
+        I tend to skim through it/
+        I tend to go back and forth a lot while reading/
+        I tend to read only a part of the whole article/
+        I tend to look at comments left by others/
+        I tend to write a comment/
+        I tend to not read the comments
+        "
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which sentence presents the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)?",
+        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year.",
+        answer: 2,
+        task_id: Task.find(13).id
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which sentence presents a complicated choice as if it were binary (construct a false dilemma)?",
+        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year.",
+        answer: 4,
+        task_id: Task.find(14).id
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which sentence says that one small change will lead to a major change (use a slippery slope argument)?",
+        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year.",
+        answer: 5,
+        task_id: Task.find(15).id
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which sentence exaggerates the dangers of a situation and use scare tactics to persuade (the appeal to fear fallacy)?",
+        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year.",
+        answer: 3,
+        task_id: Task.find(16).id
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which sentence suggests that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?",
+        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year.",
+        answer: 1,
+        task_id: Task.find(17).id
+    },
+    {
+        kind: "single",
+        classification: "gold task",
+        question: "Which of the following makes a general causal claim, rather than a singular causal claim?",
+        options: "",
+        answer: 1,
+        task_id: Task.find(8).id
+    },
+    {
+        kind: "single",
+        classification: "interest",
+        question: "Which question more interests you? Which question do you prefer to answer?",
+        options: "Laura answered this article [does have] a naturalistic fallacy because [it assumes that ‘there have always been wars’ justifies wars]. Do you agree that her answer is logical? If not, how should her answer be modified? / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
+    },
+    {
+        kind: "single",
+        classification: "interest",
+        question: "Which question more interests you? Which question do you prefer to answer?",
+        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ./ Laura answered the headline is [somewhat clickbaity] because [it provokes emotions]. Do you agree that her answer is logical? If not, how should her answer be modified?"
+    },
+    {
+        kind: "single",
+        classification: "interest",
+        question: "Which question more interests you? Which question do you prefer to answer?",
+        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ. / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
+    },
+    {
+        kind: "single",
+        classification: "interest",
+        question: "Which question more interests you? Which question do you prefer to answer?",
+        options: "To what extent does the author’s confidence in his claims seem justified? / What evidence is given for the primary claim? Highlight the relevant parts."
+    }
 ])
 
 Article.create([

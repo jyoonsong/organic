@@ -1,5 +1,5 @@
-<div class="col-1"></div>
-<section class="full-height center col-10 noselect">
+<div class="col-2"></div>
+<section class="full-height center col-8 noselect">
     <!-- <div class="contribution">
         Your contribution:
         <div class="progress">
@@ -7,20 +7,11 @@
         </div> 
     </div> -->
 
-    <div class="task">
+    <div class="task mb-1 col-12">
         <ul class="collapsible survey">
 
-            <div class="mb-1">
-            
-            Below, you’ll score <strong>how <span class="red">interesting</span> each question was/is</strong>,
-            compared to other questions. <br>
-            In other words, how much likely would you answer it?<br>
-
-            </div>
-
-            <% Task.all.each do |t| %>
-                <% answer_hash = {user_id: current_user.id, article_id: 1} %>
-                <% @answer = t.answers.where(answer_hash).first %>
+            <% Surveytask.all.each do |t| %>
+                <% if t.surveyanswers.where(user_id: current_user.id).length == 0 %>
 
                     <li class="done">
                         <div class="collapsible-header">
@@ -28,10 +19,11 @@
                             <i class="material-icons">keyboard_arrow_down</i>
                         </div>
                         <div id="task-<%= t.id %>" class="collapsible-body">
-                            <%= render partial: "survey_form", locals: {answer: @answer} %>
+                            <%= render partial: "survey_form", locals: {task: t} %>
                         </div>
                     </li>
 
+                <% end %>
             <% end %>
 
         </ul>

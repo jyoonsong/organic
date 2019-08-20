@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_05_050658) do
+ActiveRecord::Schema.define(version: 2019_08_20_051956) do
 
   create_table "administrators", force: :cascade do |t|
     t.string "email"
@@ -27,8 +27,6 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.string "value"
     t.string "highlight"
     t.string "time"
-    t.integer "preference"
-    t.string "preference_reason"
     t.boolean "finished", default: false
     t.integer "article_id"
     t.integer "task_id"
@@ -61,6 +59,29 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
     t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
+  create_table "surveyanswers", force: :cascade do |t|
+    t.string "value"
+    t.string "value_reason"
+    t.integer "user_id"
+    t.integer "surveytask_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["surveytask_id"], name: "index_surveyanswers_on_surveytask_id"
+    t.index ["user_id"], name: "index_surveyanswers_on_user_id"
+  end
+
+  create_table "surveytasks", force: :cascade do |t|
+    t.string "kind"
+    t.string "classification"
+    t.string "question"
+    t.string "options"
+    t.integer "answer"
+    t.integer "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_surveytasks_on_task_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "kind"
     t.string "character"
@@ -77,7 +98,7 @@ ActiveRecord::Schema.define(version: 2019_08_05_050658) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "key"
-    t.integer "capability"
+    t.string "capability"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

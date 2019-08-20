@@ -1,17 +1,32 @@
-<%= form_tag("/survey_answer/#{answer.id}", method: "post", remote: true) do |f| %>
+<%= form_tag("/survey_answer/#{task.id}", method: "post", remote: true) do |f| %>
     
+    <% if task.kind == "single" %>
         <div class="options">
-            <label><input type='radio' name='preference' value='4'/>Very much interesting</label>
-            <label><input type='radio' name='preference' value='3'/>Somewhat interesting</label>
-            <label><input type='radio' name='preference' value='2'/>A little bit interesting</label>
-            <label><input type='radio' name='preference' value='1'/>Not at all interesting</label>
+            <% task.options_arr.each_with_index do |o, i| %>
+                <label><input type='radio' name='answer_value' value='<%= i + 1 %>' /><%= o %></label>
+            <% end %>
         </div>
+
         <div><b>Why?</b> &nbsp;
-            <input class="col-9 mb-1" type="text" name="reason" placeholder="Tell us why" />
+            <input class="col-9 mb-1" type="text" name="reason" placeholder="Tell us why (optional)" />
         </div>
-        <div class="action">
-            <input type="hidden" name="time" value="0" />
-            <%= submit_tag("Next", :class => "btn") %>
+
+    <% elsif task.kind == "multiple" %>
+        <div>Choose <b>all</b> that applies.</div>
+        <div class="options">
+            <% options = task.options_arr %>
+            <input type="hidden" name="multiple" value="<%= options.length %>" />
+            <% options.each_with_index do |o, i| %>
+                <label><input type='checkbox' name='answer_values[]' value='<%= i + 1 %>' /><%= o %></label>
+            <% end %>
         </div>
+
+    <% end %>
+
+        
+    <div class="action">
+        <input type="hidden" name="time" value="0" />
+        <%= submit_tag("Next", :class => "btn") %>
+    </div>
 
 <% end %>

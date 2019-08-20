@@ -8,10 +8,10 @@ Rails.application.routes.draw do
   post "/articles/:id/create_answer", to: "articles#create_answer"
   post "/create_highlight/:answer_id", to: "articles#create_highlight"
   post "/update_answer/:answer_id", to: "articles#update_answer"
-  
-  get "/articles/:id/survey", to: "articles#survey"
-  post "/survey_answer/:answer_id", to: "articles#survey_answer"
   get "/task/:task_id/skip_answer", to: "articles#skip_answer"
+
+  get "/articles/:id/survey", to: "articles#survey"
+  post "/survey_answer/:task_id", to: "articles#survey_answer"
 
   get "/articles/:id/finish", to: "articles#finish"
   get "/wrong", to: "application#wrong"
@@ -20,4 +20,5 @@ Rails.application.routes.draw do
   get "/logs", to: "logs#export"
   get "/answers", to: "answers#export"
   get "/tasks", to: "tasks#export"
+  get "/survey_answers", to: "survey_answers#export"
 end

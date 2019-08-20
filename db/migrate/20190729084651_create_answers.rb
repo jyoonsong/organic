@@ -4,7 +4,7 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
       t.string :value
       t.string :highlight
       t.integer :time
-      t.boolean :finished, default: false
+      t.string :other
 
       t.belongs_to :article, foreign_key: true
       t.belongs_to :task, foreign_key: true
@@ -15,6 +15,7 @@ class CreateAnswers < ActiveRecord::Migration[5.2]
 
     change_column :answers, :value, :string, :null => true
     change_column :answers, :highlight, :string, :null => true
+    change_column :answers, :other, :string, :null => true
     change_column :answers, :time, :string, :null => true
     
   end
