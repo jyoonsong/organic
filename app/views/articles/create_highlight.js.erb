@@ -1,14 +1,15 @@
 article = document.querySelector(".article");
 article.innerHTML = article.innerHTML.replace(/\n|<mark.*?>/g,'');
 
-console.log(<%= @answer.value_with_highlight %>);
-console.log(<%= @answer.highlights_arr.length %>);
 
 <% if (@answer.task_id == 7) %>
-    <% goal = @answer.value.to_i * 3 %>
+    <% goal = (@answer.value.to_i - 1) * 3 %>
 <% else %>
     <% goal = @answer.value_with_highlight * 3 %>
 <% end %>
+
+console.log(<%= goal %>);
+console.log(<%= @answer.highlights_arr.length %>);
 
 <% if ( goal <= @answer.highlights_arr.length ) %>
     // value that needs highlight <= currently highlighted (done)

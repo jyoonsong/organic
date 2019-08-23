@@ -73,7 +73,7 @@
    pointer-events: none;
  }  
 
- input {
+ input, textarea {
     padding: .5rem;
     font-size: .85rem;
  }
@@ -261,7 +261,7 @@
   height: 60px;
   position: fixed;
   top: 0;
-  background-color: $brand-color-light;
+  background-color: darken($brand-color, 15%);
   display: flex;
   align-items: center;
   padding: 0 4rem;

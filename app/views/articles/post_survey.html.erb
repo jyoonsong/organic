@@ -10,13 +10,9 @@
 
 
     <div class="task mb-1 col-12">
-        <div class="mt-1">
-        If you do not understand the question or know the answer, <br>
-        please choose <strong>"I do not know"</strong> rather than choosing a random option.
-        </div>
         <ul class="collapsible survey">
 
-            <% Surveytask.all.take(7).each do |t| %>
+            <% Surveytask.all.last(6).each do |t| %>
                 <% if t.surveyanswers.where(user_id: current_user.id).length == 0 %>
 
                     <li class="done">

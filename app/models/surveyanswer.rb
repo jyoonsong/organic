@@ -14,4 +14,8 @@ class Surveyanswer < ApplicationRecord
     def self.done?(user_id) 
         return self.where(user_id: user_id).length >= Surveytask.all.length
     end
+
+    def self.first_done?(user_id) 
+        return self.where(user_id: user_id).length >= 7
+    end
 end

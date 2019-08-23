@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "/task/:task_id/skip_answer", to: "articles#skip_answer"
 
   get "/articles/:id/survey", to: "articles#survey"
+  get "/articles/:id/post_survey", to: "articles#post_survey"
+
   post "/survey_answer/:task_id", to: "articles#survey_answer"
 
   get "/articles/:id/finish", to: "articles#finish"

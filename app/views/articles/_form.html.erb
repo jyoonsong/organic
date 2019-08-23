@@ -9,7 +9,7 @@
         </div>
 
     <% elsif @task.kind == "multiple" %>
-        <div>Choose <b>all</b> that applies.</div>
+        <div>Choose <strong>all</strong> that applies.</div>
         <div class="options">
             <% options = @task.options_arr %>
             <input type="hidden" name="multiple" value="<%= options.length %>" />

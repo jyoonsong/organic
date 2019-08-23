@@ -5,8 +5,10 @@
     
     document.getElementById("highlightContainer").innerHTML = "";
     
-    <% for a in 1..highlight do %>
-        document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'annotate', locals: {answer: answer, index: a-1}) )%></div>"
+    <% answer.value_array.each_with_index do |v, i| %>
+        <% if !@current_task.highlights_arr.include?(v) %>
+            document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'annotate', locals: {answer: answer, index: i + 1}) )%></div>";
+        <% end %>
     <% end %>
 
     $("#highlightContainer").removeClass("hidden");

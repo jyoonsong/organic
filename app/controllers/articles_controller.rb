@@ -7,12 +7,14 @@ class ArticlesController < ApplicationController
     end
 
     def show
-        if (!Surveyanswer.done?(current_user.id))
+        if (!Surveyanswer.first_done?(current_user.id))
             redirect_to "/articles/1/survey"
+        elsif (!current_user.passed.nil?)
+            redirect_to "/articles/1/post_survey"
         else
             # @article = Article.find(params[:id])
             @article = Article.find(1)
-            @direction = "Section 2. Read the article and answer the questions ($0.1 per question). You can stop and finish <strong class='yellow'>anytime</strong> by clicking this button -->"
+            @direction = "Section 2. Read the article (mandatory) and answer the questions (optional). You can move on to next section <strong class='yellow'>anytime</strong> by clicking this button -->"
 
             @show_next = true
 
@@ -26,7 +28,7 @@ class ArticlesController < ApplicationController
             task_id = trigger_task
 
             if (task_id < 0)
-                redirect_to "/articles/1/finish"
+                redirect_to "/articles/1/post_survey"
             else
                 @task = Task.find(task_id)
                 render 'show'
@@ -36,19 +38,42 @@ class ArticlesController < ApplicationController
 
     def survey
         # @article = Article.find(params[:id])
-        @direction = "Section 1. You must rate all questions to get a fixed payment of $1. It will automatically move on to the next section after you rate all questions."
+        @direction = "Section 1. You must answer all questions. Then, it will automatically move on to the next section."
         
         # check if all finished
-        if (Surveyanswer.done?(current_user.id))
+        if (Surveyanswer.first_done?(current_user.id))
             redirect_to ("/articles/1/")
         else
             Log.create(
                 :side => "system",
-                :kind => "trigger_survey",
+                :kind => "trigger_pre_survey",
                 :content => params[:id],
                 :user_id => current_user.id
             )
             render 'survey'
+        end
+    end
+
+    def post_survey
+        # @article = Article.find(params[:id])
+        @direction = "Section 3. You must answer all questions. Then, it will automatically finish."
+        
+        # check if all finished
+        if (Surveyanswer.done?(current_user.id))
+            redirect_to ("/articles/1/finish/")
+        elsif (!Surveyanswer.first_done?(current_user.id))
+            redirect_to ("/articles/1/survey/")
+        else
+            current_user.update(
+                :passed => true
+            )
+            Log.create(
+                :side => "system",
+                :kind => "trigger_post_survey",
+                :content => params[:id],
+                :user_id => current_user.id
+            )
+            render 'post_survey'
         end
     end
 
@@ -64,7 +89,7 @@ class ArticlesController < ApplicationController
 
         task_id = trigger_task
         if (task_id < 0)
-            redirect_to "/articles/1/finish"
+            redirect_to "/articles/1/post_survey"
         else
             @task = Task.find(task_id)
             respond_to do |format|
@@ -142,7 +167,7 @@ class ArticlesController < ApplicationController
                 task_id = trigger_task
 
                 if (task_id < 0)
-                    redirect_to "/articles/1/finish"
+                    redirect_to "/articles/1/post_survey"
                 else
                     @task = Task.find(task_id)
                     respond_to do |format|
@@ -165,11 +190,17 @@ class ArticlesController < ApplicationController
         @answer.update(
             :highlight => updated
         )
+
+        if (@answer.task_id == 7)
+            goal = @answer.value.to_i * 3
+        else
+            goal = @answer.value_with_highlight * 3
+        end
         
-        if (@answer.value_with_highlight * 3 <= @answer.highlights_arr.length)
+        if (goal <= @answer.highlights_arr.length)
             task_id = trigger_task
             if (task_id < 0)
-                redirect_to "/articles/1/finish"
+                redirect_to "/articles/1/post_survey"
             else
                 @task = Task.find(task_id)
                 respond_to do |format|
@@ -245,14 +276,17 @@ class ArticlesController < ApplicationController
 
     def survey_answer
 
-        if (params[:answer_value].nil? && params[:answer_values].nil?)
-            @direction = "Section 1. You must rate all questions to get a fixed payment of $1. It will automatically move on to the next section after you rate all questions."
-            render 'survey'
+            if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 100 ) )
+            respond_to do |format|
+                format.js {render inline: "location.reload();" }
+            end
         else
 
             # handle multiple choice answer
             if (params[:multiple].nil?)
                 value = params[:answer_value]
+            elsif (!params[:motivation].nil?)
+                value = params[:motivation]
             else
                 value = ""
                 params[:answer_values].each_with_index do |a, i|
@@ -274,6 +308,12 @@ class ArticlesController < ApplicationController
                         :capability => new_capability
                     )
                 end
+            elsif (survey_task.classification == "content")
+                if (survey_task.answer == value.to_i)
+                    current_user.update(
+                        :passed => true
+                    )
+                end
             end
 
             Surveyanswer.create(
@@ -284,6 +324,8 @@ class ArticlesController < ApplicationController
             )
 
             if (Surveyanswer.done?(current_user.id))
+                redirect_to ("/articles/1/finish")
+            elsif (current_user.passed.nil? && Surveyanswer.first_done?(current_user.id))
                 redirect_to ("/articles/1") # TODO: if multiple article, get id
             else
                 respond_to do |format|

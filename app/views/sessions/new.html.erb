@@ -4,25 +4,32 @@
     <%= form_tag sessions_path do %>
 
     <p>
-        There are 2 sections in this task.<br><br>
+        There are 3 sections in this task. You cannot go back to previous section, once you leave it.<br><br>
     </p>
 
     <p>
         <strong>Section 1. Survey</strong><br>
-        In this section, you'll be <strong>rating the questions</strong> in terms of how interesting they are to you.<br>
-        Here, you <strong>must</strong> finish <strong>all</strong> survey questions in order to get a <strong class="red">fixed</strong> payment of $1.<br><br>
+        In this section, you <strong>must</strong> answer <strong>all</strong> survey questions.<br><br>
     </p>
 
     <p>
-        <strong>Section 2. Question-answering</strong><br>
-        In this section, you'll be <strong>answering the questions</strong> about a given news article.<br>
-        Here, your payment is <strong class="red">relative</strong> to the number of questions you answer. (<strong>$0.1 per question</strong>) <br>
-        <strong>You can move on to the next part <span class="red">anytime</span>.</strong><br><br>
+        <strong>Section 2. Reading an article</strong><br>
+        In this section, you'll <strong>read a news article</strong> and <strong>answer questions</strong> about the article.<br>
+        While answering questions is <strong class="red">optional</strong>, reading the article is <strong class="red">mandatory</strong>.<br>
+        You can move on to the next part <strong class="red">anytime</strong>, but cannot come back once you leave.<br><br>
+    </p>
+
+    <p>
+        <strong>Section 3. Survey</strong><br>
+        In this section, you <strong>must</strong> answer <strong>all</strong> survey questions.<br>
+        There is a question that you can get correct only if you read the article in section 2, so <strong>make sure you read it thoroughly</strong>.<br>
+        If you get it wrong, you will get</strong> <strong class="red">disadvantage</strong>. <br><br>
+
     </p>
 
      <p>
-        After you finish the two sections above, you will be shown a page with <span class="red">finish token</span>.<br>
-        Please submit this token back in mTurk task page. <br>
+        After you finish the 3 sections above, you will be shown a page with <span class="red">finish token</span>.<br>
+        Please submit this token back in mTurk task page.
         Thanks so much :) 
     </p>
 

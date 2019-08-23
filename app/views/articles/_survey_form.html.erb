@@ -1,6 +1,8 @@
 <%= form_tag("/survey_answer/#{task.id}", method: "post", remote: true) do |f| %>
     
-    <% if task.kind == "single" %>
+    <% if task.classification == "motivation" %>
+        <textarea class="col-12" name="motivation" placeholder="Why did you stop answering questions? (Please write more than 100 letters)"></textarea>
+    <% elsif task.kind == "single" %>
         <div class="options">
             <% task.options_arr.each_with_index do |o, i| %>
                 <label><input type='radio' name='answer_value' value='<%= i + 1 %>' /><%= o %></label>
@@ -12,7 +14,7 @@
         </div>
 
     <% elsif task.kind == "multiple" %>
-        <div>Choose <b>all</b> that applies.</div>
+        <div>Choose <strong>all</strong> that applies.</div>
         <div class="options">
             <% options = task.options_arr %>
             <input type="hidden" name="multiple" value="<%= options.length %>" />

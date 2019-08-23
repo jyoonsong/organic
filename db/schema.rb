@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_051956) do
     t.string "name"
     t.string "key"
     t.string "capability"
+    t.boolean "passed"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

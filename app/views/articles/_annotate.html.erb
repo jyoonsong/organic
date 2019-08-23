@@ -7,7 +7,7 @@
     Please highlight the relevant part of article.
     
     <div class="pleasehighlight" class="action">
-        <input class="highlightInput<%= index %>" type="hidden" name="answer_value"/>
+        <input class="highlightInput<%= index - 1 %>" type="hidden" name="answer_value"/>
         <a class="btn startHighlight mt-1">Click to Start Highlighting!</a>
         <%= submit_tag("Submit", :class => "btn hidden submitHighlight") %>
     </div>
