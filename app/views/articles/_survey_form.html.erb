@@ -1,7 +1,18 @@
 <%= form_tag("/survey_answer/#{task.id}", method: "post", remote: true) do |f| %>
     
     <% if task.classification == "motivation" %>
-        <textarea class="col-12" name="motivation" placeholder="Why did you stop answering questions? (Please write more than 100 letters)"></textarea>
+        <% finished_count = Answer.answers_by(current_user.id).length %>
+        
+        <div class="mb-1">
+            <% if finished_count == (Task.all.length - current_user.capability_arr.length) %>
+                You finished all questions! Thank you! <br>
+                Why you answer all questions? What motivated you?
+            <% else %>
+                You answered <strong><%= finished_count %> questions</strong> in section 2.
+            <% end %>
+        </div>
+        <textarea class="col-12" name="motivation" placeholder="Please write more than 40 letters (required)"></textarea>
+
     <% elsif task.kind == "single" %>
         <div class="options">
             <% task.options_arr.each_with_index do |o, i| %>
@@ -9,9 +20,11 @@
             <% end %>
         </div>
 
+        <% if task.classification != "content" %>
         <div><b>Why?</b> &nbsp;
             <input class="col-9 mb-1" type="text" name="reason" placeholder="Tell us why (optional)" />
         </div>
+        <% end %>
 
     <% elsif task.kind == "multiple" %>
         <div>Choose <strong>all</strong> that applies.</div>

@@ -17,6 +17,7 @@
 //= require faker.min
 //= require sbd
 //= require swal
+//= require modal.min
 //= require highlight
 //= require_tree .
 
@@ -26,11 +27,18 @@ let instance,
     time;
 
 document.addEventListener('turbolinks:load', function() {
+    
     let elem = document.querySelector('.collapsible');
 
     let links = Array.from(document.querySelectorAll(".article a"));
     links.forEach(function(link) {
         link.setAttribute("target", "_blank")
+    });
+
+    MicroModal.init({
+        openTrigger: 'data-custom-open',
+        disableScroll: true,
+        awaitCloseAnimation: true
     });
     
     if (elem) {

@@ -229,7 +229,7 @@ Surveytask.create([
     {
         kind: "single",
         classification: "motivation",
-        question: "Can you tell us why you are leaving?",
+        question: "Why did you stop answering questions in section 2?",
         options: ""
     },
     {

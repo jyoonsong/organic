@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
         else
             # @article = Article.find(params[:id])
             @article = Article.find(1)
-            @direction = "Section 2. Read the article (mandatory) and answer the questions (optional). You can move on to next section <strong class='yellow'>anytime</strong> by clicking this button -->"
+            @direction = "Section 2. Read the article (required) and answer the questions (optional)."
 
             @show_next = true
 
@@ -276,7 +276,7 @@ class ArticlesController < ApplicationController
 
     def survey_answer
 
-            if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 100 ) )
+            if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
             respond_to do |format|
                 format.js {render inline: "location.reload();" }
             end

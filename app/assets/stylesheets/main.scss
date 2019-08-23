@@ -2,7 +2,8 @@
 
 // Define defaults for each variable.
 
-$base-font-family: Roboto, 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$base-font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+// Roboto, 'Roboto', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 $article-font-family: 'Merriweather', Times, serif;
 $base-font-size:   16px !default;
 $base-font-size-mobile:   14.8px !default;
@@ -62,5 +63,6 @@ $on-large:         $on-laptop !default;
 @import
   "components/base",
   "components/grid",
-  "components/articles"
+  "components/articles",
+  "components/modal"
 ;
