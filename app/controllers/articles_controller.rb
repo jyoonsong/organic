@@ -276,17 +276,17 @@ class ArticlesController < ApplicationController
 
     def survey_answer
 
-            if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
+        if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
             respond_to do |format|
                 format.js {render inline: "location.reload();" }
             end
         else
 
             # handle multiple choice answer
-            if (params[:multiple].nil?)
-                value = params[:answer_value]
-            elsif (!params[:motivation].nil?)
+            if (!params[:motivation].nil?)
                 value = params[:motivation]
+            elsif (params[:multiple].nil?)
+                value = params[:answer_value]
             else
                 value = ""
                 params[:answer_values].each_with_index do |a, i|
