@@ -1,7 +1,7 @@
 class SurveyanswersController < ApplicationController
 
     def export
-        @answers = SurveyAnswer.all
+        @answers = Surveyanswer.all
 
         respond_to do |format|
             format.html
