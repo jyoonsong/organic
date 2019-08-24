@@ -22,5 +22,5 @@ Rails.application.routes.draw do
   get "/logs", to: "logs#export"
   get "/answers", to: "answers#export"
   get "/tasks", to: "tasks#export"
-  get "/survey_answers", to: "survey_answers#export"
+  get "/surveyanswers", to: "surveyanswers#export"
 end

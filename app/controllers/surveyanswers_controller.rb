@@ -1,4 +1,4 @@
-class SurveyAnswersController < ApplicationController
+class SurveyanswersController < ApplicationController
 
     def export
         @answers = SurveyAnswer.all
