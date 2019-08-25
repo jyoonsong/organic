@@ -135,53 +135,60 @@ class ArticlesController < ApplicationController
             end
         end
 
-        @answer = Answer.new(
-            :user_id => current_user.id,
-            :article_id => article_id,
-            :task_id => task_id,
-            :value => value,
-            :time => time
-        )
+        # see if answer already exists just in case
+        answer = Answer.find_by(user_id: current_user.id, task_id: task_id)
 
-        if (@answer.save)
-
-            # save input for 'other' option
-            if (!params[:other].nil?)
-                @answer.update(
-                    :other => params[:other]
-                )
-            end
-
-            # update the consensus of the task
-            consensus = @current_task.calculate_consensus
-            
-            @current_task.update(
-                :consensus => consensus
+        if (answer.nil?)
+            @answer = Answer.create(
+                :user_id => current_user.id,
+                :article_id => article_id,
+                :task_id => task_id,
+                :value => value,
+                :time => time
             )
-        
-            # set current task
-            if (highlight == 0)
-                @answer.update(
-                    :highlight => ""
-                )
-                task_id = trigger_task
+        else
+            answer.update(
+                :value => value,
+                :time => time
+            )
+            @answer = answer
+        end
 
-                if (task_id < 0)
-                    redirect_to "/articles/1/post_survey"
-                else
-                    @task = Task.find(task_id)
-                    respond_to do |format|
-                        format.js { render :layout => false, locals: {highlight: highlight} }
-                    end
-                end
+        # save input for 'other' option
+        if (!params[:other].nil?)
+            @answer.update(
+                :other => params[:other]
+            )
+        end
+
+        # update the consensus of the task
+        consensus = @current_task.calculate_consensus
+        
+        @current_task.update(
+            :consensus => consensus
+        )
+    
+        # set current task
+        if (highlight == 0)
+            @answer.update(
+                :highlight => ""
+            )
+            task_id = trigger_task
+
+            if (task_id < 0)
+                redirect_to "/articles/1/post_survey"
             else
+                @task = Task.find(task_id)
                 respond_to do |format|
                     format.js { render :layout => false, locals: {highlight: highlight} }
                 end
             end
-
-
+        else
+            respond_to do |format|
+                format.js { render :layout => false, locals: {highlight: highlight} }
+            end
         end
+
     end
 
     def create_highlight
@@ -309,9 +316,9 @@ class ArticlesController < ApplicationController
                     )
                 end
             elsif (survey_task.classification == "content")
-                if (survey_task.answer == value.to_i)
+                if (survey_task.answer != value.to_i)
                     current_user.update(
-                        :passed => true
+                        :passed => false
                     )
                 end
             end
@@ -411,13 +418,12 @@ class ArticlesController < ApplicationController
 
 
         # if not found, redirect to survey
-        if (max == 0 || maxId < 0)
+        if (maxId < 0)
             return -1
         end
 
         # if found, set this as current task and show gold task
         session[:task_id] = maxId
-
 
         # create log
         Log.create(
