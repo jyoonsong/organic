@@ -3,8 +3,9 @@ class SessionsController < ApplicationController
     def new 
         @user = User.find_by(key: params[:workerId])
         if (!@user.nil?)
-            session[:user_id] = @user.id
-            redirect_to "/articles/1/survey"
+            # session[:user_id] = @user.id
+            # redirect_to "/articles/1/survey"
+            redirect_to "/wrong"
         elsif (params[:workerId].nil?)
             redirect_to "/wrong"
         else
