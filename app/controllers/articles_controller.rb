@@ -6,16 +6,24 @@ class ArticlesController < ApplicationController
         render 'index'
     end
 
+    #
+    # 3 views - survey, show, post_survey
+    #
+
     def show
-        if (!Surveyanswer.first_done?(current_user.id))
+        # pre survey를 끝내지 못한 경우 pre survey로 redirect
+        if (!Surveyanswer.pre_done?(current_user.id))
             redirect_to "/articles/1/survey"
+
+        # tasks를 이미 끝낸 유저의 경우 post survey로 redirect
         elsif (!current_user.passed.nil?)
             redirect_to "/articles/1/post_survey"
+
+        # 다른 유저들은 task 시작
         else
             # @article = Article.find(params[:id])
             @article = Article.find(1)
             @direction = "Section 2. Read the article (required) and answer the questions (optional)."
-
             @show_next = true
 
             Log.create(
@@ -25,10 +33,13 @@ class ArticlesController < ApplicationController
                 :user_id => current_user.id
             )
 
+            # 유저에게 보여줄 task를 탐색
             task_id = trigger_task
 
+            # 탐색 결과 적절한 것이 없는 경우 post survey로 redirect
             if (task_id < 0)
                 redirect_to "/articles/1/post_survey"
+            # 탐색 결과 적절한 것이 없는 경우 해당 task 보여주기
             else
                 @task = Task.find(task_id)
                 render 'show'
@@ -41,7 +52,7 @@ class ArticlesController < ApplicationController
         @direction = "Section 1. You must answer all questions. Then, it will automatically move on to the next section."
         
         # check if all finished
-        if (Surveyanswer.first_done?(current_user.id))
+        if (Surveyanswer.pre_done?(current_user.id))
             redirect_to ("/articles/1/")
         else
             Log.create(
@@ -61,7 +72,7 @@ class ArticlesController < ApplicationController
         # check if all finished
         if (Surveyanswer.done?(current_user.id))
             redirect_to ("/articles/1/finish/")
-        elsif (!Surveyanswer.first_done?(current_user.id))
+        elsif (!Surveyanswer.pre_done?(current_user.id))
             redirect_to ("/articles/1/survey/")
         else
             current_user.update(
@@ -76,6 +87,10 @@ class ArticlesController < ApplicationController
             render 'post_survey'
         end
     end
+
+    #
+    # actions for "show"
+    #
 
     def skip_answer
         task_id = params[:task_id]
@@ -96,8 +111,6 @@ class ArticlesController < ApplicationController
                 format.js { render :layout => false }
             end
         end
-
-        
     end
 
     def create_answer 
@@ -281,15 +294,24 @@ class ArticlesController < ApplicationController
         end
     end
 
+    #
+    # actions for "survey" and "post_survey"
+    #
+
     def survey_answer
 
+        # if answer is nil reload
         if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
             respond_to do |format|
                 format.js {render inline: "location.reload();" }
             end
+
+        # else
         else
 
-            # handle multiple choice answer
+            ##
+            ## 1. handle multiple choice answer
+            ##
             if (!params[:motivation].nil?)
                 value = params[:motivation]
             elsif (params[:multiple].nil?)
@@ -306,23 +328,31 @@ class ArticlesController < ApplicationController
 
             end
 
-            # gold task
+            ##
+            ## 2. check if user's answer is correct
+            ##
+
             survey_task = Surveytask.find(params[:task_id])
+
+            # only when the given surveytask is "gold task" or "content" question
             if (survey_task.classification == "gold task")
-                if (survey_task.answer != value.to_i)
+                if (survey_task.answer != value.to_i) # if wrong
                     new_capability = current_user.update_capability(survey_task.task_id)
                     current_user.update(
-                        :capability => new_capability
+                        :capability => new_capability # add it to capability column
                     )
                 end
             elsif (survey_task.classification == "content")
-                if (survey_task.answer != value.to_i)
+                if (survey_task.answer != value.to_i) # if wrong
                     current_user.update(
-                        :passed => false
+                        :passed => false # set passed as false
                     )
                 end
             end
 
+            ##
+            ## 3. save the answer as a new surveyanswer instance
+            ##
             Surveyanswer.create(
                 :value => value,
                 :value_reason => params[:reason],
@@ -330,10 +360,19 @@ class ArticlesController < ApplicationController
                 :user_id => current_user.id
             )
 
+            ##
+            ## 4. where to redirect to?
+            ##
+
+            # if user is done with both surveys, redirect to finish page
             if (Surveyanswer.done?(current_user.id))
                 redirect_to ("/articles/1/finish")
-            elsif (current_user.passed.nil? && Surveyanswer.first_done?(current_user.id))
+
+            # if user is done with pre survey but not the main tasks, redirect to "show" page 
+            elsif (current_user.passed.nil? && Surveyanswer.pre_done?(current_user.id))
                 redirect_to ("/articles/1") # TODO: if multiple article, get id
+            
+            # if user needs to continue, call "survey_answer.js.erb"
             else
                 respond_to do |format|
                     format.js { render :layout => false }
@@ -343,6 +382,10 @@ class ArticlesController < ApplicationController
         end
         
     end
+
+    #
+    # global
+    #
 
     def finish
         render 'finish'
