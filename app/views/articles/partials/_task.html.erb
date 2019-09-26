@@ -13,19 +13,19 @@
             <% answer = Answer.find_by(user_id: current_user.id, task_id: @task.id) %>
             <% if (answer.nil?) %>
                 <div id="formContainer">
-                    <%= render partial: "form" %>
+                    <%= render partial: "partials/form" %>
                 </div>
                 <div id="highlightContainer" class="hidden"></div>
             <% else %>
                 <div id="formContainer">
-                    <%= render partial: "edit_form", locals: {answer: answer} %>
+                    <%= render partial: "partials/edit_form", locals: {answer: answer} %>
                 </div>
 
                 <div id="highlightContainer">
                 <% answer.value_array.each_with_index do |v, i| %>
                     <% if !@task.highlights_arr.include?(v) %>
                         <div class="highlightContainer">
-                            <%= render partial: "annotate", locals: {answer: answer, index: i + 1} %>
+                            <%= render partial: "partials/annotate", locals: {answer: answer, index: i + 1} %>
                         </div>
                     <% end %>
                 <% end %>
