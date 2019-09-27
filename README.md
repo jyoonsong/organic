@@ -93,20 +93,20 @@
 ### 현재 TODO별 바꿔야 하는 곳들
 
 1. **Article + content question (읽는 걸 확실히 하기 위해 틀리면 되돌려보내기, 맞을 때까지 풀게하기, 찍는 걸 방지하기 위해 주관식)**
-- `db/seeds.rb`에서 `Surveytask.create` 부분에 새로운 content questions를 넣기 (맨앞에 넣기)
+   - `db/seeds.rb`에서 `Surveytask.create` 부분에 새로운 content questions를 넣기 (맨앞에 넣기)
    - `survey.html.erb`에서 
      - `Surveytask.all.take( content questions의 개수 )` 로 고치기
      - `if`문이 현재는 해당 question에 대한 답변이 0개일 때만 그 question이 보이도록 하고 있음. 맞을 때까지 풀게 하기 위해서는 `Surveyanswer`에 `isCorrect` 칼럼을 추가해서, 해당 답변을 저장할 당시에 답변이 맞는지 틀린지 boolean으로 저장. 이렇게 바꿀 경우 `if`문은 `isCorrect`를 체크하는 것으로 변경
      - 주관식으로 하기 위해서는 `partials/_survey_form.html.erb`에서 알맞게 양식을 수정해주면 됨. 25번째 줄 input 태그 사용.
 2. **Randomized order**
-- `articles_controller.rb`에서 `trigger_task`가 현재는 `Task.all.each`로 모든 Task를 *순차적으로* 확인하지만, 이를 `Task.all.shuffle.each` 이런 식으로 바꾸면 randomize됨.
+   - `articles_controller.rb`에서 `trigger_task`가 현재는 `Task.all.each`로 모든 Task를 *순차적으로* 확인하지만, 이를 `Task.all.shuffle.each` 이런 식으로 바꾸면 randomize됨.
 3. **Remove pre-survey questions about gold task**
-- `db/seeds.rb`에서 기존 `Surveytask.create` 부분의 gold task들 삭제
+   - `db/seeds.rb`에서 기존 `Surveytask.create` 부분의 gold task들 삭제
 4. **Alternatively, general/singular causal claim 설명 붙이기**
-- `partials/_task.html.erb`에서 if문으로 task_id 체크 후 설명 보여주기 
+   - `partials/_task.html.erb`에서 if문으로 task_id 체크 후 설명 보여주기 
 5. **Fake message about contribution to the modelUser will see “you can contribute to (5%) of confidence of this claim’s veracity by answering this question.”**
-- `User` 모델에 `contribution` 칼럼 추가
-   - `articles/show.html.erb`에서 `<section class="sidebar">` 하위 div를 하나 추가해준 후, `@current_user.contribution`을 출력.
+   - `User` 모델에 `contribution` 칼럼 추가
+     - `articles/show.html.erb`에서 `<section class="sidebar">` 하위 div를 하나 추가해준 후, `@current_user.contribution`을 출력.
 6. **Post-survey question: “Why are you leaving” + (1 or more questions answered) “What makes you to contribute” + “AI랑 일했다고 생각하니?”**
    - `db/seeds.rb`에서 `Surveytask.create` 부분에 새로운 content questions를 넣기 (맨앞에 넣기)
    - `post_survey.html.erb`에서 
