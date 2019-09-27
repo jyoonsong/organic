@@ -35,8 +35,7 @@
     - `Answer`s
     - `Surveyanswer`s
   - `Surveytask` has_many `Surveyanswer`s
-  
-    - `Task` has_many `Answer`s
+  - `Task` has_many `Answer`s
   - `Task` has_many `Surveytask`s
     - has_many로 구현하지만 사실상 1:1 관계
     - optional한 관계여서 classification이 `gold task`인 `Surveytask`의 경우에만 `Task`와 연결된다. 즉 gold task가 어떤 `Task`에 대응되는지를 표시하기 위한 칼럼. 
