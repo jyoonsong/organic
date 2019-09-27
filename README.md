@@ -60,7 +60,7 @@
   - `answers, surveyanswers, tasks, surveytasks, logs_controller` : csv export 기능만 있음. 수정할 필요 X
   - `sessions_controller` : 회원가입 관련 코드. 수정할 필요 X
   - `article_controller` : 오로지 얘만 수정! 여기에 모든 코드가 있음 (죄송... 청소할게요)
-    - 
+  
 - **app/models** ⭐️⭐️
   - 각 모델별 field/method를 정의하는 곳 (class 정의하는 곳이라고 생각하면 됨)
     - `task.rb`에서 여러 계산 메소드가 많은데 이제 필요 없을듯.
