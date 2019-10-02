@@ -427,10 +427,6 @@ class ArticlesController < ApplicationController
                 @log.update(
                     :content => "task no. " + t.id.to_s + ": already done or skipped",
                 )
-            elsif (current_user.capability_arr.include?(t.id))
-                @log.update(
-                    :content => "task no. " + t.id.to_s + ": gold task failed"
-                )
             elsif (!t.constraints_satisfied?(current_user))
                 @log.update(
                     :content => "task no. " + t.id.to_s + ": constraints not satisfied",
@@ -444,7 +440,6 @@ class ArticlesController < ApplicationController
                     
                 elsif (current == max)
                     # first consider chained questions
-                    
                     if (@current_task.nil?)
                         maxId = 1
                     elsif (@current_task.constraints_priority(t.id, maxId))

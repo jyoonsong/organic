@@ -4,10 +4,10 @@ class Task < ApplicationRecord
 
     def marginal_information_gain
         # in terms of quantity
-        gain1 = 50 - self.answers_count
+        gain1 = 500 - self.answers_count
 
         # in terms of consensus
-        gain2 = (0.6 - self[:consensus]) / 0.6
+        gain2 = 1 - self[:consensus]
         
         # total
         if (gain1 <= 0 && gain2 <= 0)
