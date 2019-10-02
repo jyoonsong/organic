@@ -7,7 +7,7 @@ class Task < ApplicationRecord
         gain1 = 500 - self.answers_count
 
         # in terms of consensus
-        gain2 = (0.6 - self[:consensus]) / 0.6
+        gain2 = 1 - self[:consensus]
         
         # total
         if (gain1 <= 0 && gain2 <= 0)
