@@ -3,15 +3,15 @@
 
     <% if (!Surveyanswer.done?(current_user.id)) %>
         It seems you did not answer all survey questions in Section 1 or 3.<br>
-        <a href="/articles/1/survey">Go back to Section 1 </a><br>
-        <a href="/articles/1/post_survey">Go back to Section 3 </a>
+        <!--a href="/articles/1/survey">Go back to Section 1 </a><br-->
+        <a href="/articles/1/post_survey">Go back to Section 2 </a>
 
-    <% elsif (!current_user.passed) %>
+    <!--% elsif (!current_user.passed) %>
         <h1>Thank you! All finished!</h1>
-        However, it seems you didnot read the article.<br>
+        However, it seems you did not read the article.<br>
         We will go through your answers and if the answers do not make sense, we will have to decline your work.<br>
         If you got the question wrong but still believe you read the article, please contact us.<br>
-        <p>Go back to the mTurk page and submit this token: <b>sfekogkwokgowkgowke</b></p>
+        <p>Go back to the mTurk page and submit this token: <b>sfekogkwokgowkgowke</b></p-->
 
     <% else %>
         <h1>Thank you! All finished!</h1>

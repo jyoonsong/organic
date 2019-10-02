@@ -12,18 +12,18 @@ class ArticlesController < ApplicationController
 
     def show
         # pre survey를 끝내지 못한 경우 pre survey로 redirect
-        if (!Surveyanswer.pre_done?(current_user.id))
-            redirect_to "/articles/1/survey"
+        #if (!Surveyanswer.pre_done?(current_user.id))
+        #    redirect_to "/articles/1/survey"
 
         # tasks를 이미 끝낸 유저의 경우 post survey로 redirect
-        elsif (!current_user.passed.nil?)
+        if (!current_user.passed.nil?)
             redirect_to "/articles/1/post_survey"
 
         # 다른 유저들은 task 시작
         else
             # @article = Article.find(params[:id])
             @article = Article.find(1)
-            @direction = "Section 2. Read the article (required) and answer the questions (optional)."
+            @direction = "Section 1. Read the article (required) and answer the questions (optional)."
             @show_next = true
 
             Log.create(
@@ -67,13 +67,13 @@ class ArticlesController < ApplicationController
 
     def post_survey
         # @article = Article.find(params[:id])
-        @direction = "Section 3. You must answer all questions. Then, it will automatically finish."
+        @direction = "Section 2. You must answer all questions. Then, it will automatically finish."
         
         # check if all finished
         if (Surveyanswer.done?(current_user.id))
             redirect_to ("/articles/1/finish/")
-        elsif (!Surveyanswer.pre_done?(current_user.id))
-            redirect_to ("/articles/1/survey/")
+        #elsif (!Surveyanswer.pre_done?(current_user.id))
+        #    redirect_to ("/articles/1/survey/")
         else
             current_user.update(
                 :passed => true

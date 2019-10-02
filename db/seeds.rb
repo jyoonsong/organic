@@ -164,19 +164,19 @@ Task.create([
 
 
 Surveytask.create([
-    {
-        kind: "multiple",
-        classification: "interest",
-        question: "How do you read a news article related to health or science?",
-        options: "I tend to read it thoroughly/ 
-        I tend to skim through it/
-        I tend to go back and forth a lot while reading/
-        I tend to read only a part of the whole article/
-        I tend to look at comments left by others/
-        I tend to write a comment/
-        I tend to not read the comments
-        "
-    },
+    # {
+    #     kind: "multiple",
+    #     classification: "interest",
+    #     question: "How do you read a news article related to health or science?",
+    #     options: "I tend to read it thoroughly/ 
+    #     I tend to skim through it/
+    #     I tend to go back and forth a lot while reading/
+    #     I tend to read only a part of the whole article/
+    #     I tend to look at comments left by others/
+    #     I tend to write a comment/
+    #     I tend to not read the comments
+    #     "
+    # },
     # {
     #     kind: "single",
     #     classification: "content",
@@ -212,30 +212,30 @@ Surveytask.create([
         No
         "
     },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Laura answered this article [does have] a naturalistic fallacy because [it assumes that ‘everyone sleeps’ justifies drowsy driving]. Do you agree that her answer is logical? If not, how should her answer be modified? / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ./ Laura answered the headline is [somewhat clickbaity] because [it provokes emotions]. Do you agree that her answer is logical? If not, how should her answer be modified?"
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ. / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
-    },
-    {
-        kind: "single",
-        classification: "interest",
-        question: "Which question more interests you? Which question do you prefer to answer?",
-        options: "To what extent does the author’s confidence in his claims seem justified? / What evidence is given for the primary claim? Highlight the relevant parts."
-    }
+    # {
+    #     kind: "single",
+    #     classification: "interest",
+    #     question: "Which question more interests you? Which question do you prefer to answer?",
+    #     options: "Laura answered this article [does have] a naturalistic fallacy because [it assumes that ‘everyone sleeps’ justifies drowsy driving]. Do you agree that her answer is logical? If not, how should her answer be modified? / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "interest",
+    #     question: "Which question more interests you? Which question do you prefer to answer?",
+    #     options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ./ Laura answered the headline is [somewhat clickbaity] because [it provokes emotions]. Do you agree that her answer is logical? If not, how should her answer be modified?"
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "interest",
+    #     question: "Which question more interests you? Which question do you prefer to answer?",
+    #     options: "Is the headline clickbaity? If so, choose all clickbait techniques that this headline employ. / Does the author suggest that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)? Why?"
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "interest",
+    #     question: "Which question more interests you? Which question do you prefer to answer?",
+    #     options: "To what extent does the author’s confidence in his claims seem justified? / What evidence is given for the primary claim? Highlight the relevant parts."
+    # }
 ])
 
 Article.create([
