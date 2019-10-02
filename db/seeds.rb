@@ -177,67 +177,40 @@ Surveytask.create([
         I tend to not read the comments
         "
     },
+    # {
+    #     kind: "single",
+    #     classification: "content",
+    #     question: "Which of the following are not true according to the article?",
+    #     options: "a) Coconut oil contains more saturated fat than olive oil. / b) Fatty acids are crucial for proper absorption of vitamins. / c) AHA attributes the disconnect between lay and expert opinion to the lack of research on coconut oil. / d) According to AHA, there is no known offsetting positive effects for increase of cholesterol due to coconut oil. / e) 72 percent of American public rated coconut oil as healthy in a recent survey.",
+    #     answer: 3
+    # },
     {
         kind: "single",
-        classification: "gold task",
-        question: "Which sentence presents the counterargument as a weaker, more foolish version of the real counterargument (use a Straw Man Argument)?",
-        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year./ I do not know.",
-        answer: 2,
-        task_id: Task.find(13).id
+        classification: "content",
+        question: "Did you read the article carefully to answer the questions?",
+        options: "Yes/ 
+        No
+        "
     },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence presents a complicated choice as if it were binary (construct a false dilemma)?",
-        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year./ I do not know.",
-        answer: 4,
-        task_id: Task.find(14).id
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence says that one small change will lead to a major change (use a slippery slope argument)?",
-        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year. / I do not know.",
-        answer: 5,
-        task_id: Task.find(15).id
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence exaggerates the dangers of a situation and use scare tactics to persuade (the appeal to fear fallacy)?",
-        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year./ I do not know.",
-        answer: 3,
-        task_id: Task.find(16).id
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "Which sentence suggests that something is good because it is natural, or bad because it is not natural (the naturalistic fallacy)?",
-        options: "There have always been wars. Therefore, there is no reason for you to object that our bombing of Syria would be morally wrong. / Proponents of sex education want to give kids license to have sex with no consequences. / You shouldn’t vote for him since his support of amnesty for illegal immigrants will open our country to terrorism. / You either support Hillary Clinton for President or you don't believe in women's rights. / If you allow the students to redo this test, they are going to want to redo every assignment for the rest of the year./ I do not know.",
-        answer: 1,
-        task_id: Task.find(17).id
-    },
-    {
-        kind: "single",
-        classification: "gold task",
-        question: "While a general causal claim argues that a certain causal relation holds in general, a singular causal claim argues it holds in a specific case. Which of the following makes a general causal claim, rather than a singular causal claim?",
-        options: "Heating butter causes it to melt. / The heat that I applied to the butter in my kitchen yesterday evening caused it to melt / I do not know.",
-        answer: 1,
-        task_id: Task.find(8).id
-    },
-
     {
         kind: "single",
         classification: "motivation",
-        question: "Why did you stop answering questions in section 2?",
+        question: "Why did you answer the question(s) in section 2, even though it was not required?",
         options: ""
     },
     {
         kind: "single",
-        classification: "content",
-        question: "Which of the following are not true according to the article?",
-        options: "a) Coconut oil contains more saturated fat than olive oil. / b) Fatty acids are crucial for proper absorption of vitamins. / c) AHA attributes the disconnect between lay and expert opinion to the lack of research on coconut oil. / d) According to AHA, there is no known offsetting positive effects for increase of cholesterol due to coconut oil. / e) 72 percent of American public rated coconut oil as healthy in a recent survey.",
-        answer: 3
+        classification: "motivation",
+        question: "Why did you stop answering the question(s) in section 2?",
+        options: ""
+    },
+    {
+        kind: "single",
+        classification: "verification",
+        question: "Do you think you dealt with an AI(Artificial Intelligence)? Why do you think so?",
+        options: "Yes/ 
+        No
+        "
     },
     {
         kind: "single",

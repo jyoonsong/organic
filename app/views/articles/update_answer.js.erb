@@ -1,13 +1,13 @@
 
 <% if (highlight > 0) %>
     
-    $(".collapsible-<%= answer.task_id %>").html("<%= escape_javascript(render(:partial => 'edit_form', locals: {answer: answer}))%>");
+    $(".collapsible-<%= answer.task_id %>").html("<%= escape_javascript(render(:partial => 'articles/partials/edit_form', locals: {answer: answer}))%>");
     
     document.getElementById("highlightContainer").innerHTML = "";
     
     <% answer.value_array.each_with_index do |v, i| %>
         <% if !@current_task.highlights_arr.include?(v) %>
-            document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'annotate', locals: {answer: answer, index: i + 1}) )%></div>";
+            document.getElementById("highlightContainer").innerHTML += "<div class='highlightContainer'><%= escape_javascript( render(:partial => 'articles/partials/annotate', locals: {answer: answer, index: i + 1}) )%></div>";
         <% end %>
     <% end %>
 

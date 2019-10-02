@@ -14,7 +14,7 @@ console.log(<%= @answer.highlights_arr.length %>);
 <% if ( goal <= @answer.highlights_arr.length ) %>
     // value that needs highlight <= currently highlighted (done)
     swal("Thank you", "Successfully saved!", "success");
-    $(".collapsible").html("<%= escape_javascript(render(:partial => 'task', locals: {answer: @answer}))%>");
+    $(".collapsible").html("<%= escape_javascript(render(:partial => 'articles/partials/task', locals: {answer: @answer}))%>");
     instance.open(0);
 
 <% else %>

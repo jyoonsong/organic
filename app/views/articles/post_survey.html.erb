@@ -10,9 +10,15 @@
 
 
     <div class="task mb-1 col-12">
+        <div class="mt-1">
+        <!--If you have no idea what the answer is, <br>
+        please choose <strong>"I do not know"</strong> rather than choosing a random option.-->
+        You <strong>MUST</strong> answer all survey questions below to get a reward.<br>
+        Please answer the following question as <strong>HONESTLY</strong> as possible. Your answer will <strong>NOT AFFECT</strong> the reward.
+        </div>
         <ul class="collapsible survey">
 
-            <% Surveytask.all.last(6).each_with_index do |t, index| %>
+            <% Surveytask.all.last(8).each_with_index do |t, index| %>
                 <% if t.surveyanswers.where(user_id: current_user.id).length == 0 %>
 
                     <li class="done">

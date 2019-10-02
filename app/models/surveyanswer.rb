@@ -16,6 +16,6 @@ class Surveyanswer < ApplicationRecord
     end
 
     def self.pre_done?(user_id) 
-        return self.where(user_id: user_id).length >= 7
+        return self.where(user_id: user_id).length >= 1
     end
 end
