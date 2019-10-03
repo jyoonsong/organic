@@ -1,5 +1,35 @@
 
 <section class="container">
+    <% if flash[:manifesto_modal] %>
+        <button class="btn" data-custom-open="instruction" role="button">Instruction</button>
+
+        <div class="modal micromodal-slide" id="instruction">
+            <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-1-title">
+                        Instruction
+                    </h2>
+
+                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                </header>
+
+                <main class="modal__content" id="modal-1-content">
+                    <p>
+                        <strong>Section 1. Reading an article</strong><br>
+                        In this section, you'll <strong>read a news article</strong> and <strong>answer questions</strong> about the article.<br>
+                        While answering questions is <strong class="red">optional</strong>, reading the article is <strong class="red">required</strong>.<br>
+                        You can move on to the next part <strong class="red">anytime</strong>, but cannot come back once you leave.<br><br>
+                        
+                        Our system is now evaluating the credibility of this article. <br>
+                        The average score is 50(netural), and <strong class="red">high score</strong> indicates that the article is credible.
+                    </p>
+
+                </main>
+            </div>
+            </div>
+        </div>
+    <% end %>
     <div class="article">
         <h1 class="title">
             <%= @article.title %>

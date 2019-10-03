@@ -4,10 +4,9 @@
     questions!
     </div-->
 
-    <div>
-    Article is credible: 60% <br>
-    Article is not credible: 40% <br>
-    Solving this question can change the score of 5%p at maximum. <br>
+    <div class="scorebox">
+    Credibility Score: <strong class="red"><%=@task.credibility_score(current_user) %></strong> points <br>
+    Your answer can increase/decrease the score by <strong class="red"><%=@task.potential_credibility_score(current_user) %></strong> pts at max. <br><br>
     </div>
 
     <li class="<%= @task.kind %>">

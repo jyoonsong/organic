@@ -474,6 +474,13 @@ class ArticlesController < ApplicationController
         return maxId
     end
 
+    def modal
+        respond_to do |format|
+            format.html
+            format.js
+        end
+    end
+
     def authenticate_user
         if (current_user.nil?)
             redirect_to "/wrong"

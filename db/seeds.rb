@@ -212,6 +212,12 @@ Surveytask.create([
         No
         "
     },
+    {
+        kind: "single",
+        classification: "insights",
+        question: "What do you think that can be improved in our system? What do you want to know more in this task?",
+        options: ""
+    },
     # {
     #     kind: "single",
     #     classification: "interest",

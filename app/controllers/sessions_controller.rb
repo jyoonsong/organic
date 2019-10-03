@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
         @user = User.new(name: params[:name], key: params[:key])
         if @user.save
             session[:user_id] = @user.id
-            redirect_to "/articles/1/"
+            redirect_to "/articles/1/", flash: { manifesto_modal: true}
         else
             render "new"
         end

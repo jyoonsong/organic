@@ -21,6 +21,16 @@ class Task < ApplicationRecord
         return self.answers.where.not({value: nil}).length
     end
 
+    def credibility_score(current_user)
+        credibility = [50.00, 70.81, 71.57, 69.09, 65.86, 62.93, 59.32, 49.20, 43.89, 36.60, 43.16, 38.30, 41.61, 42.06, 43.21, 42.55, 43.29, 40.27, 36.77, 35.61, 35.55, 39.27]
+        return credibility[Answer.answers_by(current_user.id).length]
+    end
+
+    def potential_credibility_score(current_user)
+        potential_cred = [24.05, 9.58, 10.54, 4.46, 3.25, 14.00, 10.16, 6.25, 13.47, 7.13, 5.53, 3.49, 0.80, 2.84, 8.91, 2.50, 5.45, 6.43, 2.38, 5.40, 4.88]
+        return potential_cred[Answer.answers_by(current_user.id).length]
+    end
+
     def constraints_satisfied?(current_user)
         constraints_arr.each do |c|
             answers = current_user.answers.where({task_id: c.to_i})
