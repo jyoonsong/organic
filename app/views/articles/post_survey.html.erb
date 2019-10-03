@@ -1,5 +1,36 @@
 
 <div class="col-2"></div>
+    <div class="modal micromodal-slide" id="section2-instruction">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <header class="modal__header">
+                <h2 class="modal__title" id="modal-1-title">
+                    Instruction
+                </h2>
+
+                <button class="modal__close" onclick="close_modal2()" aria-label="Close modal" ></button>
+            </header>
+
+            <main class="modal__content" id="modal-1-content">
+                <p>
+                    <strong>Section 2. Survey</strong><br>                    
+                    In this section, You <strong class="red">MUST</strong> answer all survey questions below to get a reward.<br>
+                    Once you answer all questions, a mturk token for reward will be provided.<br><br>
+
+                    Please answer the questions as <strong class="red">HONESTLY</strong> as possible.<br>
+                    Your answer will <strong class="red">NOT AFFECT</strong> the reward.
+                </p>
+
+            </main>
+        </div>
+        </div>
+    </div>
+    <script>
+        function open2_modal() {
+            MicroModal.show('section2-instruction');
+        }
+        open2_modal();
+    </script>
 <section class="full-height center col-8 noselect">
     <!-- <div class="contribution">
         Your contribution:
@@ -9,12 +40,12 @@
     </div> -->
 
 
-    <div class="task mb-1 col-12">
+    <div class="task mb-1 col-12 down">
         <div class="mt-1">
         <!--If you have no idea what the answer is, <br>
         please choose <strong>"I do not know"</strong> rather than choosing a random option.-->
-        You <strong>MUST</strong> answer all survey questions below to get a reward.<br>
-        Please answer the following question as <strong>HONESTLY</strong> as possible. Your answer will <strong>NOT AFFECT</strong> the reward.
+        You <strong class="red">MUST</strong> answer all survey questions below to get a reward.<br>
+        Please answer the following question as <strong class="red">HONESTLY</strong> as possible. Your answer will <strong class="red">NOT AFFECT</strong> the reward.
         </div>
         <ul class="collapsible survey">
 
@@ -38,3 +69,10 @@
 
     </div>
 </section>
+
+<script>
+
+function close_modal2() {
+    MicroModal.close('section2-instruction');
+}
+</script>

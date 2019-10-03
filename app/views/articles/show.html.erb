@@ -1,9 +1,7 @@
 
 <section class="container">
     <% if flash[:manifesto_modal] %>
-        <button class="btn" data-custom-open="instruction" role="button">Instruction</button>
-
-        <div class="modal micromodal-slide" id="instruction">
+        <div class="modal micromodal-slide" id="section-instruction">
             <div class="modal__overlay" tabindex="-1" data-micromodal-close>
             <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
                 <header class="modal__header">
@@ -11,7 +9,7 @@
                         Instruction
                     </h2>
 
-                    <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+                    <button class="modal__close" onclick="close_modal()" aria-label="Close modal" ></button>
                 </header>
 
                 <main class="modal__content" id="modal-1-content">
@@ -29,6 +27,13 @@
             </div>
             </div>
         </div>
+        <script>
+            function open_modal() {
+                console.log("DDD");
+                MicroModal.show('section-instruction');
+            }
+            open_modal();
+        </script>
     <% end %>
     <div class="article">
         <h1 class="title">
@@ -51,4 +56,14 @@
     
 
 </section>
+
+<script>
+        
+
+
+function close_modal() {
+    console.log("DDD");
+    MicroModal.close('section-instruction');
+}
+</script>
 
