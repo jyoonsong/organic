@@ -50,10 +50,18 @@
         You don't need to come back to this page once you get the token!
         </div>
         <!-- Workder ID should be added at the end of this URL -->
-        <%= link_to 'https://docs.google.com/forms/d/e/1FAIpQLSc3WFeO53l6fFdXenlRAJ_PC7WoUAWRHAn8fHy8HCQi9digtQ/viewform?usp=pp_url&entry.1579193931=', target: :_blank do %>
+        <% if current_user.group == 1 %>
+            <% url = 'https://docs.google.com/forms/d/e/1FAIpQLSfm3j6uRSM7LhN20XJBGFEQUE-lL7nxL7sbppW7PSWvp0eknA/viewform?usp=pp_url&entry.1579193931=' + current_user.key %>
+        <% elsif current_user.group == 2 %>
+            <% url = 'https://docs.google.com/forms/d/e/1FAIpQLScs4RlvdIc7Kk_rEL3PGy6sno3kAk6m4qqCzXnOF2Bjun5NWg/viewform?usp=pp_url&entry.1579193931=' + current_user.key %>        
+        <% end %>
+        <% p current_user %>
+        <%= link_to url, target: :_blank do %>
             <%= submit_tag "GO TO SURVEY", :class => "btn mt-1 mb-1" %>
         <% end %>
-        </div>
+
+
+    </div>
         <ul class="collapsible survey">
 
             <% Surveytask.all.last(8).each_with_index do |t, index| %>

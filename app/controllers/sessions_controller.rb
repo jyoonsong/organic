@@ -3,9 +3,9 @@ class SessionsController < ApplicationController
     def new 
         @user = User.find_by(key: params[:workerId])
         if (!@user.nil?)
-            # session[:user_id] = @user.id
-            # redirect_to "/articles/1/survey"
-            redirect_to "/wrong"
+            session[:user_id] = @user.id
+            redirect_to "/articles/1/survey"
+
         elsif (params[:workerId].nil?)
             redirect_to "/wrong"
         else
@@ -14,10 +14,10 @@ class SessionsController < ApplicationController
     end
     
     def create
-
         @user = User.new(name: params[:name], key: params[:key])
+        @user.assign_group
+
         if @user.save
-            @user.assign_group
             session[:user_id] = @user.id
             redirect_to "/articles/1/", flash: { manifesto_modal: true}
         else

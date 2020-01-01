@@ -1,23 +1,25 @@
     <div>
     You've judged 
     <strong><%= TweetAnswer.answers_by(current_user.id).length %></strong>
-    tweets!
+    tweets!<br>
+    <strong><%= 44 - TweetAnswer.answers_by(current_user.id).length %></strong> 
+    tweets to go!
     </div>
 
 
     <li class="<%= @task.kind %>">
         <div class="collapsible-header noclick">
-            <b><%= @task.question %></b>
+            <b>Does this tweet have false dilemma?</b>
             <!-- <i class="material-icons">keyboard_arrow_down</i> -->
         </div>
-        <div id="task-<%= @task.id %>" class="collapsible-body">
-            <% answer = Answer.find_by(user_id: current_user.id, task_id: @task.id) %>
-            <% if (answer.nil?) %>
-                <div id="formContainer">
-                    <%= render partial: "articles/partials/form" %>
-                </div>
-                <div id="highlightContainer" class="hidden"></div>
-            <% else %>
+        <div id="task-1" class="collapsible-body">
+            <!--% answer = TweetAnswer.find_by(user_id: current_user.id, tweet_id: @tweet.id) %>
+            <% if (answer.nil?) %-->
+            <div id="formContainer">
+                <%= render partial: "articles/partials/annotate_plain" %>
+            </div>
+            <div id="highlightContainer" class="hidden"></div>
+            <!--% else %>
                 <div id="formContainer">
                     <%= render partial: "articles/partials/edit_form", locals: {answer: answer} %>
                 </div>
@@ -32,6 +34,6 @@
                 <% end %>
                 </div>
 
-            <% end %>
+            <% end %-->
         </div>
     </li>

@@ -3,6 +3,7 @@ class CreateTweetAnswers < ActiveRecord::Migration[5.2]
     create_table :tweet_answers do |t|
       t.integer :order
       t.boolean :isfallacy
+      t.boolean :haveseen
       t.string :reason1
       t.string :reason2
       t.integer :time

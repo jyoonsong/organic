@@ -262,6 +262,138 @@ Tweet.create([
         ideology: 'dem',
         isfallacy: true,
         author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us2',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad2.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us4',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad4.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us2',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad2.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us4',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad4.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us2',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad2.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us4',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad4.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us2',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad2.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Either you are with us or you are against us4',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad4.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
     }
 ]);
 

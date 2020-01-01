@@ -1,0 +1,25 @@
+console.log("highlight: <%= highlight %>")
+
+// redirect to next page
+<% if (highlight < 0) %>
+    $("#formContainer").html("<%= escape_javascript( render(:partial => 'articles/partials/edit_annotate_plain', locals: {answer: @answer}) )%>");
+
+    document.getElementById("highlightContainer").innerHTML = "";
+    $("#highlightContainer").removeClass("hidden");
+
+    initHighlight(document.querySelector("li.active"), 0);
+    instance.open(0);
+
+    $('.sidebar').animate({
+        scrollTop: $("#highlightContainer").offset().top
+    }, 2000);
+
+    $(".startHighlight")[0].click();
+
+<% else %>
+    $(".collapsible").html("<%= escape_javascript(render(:partial => 'articles/partials/tweet_task'))%>");
+    $("#tweet_content").html("<%= escape_javascript(render(:partial => 'articles/partials/tweet_content'))%>");
+    swal("Thank you", "Successfully saved!", "success");
+    //instance.open(0);
+<% end %>
+

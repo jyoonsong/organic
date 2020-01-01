@@ -1,9 +1,5 @@
-<%= form_tag("/create_highlight/#{answer.id}", method: "post", remote: true) do %>
-    <input type="hidden" name="task_id" value="<%= current_task.id %>">
+<%= form_tag("/create_highlight/0", method: "post", remote: true) do %>
     
-    <% if answer.task_id != 7 %>
-        Why did you choose no. <%= answer.value_array[index - 1] %> as an answer?<br>
-    <% end %>
     Please highlight the relevant part of article.
     
     <div class="pleasehighlight" class="action">

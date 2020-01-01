@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-    has_many :answers
+    has_many :tweet_answers
     has_many :surveyanswers
     has_many :answered_articles, through: :answers, source: :article
     has_many :logs
@@ -26,7 +26,7 @@ class User < ApplicationRecord
         if (@user_cnt % 2 == 0 && @passed_group1 < 20)
             self.group = 1
         else 
-            self.group = 0
+            self.group = 2
         end
     end
 end

@@ -20,7 +20,8 @@
         <i> * The code consists of alphabets only. </i>
         </div>
         <!-- Workder ID should be added at the end of this URL -->
-        <%= link_to 'https://docs.google.com/forms/d/e/1FAIpQLSc3WFeO53l6fFdXenlRAJ_PC7WoUAWRHAn8fHy8HCQi9digtQ/viewform?usp=pp_url&entry.1579193931=', target: :_blank do %>
+        <% url = 'https://docs.google.com/forms/d/e/1FAIpQLSc3WFeO53l6fFdXenlRAJ_PC7WoUAWRHAn8fHy8HCQi9digtQ/viewform?usp=pp_url&entry.1579193931=' + current_user.key %>
+        <%= link_to url, target: :_blank do %>
             <%= submit_tag "GO TO SURVEY", :class => "btn mt-1 mb-1" %>
         <% end %>
 

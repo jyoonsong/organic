@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_12_31_202654) do
   create_table "tweet_answers", force: :cascade do |t|
     t.integer "order"
     t.boolean "isfallacy"
+    t.boolean "haveseen"
     t.string "reason1"
     t.string "reason2"
     t.integer "time"

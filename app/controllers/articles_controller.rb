@@ -16,14 +16,14 @@ class ArticlesController < ApplicationController
             redirect_to "/articles/1/survey"
 
         # tasks를 이미 끝낸 유저의 경우 post survey로 redirect
-        elsif (!current_user.passed.nil?)
+        elsif (TweetAnswer.complete_task(current_user.id))
             redirect_to "/articles/1/post_survey"
 
         # 다른 유저들은 task 시작
         else
-            # @article = Article.find(params[:id])
-            @article = Article.find(1)
-            @tweet = Tweet.find(1)
+            solved_tweet_cnt = TweetAnswer.answers_by(current_user.id).count
+            @tweet = Tweet.tweet_to_solve(solved_tweet_cnt + 1)
+            
             @direction = "Section 2. Logical Fallacy Judgement"
             @show_next = true
 
@@ -35,22 +35,23 @@ class ArticlesController < ApplicationController
             )
 
             # 유저에게 보여줄 task를 탐색
-            task_id = trigger_task
+            # task_id = trigger_task
 
             # 탐색 결과 적절한 것이 없는 경우 post survey로 redirect
-            if (task_id < 0)
-                redirect_to "/articles/1/post_survey"
+            #if (task_id < 0)
+            #     redirect_to "/articles/1/post_survey"
             # 탐색 결과 적절한 것이 없는 경우 해당 task 보여주기
-            else
-                @task = Task.find(task_id)
-                render 'show'
-            end
+            # else
+            #     @task = Task.find(task_id)
+            #     render 'show'
+            # end
+            render 'show'
         end
     end
 
     def survey
         # @article = Article.find(params[:id])
-        @direction = "Section 1. Pre-experiment Survey"
+        @direction = "Section 1. Pre-experiment Survey & Tutorial"
         
         # check if all finished
         if (Surveyanswer.pre_done?(current_user.id))
@@ -93,117 +94,174 @@ class ArticlesController < ApplicationController
     # actions for "show"
     #
 
-    def skip_answer
-        task_id = params[:task_id]
+    # def skip_answer
+    #     task_id = params[:task_id]
 
-        @answer = Answer.create(
-            :article_id => 1,
-            :task_id => task_id,
-            :user_id => current_user.id,
-            :highlight => ""
-        )
+    #     @answer = Answer.create(
+    #         :article_id => 1,
+    #         :task_id => task_id,
+    #         :user_id => current_user.id,
+    #         :highlight => ""
+    #     )
 
-        task_id = trigger_task
-        if (task_id < 0)
-            redirect_to "/articles/1/post_survey"
-        else
-            @task = Task.find(task_id)
-            respond_to do |format|
-                format.js { render :layout => false }
-            end
-        end
-    end
+    #     task_id = trigger_task
+    #     if (task_id < 0)
+    #         redirect_to "/articles/1/post_survey"
+    #     else
+    #         @task = Task.find(task_id)
+    #         respond_to do |format|
+    #             format.js { render :layout => false }
+    #         end
+    #     end
+    # end
 
-    def create_answer 
+    def create_tweet_answer 
         # calculate duration time
+
         time = (Time.now.to_f * 1000).to_i - params[:time].to_i
 
         # create answer
-        article_id = 1
-        task_id = params[:task_id]
-        @current_task = Task.find(task_id)
+        tweet_id = params[:tweet_id].to_i
+        #haveseen, reason
+        @current_tweet = Tweet.find(tweet_id)
         
-        highlight = 0
+        highlight = 1
 
-        # handle multiple choice answer
-        if (params[:multiple].nil?)
-            value = params[:answer_value]
-
-            if (task_id.to_i == 7)
-                highlight = (value.to_i - 1)
-            elsif (!@current_task.highlights_arr.include?(value.to_i))
-                highlight = 1
-            end
-        else
-            value = ""
-            params[:answer_values].each_with_index do |a, i|
-                value += a
-
-                if (i != params[:answer_values].length - 1)
-                    value += ","
-                end
-
-                if (!@current_task.highlights_arr.include?(a.to_i))
-                    highlight += 1
-                end
-            end
-        end
+        value = params[:answer_value].to_i
+        haveseen = params[:haveseen].to_i
+        reason = params[:reason_value]
 
         # see if answer already exists just in case
-        answer = Answer.find_by(user_id: current_user.id, task_id: task_id)
+        answer = TweetAnswer.find_by(user_id: current_user.id, tweet_id: tweet_id)
 
         if (answer.nil?)
-            @answer = Answer.create(
+            @answer = TweetAnswer.create(
                 :user_id => current_user.id,
-                :article_id => article_id,
-                :task_id => task_id,
-                :value => value,
+                :tweet_id => tweet_id,
+                :order => 1,
+                :isfallacy => value,
+                :haveseen => haveseen,
+                :reason1 => reason,
                 :time => time
             )
         else
-            answer.update(
-                :value => value,
+            reason2 = params[:reason_value2]
+
+            answer = TweetAnswer.create(
+                :user_id => current_user.id,
+                :tweet_id => tweet_id,
+                :order => 2,
+                :isfallacy => value,
+                :haveseen => haveseen,
+                :reason1 => reason,
+                :reason2 => reason2,
                 :time => time
             )
             @answer = answer
         end
-
-        # save input for 'other' option
-        if (!params[:other].nil?)
-            @answer.update(
-                :other => params[:other]
-            )
-        end
-
-        # update the consensus of the task
-        consensus = @current_task.calculate_consensus
-        
-        @current_task.update(
-            :consensus => consensus
-        )
     
         # set current task
-        if (highlight == 0)
-            @answer.update(
-                :highlight => ""
-            )
-            task_id = trigger_task
-
-            if (task_id < 0)
-                redirect_to "/articles/1/post_survey"
-            else
-                @task = Task.find(task_id)
-                respond_to do |format|
-                    format.js { render :layout => false, locals: {highlight: highlight} }
-                end
-            end
+        if (TweetAnswer.complete_task(current_user.id)) # We have 43 tweets.
+            redirect_to "/articles/1/post_survey"
         else
+            @tweet = Tweet.tweet_to_solve(tweet_id + 1)
             respond_to do |format|
-                format.js { render :layout => false, locals: {highlight: highlight} }
+                format.js { render :layout => false, locals: {highlight: 1} }
             end
         end
 
     end
+
+    # def create_answer 
+    #     # calculate duration time
+    #     time = (Time.now.to_f * 1000).to_i - params[:time].to_i
+
+    #     # create answer
+    #     article_id = 1
+    #     task_id = params[:task_id]
+    #     @current_task = Task.find(task_id)
+        
+    #     highlight = 0
+
+    #     # handle multiple choice answer
+    #     if (params[:multiple].nil?)
+    #         value = params[:answer_value]
+
+    #         if (task_id.to_i == 7)
+    #             highlight = (value.to_i - 1)
+    #         elsif (!@current_task.highlights_arr.include?(value.to_i))
+    #             highlight = 1
+    #         end
+    #     else
+    #         value = ""
+    #         params[:answer_values].each_with_index do |a, i|
+    #             value += a
+
+    #             if (i != params[:answer_values].length - 1)
+    #                 value += ","
+    #             end
+
+    #             if (!@current_task.highlights_arr.include?(a.to_i))
+    #                 highlight += 1
+    #             end
+    #         end
+    #     end
+
+    #     # see if answer already exists just in case
+    #     answer = Answer.find_by(user_id: current_user.id, task_id: task_id)
+
+    #     if (answer.nil?)
+    #         @answer = Answer.create(
+    #             :user_id => current_user.id,
+    #             :article_id => article_id,
+    #             :task_id => task_id,
+    #             :value => value,
+    #             :time => time
+    #         )
+    #     else
+    #         answer.update(
+    #             :value => value,
+    #             :time => time
+    #         )
+    #         @answer = answer
+    #     end
+
+    #     # save input for 'other' option
+    #     if (!params[:other].nil?)
+    #         @answer.update(
+    #             :other => params[:other]
+    #         )
+    #     end
+
+    #     # update the consensus of the task
+    #     consensus = @current_task.calculate_consensus
+        
+    #     @current_task.update(
+    #         :consensus => consensus
+    #     )
+    
+    #     # set current task
+    #     if (highlight == 0)
+    #         @answer.update(
+    #             :highlight => ""
+    #         )
+    #         task_id = trigger_task
+
+    #         if (task_id < 0)
+    #             redirect_to "/articles/1/post_survey"
+    #         else
+    #             @task = Task.find(task_id)
+    #             respond_to do |format|
+    #                 format.js { render :layout => false, locals: {highlight: highlight} }
+    #             end
+    #         end
+    #     else
+    #         respond_to do |format|
+    #             format.js { render :layout => false, locals: {highlight: highlight} }
+    #         end
+    #     end
+
+    # end
 
     def create_highlight
         @answer = Answer.find(params[:answer_id])

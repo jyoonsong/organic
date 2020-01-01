@@ -29,22 +29,17 @@
             open_modal();
         </script>
     <% end %>
-    <div class="article">
-        <!--h1 class="title">
-            <%= @article.title %>
-        </h1>
-        <h4>
-            16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %>
-        </h4-->
-        <%= @tweet.text.html_safe %>
+    <div id="tweet_content">
+        <%= render partial: "articles/partials/tweet_content" %>
     </div>
+
 </section>
 
 <section class="sidebar noselect">
 
     <div class="task">
         <ul class="collapsible">
-            <%= render partial: "articles/partials/task" %>
+            <%= render partial: "articles/partials/tweet_task" %>
         </ul>
     </div>
     

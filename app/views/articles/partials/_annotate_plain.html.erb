@@ -1,0 +1,85 @@
+<%= form_tag("/articles/1/create_tweet_answer", method: "post", remote: true) do |f| %>
+    <input type="hidden" name="tweet_id" value="<%= @tweet.id %>" />
+
+    <div class="options">
+        <label><input type='radio' name='answer_value' value='1' onclick='open_annot()'/>Yes</label>
+        <label><input type='radio' name='answer_value' value='0' onclick='open_annot()'/>No</label>
+    </div>
+    <i id="annot_warn" style="display:none; color:red;"> * Please click the button above to submit.</i>
+
+    <hr>
+
+    <div id="highlightContainer">
+        <p> Q. Copy and paste a part of the tweet which makes false dilemma. </p>
+        <p style="font-size:12px"> (You can skip this question if you think the tweet does not have false dilemma.) </p>
+        <textarea id="reason" class="reasoning" name="reason_value" style="width: 100%; height=6em;" oninput="reason_type()"></textarea>
+    
+    <i id="reason_warn" style="display:none; color:red;"> * The reason should be a part of the tweet and not be space(s).</i>
+
+    <hr>
+    </div>
+
+
+    <p> Q. Have you ever read this tweet before? </p>
+    <div class="options">
+        <label><input type='radio' name='haveseen' value='1' onclick='tweet_read()'/>Yes</label>
+        <label><input type='radio' name='haveseen' value='0' onclick='tweet_read()'/>No</label>
+    </div>    
+    <i id="read_warn" style="display:none; color:red;"> * Please click the button above to submit.</i>
+
+    <div class="action">
+        <input type="hidden" name="time" value="0" />
+        <%= submit_tag("Submit", :class => "btn", :onclick => "return validate();") %>
+    </div>
+<% end %>
+<script>
+
+var fallacy_judge_clicked = false;
+var tweet_read_clicked = false;
+
+function open_annot() {
+    if ($('[name=answer_value]')[0].checked) {
+        // $('#highlightContainer').css('display', 'inline')
+        $('#annot_warn').css('display', 'none')
+    }
+    else if ($('[name=answer_value]')[1].checked) {
+        // $('#highlightContainer').css('display', 'none')
+        $('#annot_warn').css('display', 'none')
+    }
+    fallacy_judge_clicked = true;
+}
+
+function reason_type() {
+    $('#reason_warn').css('display', 'none')    
+}
+
+function tweet_read() {
+    tweet_read_clicked = true;    
+    $('#read_warn').css('display', 'none')
+}
+
+function validate() {
+    const tweet_text = "<%= @tweet.text %>"
+
+    if (!fallacy_judge_clicked) {
+        $('#annot_warn').css('display', 'inline')
+        return false;
+    }
+
+    if ($('[name=answer_value]')[0].checked) {
+        var reason = $('#reason').val();
+        console.log(reason)
+        if (!tweet_text.includes(reason) || reason.trim() === "") {
+            $('#reason_warn').css('display', 'inline')
+            return false;
+        }
+    }
+
+    if (!tweet_read_clicked) {
+        $('#read_warn').css('display', 'inline')
+        return false;
+    }
+
+    return true;
+}
+</script>
