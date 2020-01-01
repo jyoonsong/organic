@@ -1,13 +1,9 @@
-    <!--div>
-    You've answered 
-    <strong><%= Answer.answers_by(current_user.id).length %></strong>
-    questions!
-    </div-->
-
-    <div class="scorebox">
-    Credibility Score: <strong class="red"><%=@task.credibility_score(current_user) %></strong> points <br>
-    Your answer can increase/decrease the score by <strong class="red"><%=@task.potential_credibility_score(current_user) %></strong> pts at max. <br><br>
+    <div>
+    You've judged 
+    <strong><%= TweetAnswer.answers_by(current_user.id).length %></strong>
+    tweets!
     </div>
+
 
     <li class="<%= @task.kind %>">
         <div class="collapsible-header noclick">

@@ -186,38 +186,44 @@ Surveytask.create([
     # },
     {
         kind: "single",
-        classification: "content",
-        question: "Did you read the article carefully to answer the questions?",
-        options: "Yes/ 
-        No
-        "
-    },
-    {
-        kind: "single",
-        classification: "motivation",
-        question: "Why did you answer the question(s) in section 2, even though it was not required?",
+        classification: "code",
+        question: "Please type the code that you saw from the survey.",
         options: ""
     },
-    {
-        kind: "single",
-        classification: "motivation",
-        question: "Why did you stop answering the question(s) in section 2?",
-        options: ""
-    },
-    {
-        kind: "single",
-        classification: "verification",
-        question: "Do you think you dealt with an AI(Artificial Intelligence)? Why do you think so?",
-        options: "Yes/ 
-        No
-        "
-    },
-    {
-        kind: "single",
-        classification: "insights",
-        question: "What do you think that can be improved in our system? For example, what kind of information would have helped you answer the questions in section 1?",
-        options: ""
-    },
+    # {
+    #     kind: "single",
+    #     classification: "content",
+    #     question: "Did you read the article carefully to answer the questions?",
+    #     options: "Yes/ 
+    #     No
+    #     "
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "motivation",
+    #     question: "Why did you answer the question(s) in section 2, even though it was not required?",
+    #     options: ""
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "motivation",
+    #     question: "Why did you stop answering the question(s) in section 2?",
+    #     options: ""
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "verification",
+    #     question: "Do you think you dealt with an AI(Artificial Intelligence)? Why do you think so?",
+    #     options: "Yes/ 
+    #     No
+    #     "
+    # },
+    # {
+    #     kind: "single",
+    #     classification: "insights",
+    #     question: "What do you think that can be improved in our system? For example, what kind of information would have helped you answer the questions in section 1?",
+    #     options: ""
+    # },
     # {
     #     kind: "single",
     #     classification: "interest",
@@ -243,6 +249,21 @@ Surveytask.create([
     #     options: "To what extent does the author’s confidence in his claims seem justified? / What evidence is given for the primary claim? Highlight the relevant parts."
     # }
 ])
+
+Tweet.create([
+    {
+        text: 'Either you are with us or you are against us',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    },
+    {
+        text: 'Republicans are good. Democrats are bad.',
+        ideology: 'dem',
+        isfallacy: true,
+        author: 'John Doe'
+    }
+]);
 
 Article.create([
     # {

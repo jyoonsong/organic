@@ -1,6 +1,6 @@
 
 <div class="col-2"></div>
-<section class="full-height center col-8 noselect">
+<section class="full-height center col-8">
     <!-- <div class="contribution">
         Your contribution:
         <div class="progress">
@@ -9,12 +9,21 @@
     </div> -->
 
 
-    <div class="task mb-1 col-12 down">
+    <div class="task mb-1 col-12">
         <div class="mt-1">
         <!--If you have no idea what the answer is, <br>
         please choose <strong>"I do not know"</strong> rather than choosing a random option.-->
-        Please answer the following question.
+        <!--Please answer the following question.-->
+        Please click the button <b>GO TO SURVEY</b> and complete the survey.<br>
+        There will be a <b style="color:red;">CODE</b> at the end of the questionnaire. 
+        Put the code in the blank below to proceed to the next section.<br>
+        <i> * The code consists of alphabets only. </i>
         </div>
+        <!-- Workder ID should be added at the end of this URL -->
+        <%= link_to 'https://docs.google.com/forms/d/e/1FAIpQLSc3WFeO53l6fFdXenlRAJ_PC7WoUAWRHAn8fHy8HCQi9digtQ/viewform?usp=pp_url&entry.1579193931=', target: :_blank do %>
+            <%= submit_tag "GO TO SURVEY", :class => "btn mt-1 mb-1" %>
+        <% end %>
+
         <ul class="collapsible survey">
 
             <% Surveytask.all.take(1).each do |t| %>
@@ -22,7 +31,7 @@
 
                     <li class="done">
                         <div class="collapsible-header">
-                            <%= t.id %>. &nbsp;<b><%= t.question %></b>
+                            <b><%= t.question %></b>
                             <i class="material-icons">keyboard_arrow_down</i>
                         </div>
                         <div id="task-<%= t.id %>" class="collapsible-body">
@@ -34,11 +43,6 @@
             <% end %>
 
         </ul>
-
+        
     </div>
 </section>
-<style>
-.down {
-    z-index: -50;
-}
-</style>

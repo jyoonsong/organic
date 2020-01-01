@@ -12,18 +12,19 @@ class ArticlesController < ApplicationController
 
     def show
         # pre survey를 끝내지 못한 경우 pre survey로 redirect
-        #if (!Surveyanswer.pre_done?(current_user.id))
-        #    redirect_to "/articles/1/survey"
+        if (!Surveyanswer.pre_done?(current_user.id))
+            redirect_to "/articles/1/survey"
 
         # tasks를 이미 끝낸 유저의 경우 post survey로 redirect
-        if (!current_user.passed.nil?)
+        elsif (!current_user.passed.nil?)
             redirect_to "/articles/1/post_survey"
 
         # 다른 유저들은 task 시작
         else
             # @article = Article.find(params[:id])
             @article = Article.find(1)
-            @direction = "Section 1. Read the article (required) and answer the questions (optional)."
+            @tweet = Tweet.find(1)
+            @direction = "Section 2. Logical Fallacy Judgement"
             @show_next = true
 
             Log.create(
@@ -49,7 +50,7 @@ class ArticlesController < ApplicationController
 
     def survey
         # @article = Article.find(params[:id])
-        @direction = "Section 1. You must answer all questions. Then, it will automatically move on to the next section."
+        @direction = "Section 1. Pre-experiment Survey"
         
         # check if all finished
         if (Surveyanswer.pre_done?(current_user.id))
@@ -67,25 +68,25 @@ class ArticlesController < ApplicationController
 
     def post_survey
         # @article = Article.find(params[:id])
-        @direction = "Section 2. You must answer all questions. Then, it will automatically finish."
+        @direction = "Section 3. Post-experiment Survey"
         
         # check if all finished
-        if (Surveyanswer.done?(current_user.id))
-            redirect_to ("/articles/1/finish/")
+        # if (Surveyanswer.done?(current_user.id))
+        #     redirect_to ("/articles/1/finish/")
         #elsif (!Surveyanswer.pre_done?(current_user.id))
         #    redirect_to ("/articles/1/survey/")
-        else
-            current_user.update(
-                :passed => true
-            )
-            Log.create(
-                :side => "system",
-                :kind => "trigger_post_survey",
-                :content => params[:id],
-                :user_id => current_user.id
-            )
-            render 'post_survey'
-        end
+        #else
+        current_user.update(
+            :passed => true
+        )
+        Log.create(
+            :side => "system",
+            :kind => "trigger_post_survey",
+            :content => params[:id],
+            :user_id => current_user.id
+        )
+        render 'post_survey'
+        #end
     end
 
     #
@@ -301,14 +302,29 @@ class ArticlesController < ApplicationController
     def survey_answer
 
         # if answer is nil reload
-        if (params[:answer_value].nil? && params[:answer_values].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
+        if (params[:answer_value].nil? && params[:answer_values].nil? && params[:passcode].nil? && ( params[:motivation].nil? || params[:motivation].length < 40 ) )
             respond_to do |format|
                 format.js {render inline: "location.reload();" }
             end
 
-        # else
-        else
+        # Pre survey
+        elsif (!params[:passcode].nil?)
+            if (params[:passcode] == "prelogif")
+                Surveyanswer.create(
+                    :value => params[:passcode],
+                    :value_reason => params[:reason],
+                    :surveytask_id => params[:task_id],
+                    :user_id => current_user.id
+                )
+                redirect_to ("/articles/1")
+            else
+                respond_to do |format|
+                    format.js {render inline: "location.reload();" }
+                end
+            end    
 
+        # else    
+        else
             ##
             ## 1. handle multiple choice answer
             ##

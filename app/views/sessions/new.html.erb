@@ -4,21 +4,27 @@
     <%= form_tag sessions_path do %>
 
     <p>
-        There are 2 sections in this task. You cannot go back to previous section, once you leave it.<br><br>
+        * You should do this task in the <b>desktop web browser</b> such as Chrome.<br>
+        There are 3 sections in this task, and it will take approximately 30 minutes in total.<br>
+        You cannot go back to previous section, once you leave it.
     </p>
-
+    <br>
     <p>
-        <strong>Section 1. Reading an article</strong><br>
-        In this section, you'll <strong>read a news article</strong> and <strong>answer questions</strong> about the article.<br>
-        While answering questions is <strong class="red">optional</strong>, reading the article is <strong class="red">required</strong>.<br>
-        You can move on to the next part <strong class="red">anytime</strong>, but cannot come back once you leave.<br><br>
+        <strong>Section 1. Pre-experiment Survey</strong><br>
+        In this section, you <strong>must</strong> answer <strong>all</strong> survey questions.
     </p>
-
+    <br>
     <p>
-        <strong>Section 2. Survey</strong><br>
-        In this section, you <strong>must</strong> answer <strong>all</strong> survey questions.<br><br>
+        <strong>Section 2. Logical Fallacy Judgement</strong><br>
+        In this section, you will learn the concept of false dilemma with representative examples.<br>
+        After then, you will read 44 tweets from politicians and judge whether each tweet has false dilemma or not.
     </p>
-
+    <br>
+    <p>
+        <strong>Section 3. Post-experiment Survey</strong><br>
+        In this section, you should complete a questionnaire based on your experience in Section 2.
+    </p>
+    <br>
 <!--
     <p>
         <strong>Section 3. Survey</strong><br>
@@ -30,10 +36,16 @@
 -->
      <p>
         After you finish all sections, you will be shown a page with <span class="red">finish token</span>.<br>
-        Please submit this token back in mTurk task page.
-        Thanks so much :) 
+        Please submit this token back in mTurk task page. Thank you so much for your participation :)<br>
     </p>
 
+    <div style="border: 1px solid black; line-height: 1em; padding:0.5em;"> 
+        <i style="font-size: 13px;">
+            * If you have any questions or wish to express any discomfort related to this research, please feel free to contact the researcher below.<br>
+            (You can find the contact information by clicking the "Instruction" button on the top left side.)<br><br>
+            <strong>Name of researcher: Donghoon Han, Contact: hoonhan.d@kaist.ac.kr</strong>
+        </i>
+    </div>
 
     <p>
         <%= hidden_field_tag :name, "write your username" %>

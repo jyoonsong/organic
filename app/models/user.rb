@@ -19,4 +19,14 @@ class User < ApplicationRecord
 
         return []
     end
+
+    def assign_group
+        @user_cnt = User.distinct.count(:key)
+        @passed_group1 = User.where(passed: true).where(group: 1).distinct.count(:key)
+        if (@user_cnt % 2 == 0 && @passed_group1 < 20)
+            self.group = 1
+        else 
+            self.group = 0
+        end
+    end
 end

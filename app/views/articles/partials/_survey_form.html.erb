@@ -16,6 +16,9 @@
     <% elsif task.classification == "insights" %>
         <textarea class="col-12" name="motivation" placeholder="Please write more than 40 letters (required)"></textarea>
 
+    <% elsif task.classification == "code" %>
+        <input class="col-12" name="passcode" placeholder="If you type the wrong code, it will be deleted."></textarea>
+
     <% elsif task.kind == "single" %>
         <div class="options">
             <% task.options_arr.each_with_index do |o, i| %>

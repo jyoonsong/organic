@@ -13,8 +13,8 @@
 
             <main class="modal__content" id="modal-1-content">
                 <p>
-                    <strong>Section 2. Survey</strong><br>                    
-                    In this section, You <strong class="red">MUST</strong> answer all survey questions below to get a reward.<br>
+                    <strong>Section 3. Post-experiment Survey</strong><br><br>                 
+                    In this section, you should complete a questionnaire based on your experience in Section 2.<br>
                     Once you answer all questions, a mturk token for reward will be provided.<br><br>
 
                     Please answer the questions as <strong class="red">HONESTLY</strong> as possible.<br>
@@ -44,8 +44,15 @@
         <div class="mt-1">
         <!--If you have no idea what the answer is, <br>
         please choose <strong>"I do not know"</strong> rather than choosing a random option.-->
-        You <strong class="red">MUST</strong> answer all survey questions below to get a reward.<br>
-        Please answer the following question as <strong class="red">HONESTLY</strong> as possible. Your answer will <strong class="red">NOT AFFECT</strong> the reward.
+        Please click the button <b>GO TO SURVEY</b> and complete the survey.<br>
+        There will be a <b style="color:red;">CODE</b> at the end of the questionnaire. 
+        Submit the code to Amazon Mechanical Turk to get the reward.<br>
+        You don't need to come back to this page once you get the token!
+        </div>
+        <!-- Workder ID should be added at the end of this URL -->
+        <%= link_to 'https://docs.google.com/forms/d/e/1FAIpQLSc3WFeO53l6fFdXenlRAJ_PC7WoUAWRHAn8fHy8HCQi9digtQ/viewform?usp=pp_url&entry.1579193931=', target: :_blank do %>
+            <%= submit_tag "GO TO SURVEY", :class => "btn mt-1 mb-1" %>
+        <% end %>
         </div>
         <ul class="collapsible survey">
 

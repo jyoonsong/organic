@@ -14,13 +14,8 @@
 
                 <main class="modal__content" id="modal-1-content">
                     <p>
-                        <strong>Section 1. Reading an article</strong><br>
-                        In this section, you'll <strong>read a news article</strong> and <strong>answer questions</strong> about the article.<br>
-                        While answering questions is <strong class="red">optional</strong>, reading the article is <strong class="red">required</strong>.<br>
-                        You can move on to the next part <strong class="red">anytime</strong>, but cannot come back once you leave.<br><br>
-                        
-                        Our system is now evaluating the credibility of this article. <br>
-                        The average score is 50(netural), and <strong class="red">high score</strong> indicates that the article is credible.
+                        <strong>Section 2. Logical Fallacy Judgement</strong><br><br>
+                        In this section, you'll <strong>read 44 tweets</strong> and <strong>judge whether each tweet has false dilemma or not.</strong><br>
                     </p>
 
                 </main>
@@ -29,20 +24,19 @@
         </div>
         <script>
             function open_modal() {
-                console.log("DDD");
                 MicroModal.show('section-instruction');
             }
             open_modal();
         </script>
     <% end %>
     <div class="article">
-        <h1 class="title">
+        <!--h1 class="title">
             <%= @article.title %>
         </h1>
         <h4>
             16 Jun 2017, 19:20 | <%= @article.metadata %> | <%= @article.topic %>
-        </h4>
-        <%= @article.content.html_safe %>
+        </h4-->
+        <%= @tweet.text.html_safe %>
     </div>
 </section>
 
