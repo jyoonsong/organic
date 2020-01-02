@@ -1,0 +1,107 @@
+<%= form_tag("/articles/1/create_unmatch_answer", method: "post", remote: true) do |f| %>
+    <input type="hidden" name="tweet_id" value="<%= @tweet.id %>" />
+
+    <% tweet1 = @tweet.answer_find_with_order(current_user.id, 1) %>
+    <% tweet2 = @tweet.answer_find_with_order(current_user.id, 2) %>
+    
+    <div>
+        At max, <strong><%= 20 - UnmatchAnswer.answers_by(current_user.id).length %></strong> steps to go.
+    </div>
+
+    <div id="formConatiner" style="background-color:white; border:solid; border-width:1px ;">
+        <p> 1st Judgement: 
+            <% if tweet1.isfallacy %>
+                <b style="color:blue;"> It has false dilemma. </b>
+                <p> Reason:
+                <br><textarea id="reason" class="reasoning" disabled><%= tweet1.reason1 %></textarea>
+                </p>
+            <% else %>
+                <b style="color:red;"> It has no false dilemma. </b>
+            <% end %>
+        </p>
+
+
+        <p> 2nd Judgement: 
+            <% if tweet2.isfallacy %>
+                <b style="color:blue;"> It has false dilemma. </b>
+                <p> Reason:
+                1. <textarea id="reason_pos" disabled><%= tweet2.reason1 %></textarea><br>
+                2. <textarea id="reason_neg" disabled><%= tweet2.reason1 %></textarea>
+                </p>
+            <% else %>
+                <b style="color:red;"> It has no false dilemma. </b>
+            <% end %>
+        </p>
+    </div><br>
+
+    <li>
+        <div class="collapsible-header noclick">
+            <b>Why did you answer differently?</b>
+        </div>
+        <div id="task" class="collapsible-body">
+            <div id="formContainer">
+                <textarea id="unmatch_reason" class="reasoning" name="reason_value" placeholder="Why did you think differently?" oninput="reason_type()"></textarea>
+                <p id="display_count">0 letter(s). (min:40)</p>
+                <i id="reason_warn" style="display:none; color:red;"> * You should write more than 40 letters.</i>
+
+                <hr>
+
+                <p> Q. Now, do you think the tweet has logical fallacy? </p>
+                <div class="options">
+                    <label><input type='radio' name='answer_value' value='1' onclick='open_annot()'/>Yes</label>
+                    <label><input type='radio' name='answer_value' value='0' onclick='open_annot()'/>No</label>
+                </div>
+                <i id="annot_warn" style="display:none; color:red;"> * Please click the button above to submit.</i>
+
+                <div class="action">
+                    <input type="hidden" name="time" value="0" />
+                    <%= submit_tag("Submit", :class => "btn", :onclick => "return validate();") %>
+                </div>
+                <% end %>
+
+            </div>
+        </div>
+    </li>
+
+<script>
+
+var fallacy_judge_clicked = false;
+
+function open_annot() {
+    if ($('[name=answer_value]')[0].checked) {
+        $('#annot_warn').css('display', 'none')
+    }
+    else if ($('[name=answer_value]')[1].checked) {
+        $('#annot_warn').css('display', 'none')
+    }
+    fallacy_judge_clicked = true;
+}
+
+function reason_type() {
+    var reason = $('#unmatch_reason').val().replace(/(\r\n|\n|\r)/gm,"").trim();
+    console.log(reason)
+    $('#reason_warn').css('display', 'none')
+    $('#display_count').html(reason.length + ' letters. (min:40)')
+}
+
+function validate() {
+    const tweet_text = "<%= @tweet.text %>"
+
+
+    var reason = $('#unmatch_reason').val().replace(/(\r\n|\n|\r)/gm,"").trim();
+    if (reason.length < 40 || reason.trim() === "") {
+        $('#reason_warn').css('display', 'inline')
+        return false;
+    }
+    
+
+    if (!fallacy_judge_clicked) {
+        $('#annot_warn').css('display', 'inline')
+        return false;
+    }
+
+    return true;
+}
+</script>
+
+

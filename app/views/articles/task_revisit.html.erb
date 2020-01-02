@@ -1,0 +1,57 @@
+
+<section class="container">
+    <% if flash[:manifesto_modal] %>
+        <div class="modal micromodal-slide" id="section-instruction">
+            <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+            <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+                <header class="modal__header">
+                    <h2 class="modal__title" id="modal-1-title">
+                        Instruction
+                    </h2>
+
+                    <button class="modal__close" onclick="close_modal()" aria-label="Close modal" ></button>
+                </header>
+
+                <main class="modal__content" id="modal-1-content">
+                    <p>
+                        <strong>Section 2-2. Logical Fallacy Judgement</strong><br><br>
+                        In this section, you'll <strong>read 44 tweets</strong> and <strong>judge whether each tweet has false dilemma or not.</strong><br>
+                    </p>
+
+                </main>
+            </div>
+            </div>
+        </div>
+        <script>
+            function open_modal() {
+                MicroModal.show('section-instruction');
+            }
+            open_modal();
+        </script>
+    <% end %>
+    <div id="tweet_content">
+        <%= render partial: "articles/partials/tweet_content" %>
+    </div>
+
+</section>
+
+<section class="sidebar noselect">
+
+    <div class="task">
+        <ul class="collapsible">
+            <%= render partial: "articles/partials/unmatch_task" %>
+        </ul>
+    </div>
+    
+
+</section>
+
+<script>
+        
+
+
+function close_modal() {
+    console.log("DDD");
+    MicroModal.close('section-instruction');
+}
+</script>

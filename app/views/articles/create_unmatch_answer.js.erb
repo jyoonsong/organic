@@ -1,0 +1,7 @@
+
+$(".collapsible").html("<%= escape_javascript(render(:partial => 'articles/partials/unmatch_task'))%>");
+$("#tweet_content").html("<%= escape_javascript(render(:partial => 'articles/partials/tweet_content'))%>");
+swal("Thank you", "Successfully saved!", "success");
+//instance.open(0);
+
+

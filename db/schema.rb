@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_31_202654) do
+ActiveRecord::Schema.define(version: 2020_01_01_214549) do
 
   create_table "administrators", force: :cascade do |t|
     t.string "email"
@@ -117,6 +117,18 @@ ActiveRecord::Schema.define(version: 2019_12_31_202654) do
     t.boolean "isfallacy"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "unmatch_answers", force: :cascade do |t|
+    t.string "reason"
+    t.boolean "isfallacy"
+    t.integer "time"
+    t.integer "tweet_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_unmatch_answers_on_tweet_id"
+    t.index ["user_id"], name: "index_unmatch_answers_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -6,10 +6,12 @@ Rails.application.routes.draw do
   resources :articles
 
   post "/articles/:id/create_tweet_answer", to: "articles#create_tweet_answer"
+  post "/articles/:id/create_unmatch_answer", to: "articles#create_unmatch_answer"
   post "/create_highlight/:answer_id", to: "articles#create_highlight"
   post "/update_answer/:answer_id", to: "articles#update_answer"
   get "/task/:task_id/skip_answer", to: "articles#skip_answer"
-
+  
+  get "/articles/:id/task_revisit", to: "articles#task_revisit"
   get "/articles/:id/survey", to: "articles#survey"
   get "/articles/:id/post_survey", to: "articles#post_survey"
 

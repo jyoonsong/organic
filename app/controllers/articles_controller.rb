@@ -17,7 +17,7 @@ class ArticlesController < ApplicationController
 
         # tasks를 이미 끝낸 유저의 경우 post survey로 redirect
         elsif (TweetAnswer.complete_task(current_user.id))
-            redirect_to "/articles/1/post_survey"
+            redirect_to "/articles/1/task_revisit"
 
         # 다른 유저들은 task 시작
         else
@@ -25,7 +25,7 @@ class ArticlesController < ApplicationController
             @tweet = Tweet.tweet_to_solve(solved_tweet_cnt + 1)
             
             @direction = "Section 2. Logical Fallacy Judgement"
-            @show_next = true
+            # @show_next = true
 
             Log.create(
                 :side => "system",
@@ -48,6 +48,44 @@ class ArticlesController < ApplicationController
             render 'show'
         end
     end
+
+    def task_revisit
+        Log.create(
+            :side => "system",
+            :kind => "trigger_task_revisit",
+            :content => params[:id],
+            :user_id => current_user.id
+        )
+
+        @direction = "Section 2-2. Logical Fallacy Judgement - Revisit"
+        solved_unmatch_cnt = UnmatchAnswer.answers_by(current_user.id).count
+        p solved_unmatch_cnt
+        if (solved_unmatch_cnt >= 20)
+            redirect_to "/articles/1/post_survey"
+        else
+
+            @tweet = Tweet.find(solved_unmatch_cnt + 1)
+            
+            while (!@tweet.isUnmatched(current_user.id))
+                UnmatchAnswer.create(
+                    :user_id => current_user.id,
+                    :tweet_id => @tweet.id
+                )
+        
+                solved_unmatch_cnt += 1
+                if (solved_unmatch_cnt >= 20)
+                    break
+                else
+                    @tweet = Tweet.find(solved_unmatch_cnt + 1)
+                end
+            end
+            if (solved_unmatch_cnt >= 20)
+                redirect_to "/articles/1/post_survey"
+            end
+            render 'task_revisit'
+        end
+    end
+        
 
     def survey
         # @article = Article.find(params[:id])
@@ -74,46 +112,73 @@ class ArticlesController < ApplicationController
         # check if all finished
         # if (Surveyanswer.done?(current_user.id))
         #     redirect_to ("/articles/1/finish/")
-        #elsif (!Surveyanswer.pre_done?(current_user.id))
-        #    redirect_to ("/articles/1/survey/")
-        #else
-        current_user.update(
-            :passed => true
-        )
-        Log.create(
-            :side => "system",
-            :kind => "trigger_post_survey",
-            :content => params[:id],
-            :user_id => current_user.id
-        )
-        render 'post_survey'
-        #end
+        if (!Surveyanswer.pre_done?(current_user.id))
+            redirect_to ("/articles/1/survey/")
+        elsif (!UnmatchAnswer.unmatch_done?(current_user.id))
+            redirect_to ("/articles/1/task_revisit/")
+        else
+            current_user.update(
+                :passed => true
+            )
+            Log.create(
+                :side => "system",
+                :kind => "trigger_post_survey",
+                :content => params[:id],
+                :user_id => current_user.id
+            )
+            render 'post_survey'
+        end
     end
 
-    #
-    # actions for "show"
-    #
+    def create_unmatch_answer 
+        # calculate duration time
+        time = (Time.now.to_f * 1000).to_i - params[:time].to_i
 
-    # def skip_answer
-    #     task_id = params[:task_id]
+        # create answer
+        tweet_id = params[:tweet_id].to_i
+        @current_tweet = Tweet.find(tweet_id)
+        
+        value = params[:answer_value].to_i
+        reason = params[:reason_value]
 
-    #     @answer = Answer.create(
-    #         :article_id => 1,
-    #         :task_id => task_id,
-    #         :user_id => current_user.id,
-    #         :highlight => ""
-    #     )
+        @answer = UnmatchAnswer.create(
+            :user_id => current_user.id,
+            :tweet_id => tweet_id,
+            :isfallacy => value,
+            :reason => reason,
+            :time => time
+        )
+    
+        # set current task
+        solved_unmatch_cnt = UnmatchAnswer.answers_by(current_user.id).count
+        if (solved_unmatch_cnt >= 20)
+            redirect_to "/articles/1/post_survey"
+        else
+        
+            @tweet = Tweet.find(solved_unmatch_cnt + 1)
 
-    #     task_id = trigger_task
-    #     if (task_id < 0)
-    #         redirect_to "/articles/1/post_survey"
-    #     else
-    #         @task = Task.find(task_id)
-    #         respond_to do |format|
-    #             format.js { render :layout => false }
-    #         end
-    #     end
-    # end
+            while (!@tweet.isUnmatched(current_user.id))
+                UnmatchAnswer.create(
+                    :user_id => current_user.id,
+                    :tweet_id => @tweet.id
+                )
+        
+                solved_unmatch_cnt += 1
+                if (solved_unmatch_cnt >= 20)
+                    break
+                else
+                    @tweet = Tweet.find(solved_unmatch_cnt + 1)
+                end
+            end
+            if (solved_unmatch_cnt >= 20)
+                redirect_to "/articles/1/post_survey"
+            end
+            respond_to do |format|
+                format.js { render :layout => false, locals: {highlight: 1} }
+            end
+        end
+
+    end
 
     def create_tweet_answer 
         # calculate duration time
@@ -122,11 +187,8 @@ class ArticlesController < ApplicationController
 
         # create answer
         tweet_id = params[:tweet_id].to_i
-        #haveseen, reason
         @current_tweet = Tweet.find(tweet_id)
         
-        highlight = 1
-
         value = params[:answer_value].to_i
         haveseen = params[:haveseen].to_i
         reason = params[:reason_value]
@@ -161,8 +223,8 @@ class ArticlesController < ApplicationController
         end
     
         # set current task
-        if (TweetAnswer.complete_task(current_user.id)) # We have 43 tweets.
-            redirect_to "/articles/1/post_survey"
+        if (TweetAnswer.complete_task(current_user.id))
+            redirect_to "/articles/1/task_revisit"
         else
             @tweet = Tweet.tweet_to_solve(tweet_id + 1)
             respond_to do |format|
@@ -171,6 +233,8 @@ class ArticlesController < ApplicationController
         end
 
     end
+
+
 
     # def create_answer 
     #     # calculate duration time

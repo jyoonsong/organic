@@ -68,9 +68,8 @@ function validate() {
     }
 
     if ($('[name=answer_value]')[0].checked) {
-        var reason = $('#reason').val();
-        console.log(reason)
-        if (!tweet_text.includes(reason) || reason.trim() === "") {
+        var reason = $('#reason').val().replace(/(\r\n|\n|\r)/gm,"").trim();
+        if (!tweet_text.includes(reason) || reason === "") {
             $('#reason_warn').css('display', 'inline')
             return false;
         }

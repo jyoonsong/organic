@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_many :tweet_answers
+    has_many :unmatch_answers
     has_many :surveyanswers
     has_many :answered_articles, through: :answers, source: :article
     has_many :logs

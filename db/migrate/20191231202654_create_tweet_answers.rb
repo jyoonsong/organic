@@ -17,7 +17,7 @@ class CreateTweetAnswers < ActiveRecord::Migration[5.2]
     change_column :tweet_answers, :order, :integer, :null => true
     change_column :tweet_answers, :isfallacy, :boolean, :null => true
     change_column :tweet_answers, :reason1, :string, :null => true
-    change_column :tweet_answers, :reason1, :string, :null => true
+    change_column :tweet_answers, :reason2, :string, :null => true
     change_column :tweet_answers, :time, :integer, :null => true
 
   end
